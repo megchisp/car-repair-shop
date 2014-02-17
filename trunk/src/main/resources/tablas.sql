@@ -99,6 +99,7 @@ CREATE TABLE cliente
   id_cliente int NOT NULL,
   cuit text,
   fecha_nacimiento date,
+  fallecido boolean,
   nombre text,
   apellido text,
   telefono text,
