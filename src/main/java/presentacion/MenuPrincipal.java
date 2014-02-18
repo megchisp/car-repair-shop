@@ -28,7 +28,7 @@ import javax.swing.UIManager;
 public class MenuPrincipal extends JFrame {
 	public static JLabel jLabelLogo = null;
 	JPanel jPanelMenuPrincipal = null;
-
+	private Login login;
 	private static final long serialVersionUID = 1L;
 
 	private JFrame menuPrincipal;
@@ -93,9 +93,11 @@ public class MenuPrincipal extends JFrame {
 	    this.setIconImage(Image);
 	    
 		aplicaSkin();
-
 		inicializar();
-
+		
+		// login del sistema
+		login = new Login(this, true);
+        login.setVisible(true);
 	}	
 	
 	private void aplicaSkin(){
@@ -186,7 +188,7 @@ public class MenuPrincipal extends JFrame {
 	
 	private void inicializarIconos(){
 		// Menu Archivo
-		iconSalir = new ImageIcon(resourceLoader.load("/images/menu/close-icon.png"));
+		iconSalir = new ImageIcon(resourceLoader.load("/images/menu/exit-icon.png"));
 		jMenuItemSalir = new JMenuItem("Salir", iconSalir);
 		jMenuItemSalir.setToolTipText("Salir");
 		jMenuItemSalir.setMnemonic(KeyEvent.VK_S);

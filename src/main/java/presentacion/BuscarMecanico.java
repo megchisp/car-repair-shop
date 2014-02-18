@@ -11,6 +11,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -382,6 +384,18 @@ public class BuscarMecanico extends JDialog {
 		jTableBuscarMecanico.setPreferredScrollableViewportSize(new Dimension(470,95));
 		jScrollPaneBuscarMecanico.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
+		// configuro el doble click sobre la fila
+		jTableBuscarMecanico.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+			      if (e.getClickCount() == 2) {
+			         JTable target = (JTable)e.getSource();
+			         int row = target.getSelectedRow();
+			         BuscarMecanico.this.dispose();
+			         new ModificarMecanico ( buscarMecanico, "Modificar mecánico", " Modificación de mecánico ", buscarMecanicoItSelf, listaMecanicos.get(Integer.parseInt(jTableBuscarMecanico.getValueAt(row, 5).toString())) );
+			      }
+			   }
+			});
+		
 		// Tamaño a las columnas
 		jTableBuscarMecanico.getColumnModel().getColumn(0).setMaxWidth(25);
 		jTableBuscarMecanico.getColumnModel().getColumn(1).setPreferredWidth(50);
@@ -527,7 +541,6 @@ public class BuscarMecanico extends JDialog {
 	}
 	
 	private void modificarMecanico() {
-		System.out.println( "Modificando Mecanico..." );
 		new ModificarMecanico ( buscarMecanico, "Modificar mecánico", " Modificación de mecánico ", buscarMecanicoItSelf, listaMecanicos.get(Integer.parseInt(jTableBuscarMecanico.getValueAt(jTableBuscarMecanico.getSelectedRow(), 5).toString())) );
 	}
 	

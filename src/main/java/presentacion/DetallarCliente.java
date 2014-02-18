@@ -12,6 +12,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -428,6 +430,18 @@ public class DetallarCliente extends JDialog {
 		scrollAutomovilesClientes = new JScrollPane(tablaAutomovilesClientes);
 		tablaAutomovilesClientes.setPreferredScrollableViewportSize(new Dimension(545,95));
 		scrollAutomovilesClientes.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		// configuro el doble click sobre la fila
+		tablaAutomovilesClientes.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+			      if (e.getClickCount() == 2) {
+			         JTable target = (JTable)e.getSource();
+			         int row = target.getSelectedRow();
+			         DetallarCliente.this.dispose();
+			         new DetallarAutomovil( detallarCliente, "Detallar automóvil", "Detalle del automóvil", listaAutomoviles.get(Integer.parseInt(tablaAutomovilesClientes.getValueAt(row, 5).toString())));
+			         }
+			   }
+			});
 		
 		// Oculto la columna ID  y fila
 		tablaAutomovilesClientes.getColumnModel().getColumn(0).setMaxWidth(0);

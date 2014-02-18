@@ -259,6 +259,17 @@ public class BuscarTipoServicio extends JDialog {
 		jTableBuscarTipoServicio.setPreferredScrollableViewportSize(new Dimension(465,95));
 		jScrollPaneBuscarTipoServicio.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+		// configuro el doble click sobre la fila
+		jTableBuscarTipoServicio.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+			      if (e.getClickCount() == 2) {
+			         JTable target = (JTable)e.getSource();
+			         int row = target.getSelectedRow();
+			         BuscarTipoServicio.this.dispose();
+			         new ModificarTipoDeServicio( buscarTipoServicio, "Modificar tipo de servicio", "Modificación del tipo de servicio", listaTiposDeServicio.get(Integer.parseInt(jTableBuscarTipoServicio.getValueAt(row, 4).toString())) );			      }
+			   }
+			});
+		
 		// Tamaño de la columna Nombre
 		jTableBuscarTipoServicio.getColumnModel().getColumn(0).setPreferredWidth(125);
 

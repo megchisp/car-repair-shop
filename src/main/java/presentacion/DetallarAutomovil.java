@@ -12,6 +12,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Iterator;
@@ -385,6 +387,18 @@ public class DetallarAutomovil extends JDialog {
 		jTableReparaciones.setFont(new Font("Dialog", Font.BOLD, 11));
 		JScrollReparaciones.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+		// configuro el doble click sobre la fila
+		jTableReparaciones.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+			      if (e.getClickCount() == 2) {
+			         JTable target = (JTable)e.getSource();
+			         int row = target.getSelectedRow();
+			         DetallarAutomovil.this.dispose();
+			         new DetallarReparacion( detallarAutomovil, "Detallar reparación", " Detalle de la reparación ", listaReparaciones.get(Integer.parseInt(jTableReparaciones.getValueAt(row, 6).toString())));
+			         }
+			   }
+			});
+		
 		// Tamaño a las columnas tiempo min y max
 		jTableReparaciones.getColumnModel().getColumn(1).setPreferredWidth(30);
 		jTableReparaciones.getColumnModel().getColumn(2).setPreferredWidth(30);

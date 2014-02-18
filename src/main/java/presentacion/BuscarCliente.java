@@ -11,6 +11,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -370,6 +372,18 @@ public class BuscarCliente extends JDialog{
 		jScrollPaneCliente = new JScrollPane(jTableBuscarCliente);
 		jTableBuscarCliente.setPreferredScrollableViewportSize(new Dimension(580,95));
 		jScrollPaneCliente.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		// configuro el doble click sobre la fila
+		jTableBuscarCliente.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+			      if (e.getClickCount() == 2) {
+			         JTable target = (JTable)e.getSource();
+			         int row = target.getSelectedRow();
+			         BuscarCliente.this.dispose();
+						new DetallarCliente( buscarCliente, " Detallar cliente", " Detalle del cliente ", listaClientes.get(Integer.parseInt(jTableBuscarCliente.getValueAt(row, 6).toString())));
+			         }
+			   }
+			});
 		
 		buttonGroupCriterio = new ButtonGroup();
 		buttonGroupCriterio.add(jRadioButtonPorCliente);
