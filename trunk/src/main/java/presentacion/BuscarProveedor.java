@@ -323,9 +323,20 @@ public class BuscarProveedor extends JDialog {
 	jTableBuscarProveedor.setPreferredScrollableViewportSize(new Dimension(470,95));
 	jScrollPaneBuscarProveedor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+	// configuro el doble click sobre la fila
+	jTableBuscarProveedor.addMouseListener(new MouseAdapter() {
+		   public void mouseClicked(MouseEvent e) {
+		      if (e.getClickCount() == 2) {
+		         JTable target = (JTable)e.getSource();
+		         int row = target.getSelectedRow();
+		         BuscarProveedor.this.dispose();
+		         new ModificarProveedor( buscarProveedor, "Modificar proveedor", "Modificación del proveedor", listaProveedores.get(Integer.parseInt(jTableBuscarProveedor.getValueAt(row, 4).toString())));
+		      }
+		   }
+		});
+	
 	// Tamaño a las columnas
 	jTableBuscarProveedor.getColumnModel().getColumn(0).setPreferredWidth(100);
-	
 	jTableBuscarProveedor.getColumnModel().getColumn(0).setMaxWidth(0);
 	jTableBuscarProveedor.getColumnModel().getColumn(0).setMinWidth(0);
 	jTableBuscarProveedor.getColumnModel().getColumn(0).setPreferredWidth(0);

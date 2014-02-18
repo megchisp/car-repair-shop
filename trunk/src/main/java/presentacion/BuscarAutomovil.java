@@ -11,6 +11,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -349,6 +351,18 @@ public class BuscarAutomovil extends JDialog {
 		jScrollPaneAutomovil = new JScrollPane(jTableAutomovil);
 		jTableAutomovil.setPreferredScrollableViewportSize(new Dimension(580,95));
 		jScrollPaneAutomovil.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		// configuro el doble click sobre la fila
+		jTableAutomovil.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+			      if (e.getClickCount() == 2) {
+			         JTable target = (JTable)e.getSource();
+			         int row = target.getSelectedRow();
+			         BuscarAutomovil.this.dispose();
+			         new DetallarAutomovil( buscarAutomovil, "Detallar automóvil", " Detalle del automóvil ", listaAutomoviles.get(Integer.parseInt(jTableAutomovil.getValueAt(row, 7).toString())));
+			         }
+			   }
+			});
 		
 		// Tamaño a columnas
 		jTableAutomovil.getColumnModel().getColumn(2).setPreferredWidth(35);

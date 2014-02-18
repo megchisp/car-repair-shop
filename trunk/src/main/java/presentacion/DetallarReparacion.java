@@ -12,6 +12,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -426,9 +428,18 @@ public class DetallarReparacion extends JDialog {
 		jTableServiciosReparacion.setPreferredScrollableViewportSize(new Dimension(380,100));
 		jScrollPaneServiciosReparacion.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
+		jTableServiciosReparacion.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+			   if (e.getClickCount() == 2) {
+				   JTable target = (JTable)e.getSource();
+				   int row = target.getSelectedRow();
+				   int index = Integer.parseInt(jTableServiciosReparacion.getValueAt(row, 3).toString());
+				   new DetallarServicio( detallarReparacion, "Detallar servicio", " Detalle del servicio ", agregarServicio, detallarReparacionItSelf, listaServicios.get(index) );
+			   }
+			}
+		});
+		
 		jTableServiciosReparacion.getColumnModel().getColumn(0).setPreferredWidth(300);
-
-
 		jTableServiciosReparacion.getColumnModel().getColumn(0).setMaxWidth(0);
 		jTableServiciosReparacion.getColumnModel().getColumn(0).setMinWidth(0);
 		jTableServiciosReparacion.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -441,9 +452,7 @@ public class DetallarReparacion extends JDialog {
 		rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
 		jTableServiciosReparacion.getColumnModel().getColumn(2).setCellRenderer( rightRenderer );
 		jTableServiciosReparacion.getColumnModel().getColumn(2).setMaxWidth(70);
-//		jTableServiciosReparacion.getColumnModel().getColumn(2).setResizable(false);
-//		jTableServiciosReparacion.getColumnModel().getColumn(1).setResizable(false);
-	}
+		}
 	
 	private void cerrarEsc(){
 		// esta funcion hace que la ventana DetallarAutomovil se cierre con la tecla ESC

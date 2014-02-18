@@ -12,6 +12,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Iterator;
@@ -385,6 +387,18 @@ public class DetallarServicio extends JDialog {
 		jTableManosDeObra.setPreferredScrollableViewportSize(new Dimension(570,95));
 		scrollManosDeObra.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
+		// configuro el doble click sobre la fila
+		jTableManosDeObra.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+			      if (e.getClickCount() == 2) {
+			         JTable target = (JTable)e.getSource();
+			         int row = target.getSelectedRow();
+			         new ModificarManoDeObra( detallarServicio, "Modificar mano de obra", "Modificación de mano de obra", detallarServicioItSelf, listaManosDeObras.get( row ) );
+						actualizarImportes();
+			         }
+			   }
+			});
+		
 		// Tamaño a las columnas
 		jTableManosDeObra.getColumnModel().getColumn(1).setPreferredWidth(150);
 		jTableManosDeObra.getColumnModel().getColumn(2).setPreferredWidth(50);
@@ -420,6 +434,18 @@ public class DetallarServicio extends JDialog {
 		scrollRepuestos = new JScrollPane(jTableRepuestos);
 		jTableRepuestos.setPreferredScrollableViewportSize(new Dimension(570,95));
 		scrollRepuestos.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		// configuro el doble click sobre la fila
+		jTableRepuestos.addMouseListener(new MouseAdapter() {
+			   public void mouseClicked(MouseEvent e) {
+			      if (e.getClickCount() == 2) {
+			         JTable target = (JTable)e.getSource();
+			         int row = target.getSelectedRow();
+			         new ModificarRepuesto( detallarServicio, "Modificar repuesto", "Modificación del repuesto", detallarServicioItSelf, listaRepuestos.get( row ) );
+			         actualizarImportes();
+			      }
+			   }
+			});
 		
 		// Oculto la columna ID para que el usuario no la vea
 		jTableRepuestos.getColumnModel().getColumn(0).setMaxWidth(0);
