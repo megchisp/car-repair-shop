@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -22,6 +23,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
@@ -36,53 +38,44 @@ public class MenuPrincipal extends JFrame {
 	private DetailPanel detailPanelMenuPrincipal = null;
 	private MenuPrincipal menuPrincipalItself = this;
 	
-	Icon iconMostrarCumpleanios = null;
 	Icon iconTransferirAutomovil = null;
 	Icon iconSalir = null;
 	Icon iconImportar = null;
 	Icon iconExportar = null;
 	Icon iconAcercaDe = null;
 	Icon iconManual = null;
-	Icon iconBuscar = null;
-	Icon iconAgregar = null;
-	Icon iconBuscarAutomovil = null;
-	Icon iconBuscarCliente = null;
-	Icon iconBuscarMecanico = null;
-	Icon iconBuscarProveedor = null;
-	Icon iconBuscarTipoServicio = null;
-	Icon iconAgregarCliente = null;
-	Icon iconAgregarMecanico = null;
-	Icon iconAgregarProveedor = null;
-	Icon iconAgregarTipoServicio = null;
 	
 	JMenuItem jMenuItemTransferirAutomovil = null;
-	JMenuItem jMenuItemMostrarCumpleanios = null;
 	JMenuItem jMenuItemSalir = null;
 	JMenuItem jMenuItemImportar = null;
 	JMenuItem jMenuItemExportar = null;
 	JMenuItem jMenuItemAcercaDe = null;
 	JMenuItem jMenuItemManual = null;
-	JMenuItem jMenuItemBuscarAutomovil = null;
-	JMenuItem jMenuItemBuscarCliente = null;
-	JMenuItem jMenuItemBuscarMecanico = null;
-	JMenuItem jMenuItemBuscarProveedor = null;
-	JMenuItem jMenuItemBuscarTipoServicio = null;
-	JMenuItem jMenuItemAgregarCliente = null;
-	JMenuItem jMenuItemAgregarMecanico = null;
-	JMenuItem jMenuItemAgregarProveedor = null;
-	JMenuItem jMenuItemAgregarTipoServicio = null;
+
 
 	public JCheckBoxMenuItem jCheckBoxMenuItemReferencias = null;
 	private JMenuBar jMenuBar = null;
 	
 	private JMenu jMenuArchivo = null;
 	private JMenu jMenuHerramientas = null;
-	private JMenu jMenuAcciones = null;
 	private JMenu jMenuAyuda = null;
-	private JMenu jMenuBuscar = null;
-	private JMenu jMenuAgregar = null;
+
+	
+	JButton jButtonAgregarCliente = null;
+	JButton jButtonAgregarProveedor = null;
+	JButton jButtonAgregarMecanico = null;
+	JButton jButtonAgregarTipoDeServicio = null;
+	JButton jButtonBuscarCliente = null;
+	JButton jButtonBuscarAutomovil = null;
+	JButton jButtonBuscarProveedor = null;
+	JButton jButtonBuscarMecanico = null;
+	JButton jButtonBuscarTipoDeServicio = null;
+	JButton jButtonMostrarCumpleanios = null;
+	JButton jButtonExit = null;
 	
 	ResourceLoader resourceLoader = new ResourceLoader();
+	
+	JToolBar jToolbar = new JToolBar();
 	
 	public MenuPrincipal() {
 		super();
@@ -106,7 +99,6 @@ public class MenuPrincipal extends JFrame {
 			JFrame.setDefaultLookAndFeelDecorated(true);
 			JDialog.setDefaultLookAndFeelDecorated(true);
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		}
 		catch (Exception e)
 		{
@@ -126,6 +118,7 @@ public class MenuPrincipal extends JFrame {
 		this.setLocationRelativeTo( null );
 		this.setContentPane( getjPanelMenuPrincipal() );
 		this.setJMenuBar( getjMenuBar() );
+		this.add(jToolbar, BorderLayout.NORTH);
 		this.setTitle( "Sistema de gestión automotor" );
 		
 		shortcuts(); // inicializa los atajos de teclado
@@ -145,7 +138,6 @@ public class MenuPrincipal extends JFrame {
 			jMenuBar = new JMenuBar();
 			jMenuBar.add( getjMenuArchivo() );
 			jMenuBar.add( getjMenuHerramientas() );
-			jMenuBar.add( getjMenuAcciones() );
 			jMenuBar.add( getjMenuAyuda() );
 		}
 		
@@ -204,11 +196,6 @@ public class MenuPrincipal extends JFrame {
 		jMenuItemImportar.setMnemonic(KeyEvent.VK_I);
 		
 		// Menu Herramientas
-		iconMostrarCumpleanios = new ImageIcon(resourceLoader.load("/images/menu/cake-icon.png"));
-		jMenuItemMostrarCumpleanios = new JMenuItem("Mostrar cumpleaños", iconMostrarCumpleanios);
-		jMenuItemMostrarCumpleanios.setToolTipText("Mostrar cumpleaños");
-		jMenuItemMostrarCumpleanios.setMnemonic(KeyEvent.VK_M);
-		
 		iconTransferirAutomovil = new ImageIcon(resourceLoader.load("/images/menu/transfer-icon.png"));
 		jMenuItemTransferirAutomovil = new JMenuItem("Transferir automóvil", iconTransferirAutomovil);
 		jMenuItemTransferirAutomovil.setToolTipText("Transferir automovil");
@@ -225,61 +212,121 @@ public class MenuPrincipal extends JFrame {
 		jMenuItemManual = new JMenuItem( "Manual de usuario" , iconManual );
 		jMenuItemManual.setToolTipText( "Manual de usuario" );
 		jMenuItemManual.setMnemonic(KeyEvent.VK_M);
+	
 		
-		// Menu Acciones
-		iconBuscar = new ImageIcon( resourceLoader.load("/images/menu/search-icon.png" ));
-		jMenuBuscar = new JMenu( "Buscar..." );
-		jMenuBuscar.setIcon( iconBuscar );
-		jMenuBuscar.setMnemonic(KeyEvent.VK_B);
+		// inicializo toolbar 
+		jButtonAgregarCliente = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/add-client-icon-48x48.png" )));
+		jButtonAgregarCliente.setToolTipText("Agregar cliente");
+		jButtonAgregarProveedor = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/add-truck-brown-icon-48x48.png" )));
+		jButtonAgregarProveedor.setToolTipText("Agregar proveedor");
+		jButtonAgregarMecanico = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/add-mechanic-icon-48x48.png" )));
+		jButtonAgregarMecanico.setToolTipText("Agregar mecánico");
+		jButtonAgregarTipoDeServicio = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/add-tools-icon-48x48.png" )));
+		jButtonAgregarTipoDeServicio.setToolTipText("Agregar tipo de servicio");
+		jButtonBuscarCliente = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-client-icon-48x48.png" )));
+		jButtonBuscarCliente.setToolTipText("Buscar cliente (F2)");
+		jButtonBuscarAutomovil = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-car-icon-48x48.png" )));
+		jButtonBuscarAutomovil.setToolTipText("Buscar automóvil (F3)");
+		jButtonBuscarProveedor = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-truck-brown-icon-48x48.png" )));
+		jButtonBuscarProveedor.setToolTipText("Buscar proveedor (F4)");
+		jButtonBuscarMecanico = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-mechanic-icon-48x48.png" )));
+		jButtonBuscarMecanico.setToolTipText("Buscar mecánico (F5)");
+		jButtonBuscarTipoDeServicio = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-tools-icon-48x48.png" )));
+		jButtonBuscarTipoDeServicio.setToolTipText("Buscar tipo de servicio (F6)");
+		jButtonMostrarCumpleanios = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/cake-icon-48x48.png" )));
+		jButtonMostrarCumpleanios.setToolTipText("Mostrar cumpleaños");
+		jButtonExit = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/logout-icon-48x48.png" )));
+		jButtonExit.setToolTipText("Salir");
 		
-		iconAgregar = new ImageIcon( resourceLoader.load("/images/menu/add-icon.png" ));
-		jMenuAgregar = new JMenu( "Agregar..." );
-		jMenuAgregar.setIcon( iconAgregar );
-		jMenuAgregar.setMnemonic(KeyEvent.VK_A);
+		jToolbar = new JToolBar();
+		jToolbar.setEnabled(false);
+		jToolbar.add(jButtonAgregarCliente);
+		jToolbar.add(jButtonAgregarProveedor);
+		jToolbar.add(jButtonAgregarMecanico);
+		jToolbar.add(jButtonAgregarTipoDeServicio);
+		jToolbar.addSeparator();
+		jToolbar.add(jButtonBuscarCliente);
+		jToolbar.add(jButtonBuscarAutomovil);
+		jToolbar.add(jButtonBuscarProveedor);
+		jToolbar.add(jButtonBuscarMecanico);
+		jToolbar.add(jButtonBuscarTipoDeServicio);
+		jToolbar.addSeparator();
+		jToolbar.add(jButtonMostrarCumpleanios);
+		jToolbar.addSeparator();
+		jToolbar.add(jButtonExit);
+		jToolbar.setAlignmentX(0);
 		
-		iconBuscarAutomovil = new ImageIcon( resourceLoader.load("/images/menu/search-car-icon.png" ));
-		jMenuItemBuscarAutomovil = new JMenuItem( "Automóvil" , iconBuscarAutomovil );
-		jMenuItemBuscarAutomovil.setToolTipText( "Buscar automóvil" );
-		jMenuItemBuscarAutomovil.setMnemonic(KeyEvent.VK_A);
+		// action listeners
+		jButtonMostrarCumpleanios.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				new MostrarCumpleanios(menuPrincipal, "Mostrar cumpleaños", " Cumpleaños ");
+				
+			}
+		});
 		
-		iconBuscarMecanico = new ImageIcon( resourceLoader.load("/images/menu/search-mechanic-icon.png" ));
-		jMenuItemBuscarMecanico = new JMenuItem( "Mecánico" , iconBuscarMecanico );
-		jMenuItemBuscarMecanico.setToolTipText( "Buscar mecánico" );
-		jMenuItemBuscarMecanico.setMnemonic(KeyEvent.VK_M);
+		jButtonAgregarCliente.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				 new AgregarCliente( menuPrincipal, "Agregar cliente", " Nuevo cliente " );
+			}
+		});
 		
-		iconBuscarProveedor = new ImageIcon( resourceLoader.load("/images/menu/search-truck-icon.png" ));
-		jMenuItemBuscarProveedor = new JMenuItem( "Proveedor" , iconBuscarProveedor );
-		jMenuItemBuscarProveedor.setToolTipText( "Buscar proveedor" );
-		jMenuItemBuscarProveedor.setMnemonic(KeyEvent.VK_P);
+		jButtonAgregarProveedor.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new AgregarProveedor( menuPrincipal, "Agregar proveedor", " Nuevo proveedor " );
+			}
+		});
 		
-		iconBuscarCliente = new ImageIcon( resourceLoader.load("/images/menu/search-client-icon.png" ));
-		jMenuItemBuscarCliente = new JMenuItem( "Cliente" , iconBuscarCliente );
-		jMenuItemBuscarCliente.setToolTipText( "Buscar cliente" );
-		jMenuItemBuscarCliente.setMnemonic(KeyEvent.VK_C);
+		jButtonAgregarMecanico.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new AgregarMecanico( menuPrincipal, "Agregar mecánico", " Nuevo mecánico " );
+			}
+		});
 		
-		iconBuscarTipoServicio = new ImageIcon( resourceLoader.load("/images/menu/search-tools-icon.png" ));
-		jMenuItemBuscarTipoServicio = new JMenuItem( "Tipo de servicio" , iconBuscarTipoServicio );
-		jMenuItemBuscarTipoServicio.setToolTipText( "Buscar tipo de servicio" );
-		jMenuItemBuscarTipoServicio.setMnemonic(KeyEvent.VK_T);
+		jButtonAgregarTipoDeServicio.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new AgregarTipoDeServicio( menuPrincipal, "Agregar tipo de servicio", " Nuevo tipo de servicio " );
+			}
+		});
 		
-		iconAgregarCliente = new ImageIcon( resourceLoader.load("/images/menu/add-client-icon.png" ));
-		jMenuItemAgregarCliente = new JMenuItem( "Cliente" , iconAgregarCliente );
-		jMenuItemAgregarCliente.setToolTipText( "Agregar cliente" );
+		jButtonBuscarCliente.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new BuscarCliente( menuPrincipal, "Buscar cliente", " Búsqueda de cliente " );
+			}
+		});
 		
-		iconAgregarMecanico = new ImageIcon( resourceLoader.load("/images/menu/add-mechanic-icon.png" ));
-		jMenuItemAgregarMecanico = new JMenuItem( "Mecánico" , iconAgregarMecanico );
-		jMenuItemAgregarMecanico.setToolTipText( "Agregar mecánico" );
-		jMenuItemAgregarMecanico.setMnemonic(KeyEvent.VK_M);
+		jButtonBuscarAutomovil.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new BuscarAutomovil( menuPrincipal, "Buscar automóvil", " Búsqueda de automóvil " );
+			}
+		});
 		
-		iconAgregarProveedor = new ImageIcon( resourceLoader.load("/images/menu/add-truck-icon.png" ));
-		jMenuItemAgregarProveedor = new JMenuItem( "Proveedor" , iconAgregarProveedor );
-		jMenuItemAgregarProveedor.setToolTipText( "Agregar proveedor" );
-		jMenuItemAgregarProveedor.setMnemonic(KeyEvent.VK_P);
-
-		iconAgregarTipoServicio = new ImageIcon( resourceLoader.load("/images/menu/add-tools-icon.png" ));
-		jMenuItemAgregarTipoServicio = new JMenuItem( "Tipo de servicio" , iconAgregarTipoServicio );
-		jMenuItemAgregarTipoServicio.setToolTipText( "Agregar tipo de servicio" );
-		jMenuItemAgregarTipoServicio.setMnemonic(KeyEvent.VK_T);
+		jButtonBuscarProveedor.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new BuscarProveedor( menuPrincipal, "Buscar proveedor", " Búsqueda de proveedor " );
+			}
+		});
+		
+		jButtonBuscarMecanico.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new BuscarMecanico( menuPrincipal, "Buscar mecánico", " Búsqueda de mecánico " );
+			}
+		});
+		
+		jButtonBuscarTipoDeServicio.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new BuscarTipoServicio( menuPrincipal, "Buscar tipo de servicio", " Búsqueda de tipo de servicio " );
+			}
+		});
+		
+		jButtonExit.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				int option = JOptionPane.showConfirmDialog( menuPrincipal, "¿Está seguro que desea cerrar la aplicación?", "Cerrar aplicación", JOptionPane.YES_NO_OPTION );
+			
+				if( option == 0 )	
+					System.exit( 0 );
+			}
+		});
 	}
 	
 	private void shortcuts(){
@@ -359,14 +406,6 @@ public class MenuPrincipal extends JFrame {
 			jMenuHerramientas = new JMenu();
 			jMenuHerramientas.setText( "Herramientas" );
 			jMenuHerramientas.setMnemonic(KeyEvent.VK_H);
-			jMenuHerramientas.add(jMenuItemMostrarCumpleanios).addActionListener(new ActionListener() {
-				
-				public void actionPerformed(ActionEvent e) {
-					new MostrarCumpleanios(menuPrincipal, "Mostrar cumpleaños", " Cumpleaños ");
-					
-				}
-			});
-			
 			jMenuHerramientas.add(jMenuItemTransferirAutomovil).addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
@@ -385,76 +424,6 @@ public class MenuPrincipal extends JFrame {
 		}
 		
 		return jMenuHerramientas;
-	}
-	
-	private JMenu getjMenuAcciones() {
-		if( jMenuAcciones == null ) {
-			jMenuAcciones = new JMenu();
-			jMenuAcciones.setText( "Acciones" );
-			jMenuAcciones.setMnemonic(KeyEvent.VK_C);
-			
-			jMenuAcciones.add (jMenuAgregar);
-			
-			jMenuAgregar.add( jMenuItemAgregarCliente ).addActionListener( new ActionListener() {
-				public void actionPerformed( ActionEvent e ) {
-					 new AgregarCliente( menuPrincipal, "Agregar cliente", " Nuevo cliente " );
-				}
-			});
-			
-		
-			jMenuAgregar.add( jMenuItemAgregarProveedor ).addActionListener( new ActionListener() {
-				public void actionPerformed( ActionEvent e ) {
-					new AgregarProveedor( menuPrincipal, "Agregar proveedor", " Nuevo proveedor " );
-				}
-			});
-			
-			
-			jMenuAgregar.add( jMenuItemAgregarMecanico ).addActionListener( new ActionListener() {
-				public void actionPerformed( ActionEvent e ) {
-					new AgregarMecanico( menuPrincipal, "Agregar mecánico", " Nuevo mecánico " );
-				}
-			});
-			
-			jMenuAgregar.add( jMenuItemAgregarTipoServicio ).addActionListener( new ActionListener() {
-				public void actionPerformed( ActionEvent e ) {
-					new AgregarTipoDeServicio( menuPrincipal, "Agregar tipo de servicio", " Nuevo tipo de servicio " );
-				}
-			});
-			
-			jMenuAcciones.add (jMenuBuscar);
-			
-			jMenuBuscar.add( jMenuItemBuscarCliente ).addActionListener( new ActionListener() {
-				public void actionPerformed( ActionEvent e ) {
-					new BuscarCliente( menuPrincipal, "Buscar cliente", " Búsqueda de cliente " );
-				}
-			});
-
-			jMenuBuscar.add( jMenuItemBuscarAutomovil ).addActionListener( new ActionListener() {
-				public void actionPerformed( ActionEvent e ) {
-					new BuscarAutomovil( menuPrincipal, "Buscar automóvil", " Búsqueda de automóvil " );
-				}
-			});
-	
-			jMenuBuscar.add( jMenuItemBuscarProveedor ).addActionListener( new ActionListener() {
-				public void actionPerformed( ActionEvent e ) {
-					new BuscarProveedor( menuPrincipal, "Buscar proveedor", " Búsqueda de proveedor " );
-				}
-			});
-			
-			jMenuBuscar.add( jMenuItemBuscarMecanico ).addActionListener( new ActionListener() {
-				public void actionPerformed( ActionEvent e ) {
-					new BuscarMecanico( menuPrincipal, "Buscar mecánico", " Búsqueda de mecánico " );
-				}
-			});
-			
-			jMenuBuscar.add( jMenuItemBuscarTipoServicio ).addActionListener( new ActionListener() {
-				public void actionPerformed( ActionEvent e ) {
-					new BuscarTipoServicio( menuPrincipal, "Buscar tipo de servicio", " Búsqueda de tipo de servicio " );
-				}
-			});
-		}
-		
-		return jMenuAcciones;
 	}
 	
 	private JMenu getjMenuAyuda() {
