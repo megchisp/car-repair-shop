@@ -219,7 +219,8 @@ public class ManualDeUsuario extends JDialog {
 		    	/* Herramientas */
 		    	if(e.getPath().toString().endsWith("Mostrar cumpleaños]"))
 		    	{
-		    		jTextAreaContenido.setText("    Permite  obtener  los cumpleaños de los clientes por día específico, por semana actual y por mes actual.");
+		    		jTextAreaContenido.setText("    Permite  obtener  los cumpleaños de los clientes por día específico, por semana actual y por mes actual.\n    " +
+		    				"Los clientes fallecidos no son mostrados.");
 		    	}
 		    	
 		    	/* Acciones */

@@ -64,20 +64,19 @@ public class MarqeuePanel extends JPanel implements Runnable{
     			
     			"<center><font face=\"Impact\" size=5 >SISTEMA DE GESTIÓN AUTOMOTOR</font></center><br>" +
     			"<font face=\"Courier New\">" +
-    			"<u>Empresa</u>: Mecánica Integral del Automotor<br><br>" +
-				"<u>Integrantes</u>:<br>" +
-				"Baravalle, Martín<br>" +
-				"Olivera, Mariano<br>" +
-				"García Osorio, Mauro<br><br>" +
+
+				"<u>Desarrollado por</u>:<br>"+
+    			"A.U.S. García Osorio<br><br>" +
 				
-				"<u>Docente</u>:<br>" +
-				"Bracalenti, Claudio<br><br>" +
+				"<u>Aprobado por</u>:<br>" +
+				"Ing. Claudio Bracalenti<br><br>" +
 				
 				"<center>Este sistema fué presentado como proyecto " +
 				"para la cátedra Habilitación Profesional " +
 				"de la carrera de Analista Universitario en Sistemas de la " +
 				"Universidad Tecnológica Nacional.<br><br>" +
 				"<u>MIDI</u>: \"Smells like teen spirit - Nirvana\"<br><br>" +
+				"<br<br> www.garciaosorio.com<br><br>" +
 				"<u>Año</u>: 2014</center>" + 
 				"</font></html>";
 
