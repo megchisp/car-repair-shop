@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +24,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+
+import persistencia.BD.ConexionDB;
+import persistencia.BD.CreateDB;
+import persistencia.BD.PostgresConexionDB;
 
 public class Login extends JDialog{
 
@@ -40,6 +45,9 @@ public class Login extends JDialog{
     private Font fontJLabel = null;
     
     private JDialog login = null;
+	ConexionDB conn = null;
+	CreateDB createDB;
+	
     ResourceLoader resourceLoader = new ResourceLoader();
     
     public Login() {
@@ -48,6 +56,21 @@ public class Login extends JDialog{
     
 	public Login(final JFrame parent, boolean modal) {
 		super(parent, modal);
+		
+	// verifico que el servidor PostgreSQL se encuentre escuchando
+	    try {
+	        Socket s = new Socket("localhost", 5432);
+	        s.close();
+	    } catch (Exception e) {
+	    	JOptionPane.showMessageDialog( this, "Verifique que el servidor PostgreSQL se encuentre escuchando en localhost:5432.", "Servidor no encontrado", JOptionPane.ERROR_MESSAGE );
+	    	System.exit( 0 );
+	    }
+	    
+		try {
+			createDB = new CreateDB();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog( this, e1, "Error", JOptionPane.ERROR_MESSAGE );
+		}
 		
 		inicializar();
 		
