@@ -183,11 +183,11 @@ public class ClienteDao implements IClienteDao {
 			rs.next();
 			existe = rs.getBoolean(1);
 			conn.close(); // cierra la conexión
-			} 
-			catch(Exception e) 
-			{
-				throw e;
-			}
+		} 
+		catch(Exception e) 
+		{
+			throw e;
+		}
 		return existe;
 	}
 	

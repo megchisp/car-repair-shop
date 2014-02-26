@@ -35,7 +35,6 @@ public abstract class ConexionDB {
 			st.executeUpdate(query);
 					
 		}catch(SQLException e){
-//			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -45,7 +44,6 @@ public abstract class ConexionDB {
 			conexion.close();
 								
 		}catch(Exception e){
-//			e.printStackTrace();
 			throw e;
 		}
 	}

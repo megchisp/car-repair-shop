@@ -14,7 +14,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,7 +23,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
 public class MenuPrincipal extends JFrame {
@@ -36,7 +34,6 @@ public class MenuPrincipal extends JFrame {
 	private JFrame menuPrincipal;
 	
 	private DetailPanel detailPanelMenuPrincipal = null;
-	private MenuPrincipal menuPrincipalItself = this;
 	
 	Icon iconTransferirAutomovil = null;
 	Icon iconSalir = null;
@@ -120,8 +117,6 @@ public class MenuPrincipal extends JFrame {
 		this.setJMenuBar( getjMenuBar() );
 		this.add(jToolbar, BorderLayout.NORTH);
 		this.setTitle( "Sistema de gestión automotor" );
-		
-		shortcuts(); // inicializa los atajos de teclado
 		
 		this.addWindowListener( new java.awt.event.WindowAdapter() { 
 	        public void windowClosing( WindowEvent e ) {
@@ -224,15 +219,15 @@ public class MenuPrincipal extends JFrame {
 		jButtonAgregarTipoDeServicio = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/add-tools-icon-48x48.png" )));
 		jButtonAgregarTipoDeServicio.setToolTipText("Agregar tipo de servicio");
 		jButtonBuscarCliente = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-client-icon-48x48.png" )));
-		jButtonBuscarCliente.setToolTipText("Buscar cliente (F2)");
+		jButtonBuscarCliente.setToolTipText("Buscar cliente");
 		jButtonBuscarAutomovil = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-car-icon-48x48.png" )));
-		jButtonBuscarAutomovil.setToolTipText("Buscar automóvil (F3)");
+		jButtonBuscarAutomovil.setToolTipText("Buscar automóvil");
 		jButtonBuscarProveedor = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-truck-brown-icon-48x48.png" )));
-		jButtonBuscarProveedor.setToolTipText("Buscar proveedor (F4)");
+		jButtonBuscarProveedor.setToolTipText("Buscar proveedor");
 		jButtonBuscarMecanico = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-mechanic-icon-48x48.png" )));
-		jButtonBuscarMecanico.setToolTipText("Buscar mecánico (F5)");
+		jButtonBuscarMecanico.setToolTipText("Buscar mecánico");
 		jButtonBuscarTipoDeServicio = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/search-tools-icon-48x48.png" )));
-		jButtonBuscarTipoDeServicio.setToolTipText("Buscar tipo de servicio (F6)");
+		jButtonBuscarTipoDeServicio.setToolTipText("Buscar tipo de servicio");
 		jButtonMostrarCumpleanios = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/cake-icon-48x48.png" )));
 		jButtonMostrarCumpleanios.setToolTipText("Mostrar cumpleaños");
 		jButtonExit = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/logout-icon-48x48.png" )));
@@ -329,78 +324,6 @@ public class MenuPrincipal extends JFrame {
 		});
 	}
 	
-	private void shortcuts(){
-		// esta funcion hace que la ventana MenuPrincipal se cierre con la tecla ESC
-		KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
-		ActionListener actionListener = new ActionListener() {
-		      public void actionPerformed(ActionEvent actionEvent) {
-					int option = JOptionPane.showConfirmDialog( menuPrincipal, "¿Está seguro que desea cerrar la aplicación?", "Cerrar aplicación", JOptionPane.YES_NO_OPTION );
-					if( option == 0 )	
-						System.exit( 0 );
-		      }
-		    };
-		jMenuBar.registerKeyboardAction(actionListener, keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-		
-		
-		// F1 --> ManualDeUsuario
-				keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
-				actionListener = new ActionListener() {
-				      public void actionPerformed(ActionEvent actionEvent) {
-				    	  new ManualDeUsuario( menuPrincipal, "Manual de usuario", " Selección de opciones " , " Descripción ");
-				      }
-				    };
-				jMenuBar.registerKeyboardAction(actionListener, keystroke, JComponent.WHEN_FOCUSED);
-				
-		
-		// F2 --> BuscarCliente
-		keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, false);
-		actionListener = new ActionListener() {
-		      public void actionPerformed(ActionEvent actionEvent) {
-		    	  new BuscarCliente( menuPrincipal, "Buscar cliente", " Búsqueda de cliente " );
-		      }
-		    };
-		jMenuBar.registerKeyboardAction(actionListener, keystroke, JComponent.WHEN_FOCUSED);
-		
-		// F3 --> BuscarAutomovil
-		keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0, false);
-		actionListener = new ActionListener() {
-		      public void actionPerformed(ActionEvent actionEvent) {
-		    	  new BuscarAutomovil( menuPrincipal, "Buscar automóvil", " Búsqueda de automóvil " );
-		      }
-		    };
-		    
-		jMenuBar.registerKeyboardAction(actionListener, keystroke, JComponent.WHEN_FOCUSED);
-		
-		// F4 --> BuscarProveedor
-		keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0, false);
-		actionListener = new ActionListener() {
-		      public void actionPerformed(ActionEvent actionEvent) {
-		    	  new BuscarProveedor( menuPrincipal, "Buscar proveedor", " Búsqueda de proveedor " );
-		      }
-		    };
-		
-		    jMenuBar.registerKeyboardAction(actionListener, keystroke, JComponent.WHEN_FOCUSED);
-		
-		    // F5 --> BuscarMecanico
-		keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0, false);
-		actionListener = new ActionListener() {
-		      public void actionPerformed(ActionEvent actionEvent) {
-		    	  new BuscarMecanico( menuPrincipal, "Buscar mecánico", " Búsqueda de mecánico " );
-		      }
-		    };
-		jMenuBar.registerKeyboardAction(actionListener, keystroke, JComponent.WHEN_FOCUSED);
-		
-		// F6 --> BuscarTipoDeServicio
-				keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0, false);
-				actionListener = new ActionListener() {
-				      public void actionPerformed(ActionEvent actionEvent) {
-				    	  new BuscarTipoServicio( menuPrincipal, "Buscar tipo de servicio", " Búsqueda de tipo de servicio " );
-				      }
-				    };
-				jMenuBar.registerKeyboardAction(actionListener, keystroke, JComponent.WHEN_FOCUSED);
-				
-	}
-	
 	private JMenu getjMenuHerramientas() {
 		if( jMenuHerramientas == null ) {
 			jMenuHerramientas = new JMenu();
@@ -411,13 +334,6 @@ public class MenuPrincipal extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					
 					
-				}
-			});
-			jMenuHerramientas.addSeparator();
-			jMenuHerramientas.add(jCheckBoxMenuItemReferencias).addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					new Referencias(menuPrincipalItself);
-					jCheckBoxMenuItemReferencias.setSelected(true);
 				}
 			});
 			
@@ -451,7 +367,7 @@ public class MenuPrincipal extends JFrame {
 		if( jPanelMenuPrincipal == null ) {
 			jPanelMenuPrincipal = new JPanel();
 			jPanelMenuPrincipal.setLayout( new BorderLayout() );
-			jPanelMenuPrincipal.setBackground( Color.GRAY );
+			jPanelMenuPrincipal.setBackground( new Color(240,240,240) );
 			
 			detailPanelMenuPrincipal = new DetailPanel();
 			detailPanelMenuPrincipal.setLayout( new BorderLayout() );

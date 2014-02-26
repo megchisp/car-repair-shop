@@ -8,7 +8,14 @@ public final class PostgresConexionDB extends ConexionDB {
 
 		
 	public PostgresConexionDB() {
-		this.url = "jdbc:postgresql://localhost:5432/postgres";
+		this.url = "jdbc:postgresql://localhost:5432/techsoft";
+		this.username = "postgres";
+		this.password = "admin";
+	}
+	
+	// este constructor se utiliza unicamente para crear la BD techsoft desde la BD postgres
+	public PostgresConexionDB(String url) {
+		this.url = url;
 		this.username = "postgres";
 		this.password = "admin";
 	}
