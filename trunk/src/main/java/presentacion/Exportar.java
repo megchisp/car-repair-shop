@@ -10,6 +10,7 @@ import java.util.Locale;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import negocio.AutomovilManager;
@@ -66,6 +67,8 @@ public class Exportar extends JFileChooser{
 	
 	JFileChooser fileChooser = null;
 	FileNameExtensionFilter filter = null;
+	
+	PrintWriter printerWriter = null;
 
 	public Exportar(JFrame padre){
 		/*** Este constructor arma el archivo y lo almacena mediante un JFileChooser ***/
@@ -83,85 +86,24 @@ public class Exportar extends JFileChooser{
 		repuestoManager = new RepuestoManager();
 		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos SQL", "sql", "text");
-		PrintWriter printerWriter = null;
 		fileChooser.setFileFilter(filter);
 		fileChooser.setDialogTitle(" Exportar ");
 		int userSelection = fileChooser.showSaveDialog(this);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			try {
-				File file = new File(fileChooser.getSelectedFile().toString() + (fileChooser.getSelectedFile().toString().endsWith(".sql") ? "" : ".sql"));
-                printerWriter = new PrintWriter(file);
-
-                // Recupero el día, mes y año acual y lo imprimo
-                printerWriter.println("----------------------------------------| BACKUP DEL " + fechaActual()  + " |-----------------------------------------");
-        		
-                // imprime la sentencia para agregar los clientes
-				inicializarListaClientes();
-                printerWriter.println("\n-- TABLA CLIENTE --");
-                printerWriter.println(sentenciaClientes());
-                listaClientes.clear();
-                
-                // imprime la sentencia para agregar los automoviles
-				inicializarListaAutomoviles();
-                printerWriter.println("\n-- TABLA AUTOMOVIL --");
-                printerWriter.println(sentenciaAutomoviles());
-                listaAutomoviles.clear();
-                
-                // imprime la sentencia para agregar las reparaciones
-				inicializarListaReparaciones();
-                printerWriter.println("\n-- TABLA REPARACION --");
-                printerWriter.println(sentenciaReparaciones());
-                listaReparaciones.clear();
-                
-                // imprime la sentencia para agregar los tipos de servicios
-				inicializarListaTiposDeServicios();
-                printerWriter.println("\n-- TABLA TIPO_DE_SERVICIO --");
-                printerWriter.println(sentenciaTiposDeServicios());
-                listaTiposDeServicios.clear();
-                
-                // imprime la sentencia para agregar los mecanicos
-				inicializarListaMecanicos();
-                printerWriter.println("\n-- TABLA MECANICO --");
-                printerWriter.println(sentenciaMecanicos());
-                listaMecanicos.clear();
-                
-                // imprime la sentencia para agregar los proveedores
-				inicializarListaProveedores();
-                printerWriter.println("\n-- TABLA PROVEEDOR --");
-                printerWriter.println(sentenciaProveedores());
-                listaProveedores.clear();
-                
-                // imprime la sentencia para agregar los servicios
-				inicializarListaServicios();
-                printerWriter.println("\n-- TABLA SERVICIO --");
-                printerWriter.println(sentenciaServicios());
-                listaServicios.clear();
-                
-                // imprime la sentencia para agregar las manos de obras
- 				inicializarListaManosDeObras();
-                printerWriter.println("\n-- TABLA MANO_DE_OBRA --");
-                printerWriter.println(sentenciaManosDeObras());
-                listaManosDeObras.clear();
-                 
-                 // imprime la sentencia para agregar los repuestos
- 				inicializarListaRepuestos();
-                printerWriter.println("\n-- TABLA REPUESTO --");
-                printerWriter.println(sentenciaRepuestos());
-                listaRepuestos.clear();
-                
-                // imprime las sentencias para setear los últimos números de secuencia
-                printerWriter.println("\n-- SETEO DE NUMEROS DE SECUENCIA --");
-                printerWriter.println(secuenciaClientes());
-                printerWriter.println(secuenciaAutomoviles());
-                printerWriter.println(secuenciaReparaciones());
-                printerWriter.println(secuenciaTiposDeServicios());
-                printerWriter.println(secuenciaServicios());
-                printerWriter.println(secuenciaManosDeObras());
-                printerWriter.println(secuenciaRepuestos());
-                
-                                
-                printerWriter.close();
-                super.approveSelection();
+				final WaitDialog waitDialog = new WaitDialog("Exportando la base de datos...");
+    			SwingWorker<?,?> worker = new SwingWorker<Void,Void>(){
+    				protected Void doInBackground() throws Exception{
+    					escribirEnArchivo();
+    					return null;  
+    		          }  
+    		  
+    		          protected void done(){  
+    		        	  waitDialog.dispose();  
+    		          }  
+    		        };  
+    		        worker.execute();  
+    		        waitDialog.setVisible(true);
                 JOptionPane.showMessageDialog( this, "La base de datos se ha exportado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE );
             }
             catch (Exception e) {
@@ -171,6 +113,81 @@ public class Exportar extends JFileChooser{
 				printerWriter.close();
 			}
 		} 
+	}
+	
+	void escribirEnArchivo() throws Exception{
+		File file = new File(fileChooser.getSelectedFile().toString() + (fileChooser.getSelectedFile().toString().endsWith(".sql") ? "" : ".sql"));
+        printerWriter = new PrintWriter(file);
+
+        // Recupero el día, mes y año acual y lo imprimo
+        printerWriter.println("----------------------------------------| BACKUP DEL " + fechaActual()  + " |-----------------------------------------");
+		
+        // imprime la sentencia para agregar los clientes
+		inicializarListaClientes();
+        printerWriter.println("\n-- TABLA CLIENTE --");
+        printerWriter.println(sentenciaClientes());
+        listaClientes.clear();
+        
+        // imprime la sentencia para agregar los automoviles
+		inicializarListaAutomoviles();
+        printerWriter.println("\n-- TABLA AUTOMOVIL --");
+        printerWriter.println(sentenciaAutomoviles());
+        listaAutomoviles.clear();
+        
+        // imprime la sentencia para agregar las reparaciones
+		inicializarListaReparaciones();
+        printerWriter.println("\n-- TABLA REPARACION --");
+        printerWriter.println(sentenciaReparaciones());
+        listaReparaciones.clear();
+        
+        // imprime la sentencia para agregar los tipos de servicios
+		inicializarListaTiposDeServicios();
+        printerWriter.println("\n-- TABLA TIPO_DE_SERVICIO --");
+        printerWriter.println(sentenciaTiposDeServicios());
+        listaTiposDeServicios.clear();
+        
+        // imprime la sentencia para agregar los mecanicos
+		inicializarListaMecanicos();
+        printerWriter.println("\n-- TABLA MECANICO --");
+        printerWriter.println(sentenciaMecanicos());
+        listaMecanicos.clear();
+        
+        // imprime la sentencia para agregar los proveedores
+		inicializarListaProveedores();
+        printerWriter.println("\n-- TABLA PROVEEDOR --");
+        printerWriter.println(sentenciaProveedores());
+        listaProveedores.clear();
+        
+        // imprime la sentencia para agregar los servicios
+		inicializarListaServicios();
+        printerWriter.println("\n-- TABLA SERVICIO --");
+        printerWriter.println(sentenciaServicios());
+        listaServicios.clear();
+        
+        // imprime la sentencia para agregar las manos de obras
+			inicializarListaManosDeObras();
+        printerWriter.println("\n-- TABLA MANO_DE_OBRA --");
+        printerWriter.println(sentenciaManosDeObras());
+        listaManosDeObras.clear();
+         
+         // imprime la sentencia para agregar los repuestos
+			inicializarListaRepuestos();
+        printerWriter.println("\n-- TABLA REPUESTO --");
+        printerWriter.println(sentenciaRepuestos());
+        listaRepuestos.clear();
+        
+        // imprime las sentencias para setear los últimos números de secuencia
+        printerWriter.println("\n-- SETEO DE NUMEROS DE SECUENCIA --");
+        printerWriter.println(secuenciaClientes());
+        printerWriter.println(secuenciaAutomoviles());
+        printerWriter.println(secuenciaReparaciones());
+        printerWriter.println(secuenciaTiposDeServicios());
+        printerWriter.println(secuenciaServicios());
+        printerWriter.println(secuenciaManosDeObras());
+        printerWriter.println(secuenciaRepuestos());
+                        
+        printerWriter.close();
+        super.approveSelection();
 	}
 	
 	String fechaActual(){
