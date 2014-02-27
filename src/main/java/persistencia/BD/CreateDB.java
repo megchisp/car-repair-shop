@@ -1,7 +1,10 @@
 package persistencia.BD;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.sql.ResultSet;
+
 import javax.swing.SwingWorker;
 
 import presentacion.ResourceLoader;
@@ -17,7 +20,7 @@ public class CreateDB {
 		
 		if(!existeBD()) // si no existe la base de datos 'techsoft' se crea una
 		{
-			final WaitDialog waitDialog = new WaitDialog("Creando la base de datos...");
+			final WaitDialog waitDialog = new WaitDialog("Creando base de datos...");
 
 			SwingWorker<?,?> worker = new SwingWorker<Void,Void>(){
 				protected Void doInBackground() throws Exception{
@@ -75,8 +78,23 @@ public class CreateDB {
 	public void crearTablas() throws Exception{
     	ImportarBD unImportarBD = new ImportarBD();
     	try {
-			unImportarBD.importarBD(new File(resourceLoader.load("/tablas.sql").toURI()));
+    		URL url = resourceLoader.load("/tablas.sql");
+    		BufferedReader b;
+
+    		if(url.toString().contains("resources")){
+    			// lo llama JAR
+    			b = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/resources/tablas.sql")));
+    		}
+    		else
+    			{
+    				// lo llama IDE
+    			b = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/tablas.sql")));
+    			}
+			
+    		// ejecuto el contenido del archivo tablas.sql
+    		unImportarBD.importarBD(b);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw e;
 		}
 	}
