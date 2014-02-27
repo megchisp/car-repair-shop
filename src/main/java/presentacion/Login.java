@@ -27,7 +27,6 @@ import javax.swing.SwingConstants;
 
 import persistencia.BD.ConexionDB;
 import persistencia.BD.CreateDB;
-import persistencia.BD.PostgresConexionDB;
 
 public class Login extends JDialog{
 
@@ -69,6 +68,7 @@ public class Login extends JDialog{
 		try {
 			createDB = new CreateDB();
 		} catch (Exception e1) {
+			e1.printStackTrace();
 			JOptionPane.showMessageDialog( this, e1, "Error", JOptionPane.ERROR_MESSAGE );
 		}
 		

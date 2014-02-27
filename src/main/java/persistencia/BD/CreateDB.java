@@ -2,27 +2,37 @@ package persistencia.BD;
 
 import java.io.File;
 import java.sql.ResultSet;
+import javax.swing.SwingWorker;
 
 import presentacion.ResourceLoader;
+import presentacion.WaitDialog;
 
 public class CreateDB {
 	// en esta clase si no se detecta la BD se la crea con sus respectivas tablas
 	ConexionDB conn = null;
 	ResourceLoader resourceLoader = new ResourceLoader();
-	
+
 	public CreateDB() throws Exception{
 		this.conn = new PostgresConexionDB("jdbc:postgresql://localhost:5432/postgres");
 		
 		if(!existeBD()) // si no existe la base de datos 'techsoft' se crea una
 		{
-			System.out.println("creando la bd...");
-			crearBD();
-			System.out.println("bd creada con exito!");
-			crearTablas();
-			System.out.println("La BD se creó correctamente");
+			final WaitDialog waitDialog = new WaitDialog("Creando la base de datos...");
+
+			SwingWorker<?,?> worker = new SwingWorker<Void,Void>(){
+				protected Void doInBackground() throws Exception{
+	    			crearBD();
+	    			crearTablas();
+		            return null;  
+		          }  
+		  
+		          protected void done(){  
+		        	  waitDialog.dispose();  
+		          }  
+		        };  
+		        worker.execute();  
+		        waitDialog.setVisible(true);
 		}
-		else
-			System.out.println("La BD ya existe");
 	}
 	
 	public boolean existeBD() throws Exception{
