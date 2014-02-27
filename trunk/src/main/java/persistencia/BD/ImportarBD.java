@@ -1,9 +1,6 @@
 package persistencia.BD;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
 
 public class ImportarBD{
 	
@@ -13,9 +10,8 @@ public class ImportarBD{
 		this.conn = new PostgresConexionDB();
 	}	
 
-	public void importarBD(File archivoSQL) throws Exception {
-		// Este método ejecuta todas las sentencias contenidas en el archivo SQL
-		BufferedReader bufferedReader = new BufferedReader(new FileReader(archivoSQL));
+	public void importarBD(BufferedReader bufferedReader) throws Exception {
+		// Este método ejecuta todas las sentencias contenidas en el bufferedReader
 		StringBuilder query = new StringBuilder();
 		try{
 			conn.open(); // abre la conexion
@@ -46,7 +42,6 @@ public class ImportarBD{
 			conn.execute(queryEliminarBD);
 			conn.close(); // cierra la conexión
 		}catch(Exception e){
-			System.out.println("Error al eliminar");
 			throw e;
 		}
 	}

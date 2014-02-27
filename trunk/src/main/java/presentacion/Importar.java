@@ -1,6 +1,8 @@
 package presentacion;
 
 import java.awt.Component;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -29,11 +31,11 @@ public class Importar extends JFileChooser{
 		if(userSelection == JFileChooser.APPROVE_OPTION) {
         	final ImportarBD unImportarBD = new ImportarBD();
         	try {
-        		final WaitDialog waitDialog = new WaitDialog("Importando la base de datos...");
+        		final WaitDialog waitDialog = new WaitDialog("Importando base de datos...");
     			SwingWorker<?,?> worker = new SwingWorker<Void,Void>(){
     				protected Void doInBackground() throws Exception{
     					unImportarBD.eliminarBD(); // elimina todas la tuplas de BD
-    					unImportarBD.importarBD(fileChooser.getSelectedFile());
+    					unImportarBD.importarBD(new BufferedReader(new FileReader(fileChooser.getSelectedFile())));
     		            return null;  
     		          }  
     		  
