@@ -36,7 +36,7 @@ public class ImportarBD{
 	public void eliminarBD() throws Exception {
 		// Este método elimina TODAS las tuplas de TODAS las tablas de la BD
 		
-		String queryEliminarBD = "DELETE FROM cliente; DELETE FROM mecanico; DELETE FROM proveedor; DELETE FROM tipo_de_servicio;";
+		String queryEliminarBD = "DELETE FROM cliente; DELETE FROM mecanico; DELETE FROM proveedor; DELETE FROM tipo_de_servicio; DELETE FROM usuario";
 		try{
 			conn.open(); // abre la conexion
 			conn.execute(queryEliminarBD);

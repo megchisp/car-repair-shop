@@ -11,6 +11,7 @@ DROP TABLE tipo_de_servicio cascade;
 DROP TABLE reparacion cascade;
 DROP TABLE marca_automoviles cascade;
 DROP TABLE modelo_automoviles cascade;
+DROP TABLE usuario cascade;
 
 ---------------------------- ELIMINACION DE SECUENCIAS ----------------------------------
 
@@ -23,3 +24,4 @@ DROP SEQUENCE tipo_de_servicio_id_tipo_de_servicio_seq;
 DROP SEQUENCE servicio_id_servicio_seq;
 DROP SEQUENCE repuesto_id_repuesto_seq;
 DROP SEQUENCE mano_de_obra_id_mano_de_obra_seq;
+DROP SEQUENCE usuario_id_usuario_seq;

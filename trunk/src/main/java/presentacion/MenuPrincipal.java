@@ -14,7 +14,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -23,12 +22,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
-import javax.swing.UIManager;
+
+import persistencia.Usuario;
 
 public class MenuPrincipal extends JFrame {
 	public static JLabel jLabelLogo = null;
 	JPanel jPanelMenuPrincipal = null;
-	private Login login;
 	private static final long serialVersionUID = 1L;
 
 	private JFrame menuPrincipal;
@@ -36,6 +35,7 @@ public class MenuPrincipal extends JFrame {
 	private DetailPanel detailPanelMenuPrincipal = null;
 	
 	Icon iconTransferirAutomovil = null;
+	Icon iconChangePassword = null;
 	Icon iconSalir = null;
 	Icon iconImportar = null;
 	Icon iconExportar = null;
@@ -43,12 +43,12 @@ public class MenuPrincipal extends JFrame {
 	Icon iconManual = null;
 	
 	JMenuItem jMenuItemTransferirAutomovil = null;
+	JMenuItem jMenuItemChangePassword = null;
 	JMenuItem jMenuItemSalir = null;
 	JMenuItem jMenuItemImportar = null;
 	JMenuItem jMenuItemExportar = null;
 	JMenuItem jMenuItemAcercaDe = null;
 	JMenuItem jMenuItemManual = null;
-
 
 	public JCheckBoxMenuItem jCheckBoxMenuItemReferencias = null;
 	private JMenuBar jMenuBar = null;
@@ -56,7 +56,7 @@ public class MenuPrincipal extends JFrame {
 	private JMenu jMenuArchivo = null;
 	private JMenu jMenuHerramientas = null;
 	private JMenu jMenuAyuda = null;
-
+	JPanel jPanelStatusBar = null;
 	
 	JButton jButtonAgregarCliente = null;
 	JButton jButtonAgregarProveedor = null;
@@ -73,8 +73,11 @@ public class MenuPrincipal extends JFrame {
 	ResourceLoader resourceLoader = new ResourceLoader();
 	
 	JToolBar jToolbar = new JToolBar();
+	Login login = null;
+	Usuario usuario = null;
+	StatusBar statusBar = null;
 	
-	public MenuPrincipal() {
+	public MenuPrincipal(Usuario usuario) {
 		super();
 		
 		// agrego icono a la ventana
@@ -82,32 +85,18 @@ public class MenuPrincipal extends JFrame {
 	    Image Image = ImageIcon.getImage();
 	    this.setIconImage(Image);
 	    
-		aplicaSkin();
-		inicializar();
-		
-		// login del sistema
-		login = new Login(this, true);
-        login.setVisible(true);
-	}	
-	
-	private void aplicaSkin(){
-		try
-		{
-			JFrame.setDefaultLookAndFeelDecorated(true);
-			JDialog.setDefaultLookAndFeelDecorated(true);
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-		}
-		catch (Exception e)
-		{
-		 	e.printStackTrace();
-		}
-	}
+	    this.usuario = usuario; // usuario logeado
+	    inicializar();
+  	}	
 	
 	private void inicializar() {
 		menuPrincipal = this;
 		
+		statusBar = new StatusBar();
+		statusBar.setStatus("Usuario: " + usuario.getUsername());
 		inicializarIconos();
-
+		inicializarStatusBar();
+		
 		this.setDefaultCloseOperation( DO_NOTHING_ON_CLOSE );
 		this.pack();
 		this.setResizable( false );
@@ -116,8 +105,9 @@ public class MenuPrincipal extends JFrame {
 		this.setContentPane( getjPanelMenuPrincipal() );
 		this.setJMenuBar( getjMenuBar() );
 		this.add(jToolbar, BorderLayout.NORTH);
-		this.setTitle( "Sistema de gestión automotor" );
-		
+		this.setTitle( "Sistema de gestión automotor");
+		this.getContentPane().add(BorderLayout.SOUTH, statusBar); 
+
 		this.addWindowListener( new java.awt.event.WindowAdapter() { 
 	        public void windowClosing( WindowEvent e ) {
 				int option = 0; 
@@ -126,6 +116,10 @@ public class MenuPrincipal extends JFrame {
 					System.exit( 0 );
 	        }
 	    });
+	}
+	
+	private void inicializarStatusBar(){
+		
 	}
 	
 	private JMenuBar getjMenuBar() {
@@ -194,6 +188,9 @@ public class MenuPrincipal extends JFrame {
 		iconTransferirAutomovil = new ImageIcon(resourceLoader.load("/images/menu/transfer-icon.png"));
 		jMenuItemTransferirAutomovil = new JMenuItem("Transferir automóvil", iconTransferirAutomovil);
 		jMenuItemTransferirAutomovil.setToolTipText("Transferir automovil");
+		iconChangePassword = new ImageIcon(resourceLoader.load("/images/menu/key-icon.png"));
+		jMenuItemChangePassword = new JMenuItem("Cambiar contraseña", iconChangePassword);
+		jMenuItemChangePassword.setToolTipText("Cambiar contraseña");
 		
 		jCheckBoxMenuItemReferencias = new JCheckBoxMenuItem("Referencias");
 		jCheckBoxMenuItemReferencias.setMnemonic(KeyEvent.VK_R);
@@ -330,10 +327,13 @@ public class MenuPrincipal extends JFrame {
 			jMenuHerramientas.setText( "Herramientas" );
 			jMenuHerramientas.setMnemonic(KeyEvent.VK_H);
 			jMenuHerramientas.add(jMenuItemTransferirAutomovil).addActionListener(new ActionListener() {
-				
 				public void actionPerformed(ActionEvent e) {
-					
-					
+
+				}
+			});
+			jMenuHerramientas.add(jMenuItemChangePassword).addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new ChangePassword(menuPrincipal, "Cambiar contraseña", "Cambio de contraseña", usuario);
 				}
 			});
 			

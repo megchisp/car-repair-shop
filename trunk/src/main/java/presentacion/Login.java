@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -24,7 +25,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
+import negocio.IUsuarioManager;
+import negocio.UsuarioManager;
+
+import persistencia.Usuario;
 import persistencia.BD.ConexionDB;
 import persistencia.BD.CreateDB;
 
@@ -46,17 +52,14 @@ public class Login extends JDialog{
     private JDialog login = null;
 	ConexionDB conn = null;
 	CreateDB createDB;
-	
+	IUsuarioManager unUsuarioManager = null;	
     ResourceLoader resourceLoader = new ResourceLoader();
+    MenuPrincipal principalMenu = null;
     
-    public Login() {
-        this(null, true);
-    }
-    
-	public Login(final JFrame parent, boolean modal) {
-		super(parent, modal);
-		
-	// verifico que el servidor PostgreSQL se encuentre escuchando
+    Usuario usuario = null;
+	public Login() {
+		super();
+		// verifico que el servidor PostgreSQL se encuentre escuchando
 	    try {
 	        Socket s = new Socket("localhost", 5432);
 	        s.close();
@@ -72,6 +75,12 @@ public class Login extends JDialog{
 			JOptionPane.showMessageDialog( this, e1, "Error", JOptionPane.ERROR_MESSAGE );
 		}
 		
+		// agrego icono a la ventana
+		ImageIcon ImageIcon = new ImageIcon(resourceLoader.load("/images/Car-Repair-Blue-2-icon.png"));
+	    Image Image = ImageIcon.getImage();
+	    this.setIconImage(Image);
+		
+		aplicaSkin();
 		inicializar();
 		
 	    JPanel p3 = new JPanel(new GridLayout(2, 1,10,10));
@@ -113,37 +122,21 @@ public class Login extends JDialog{
 	    
 	    jTextFieldPassword.addKeyListener(new java.awt.event.KeyAdapter() {  
 	    	// habilita a realizar la búsqueda presionando el boton Enter
-            @SuppressWarnings("deprecation")
 			public void keyPressed(java.awt.event.KeyEvent e) {
             	 int key = e.getKeyCode();
-                 if (key == java.awt.event.KeyEvent.VK_ENTER) {
-                	 if ("admin".equals(jTextFieldPassword.getText())
-	                    && "admin".equals(jTextFieldUsername.getText())) {
-                		 parent.setVisible(true);
-                		 setVisible(false);
-                	 } else {
-                		 jLabelStatus.setText("Falló autenticación");
-                	 }
-                 }
+                 if (key == java.awt.event.KeyEvent.VK_ENTER)
+                	 login();
 	        }
 	    });
 	
 	    jButtonOk.addActionListener(new ActionListener() {
-	        @SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-	            if ("admin".equals(jTextFieldPassword.getText())
-	                    && "admin".equals(jTextFieldUsername.getText())) {
-	                parent.setVisible(true);
-	                setVisible(false);
-	            } else {
-	                jLabelStatus.setText("Falló autenticación");
-	            }
+	        	login();
 	        }
 	    });
 	    jButtonCancel.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            setVisible(false);
-	            parent.dispose();
 	            System.exit(0);
 	        }
 	    });
@@ -161,7 +154,25 @@ public class Login extends JDialog{
 		
 	}
 	
-	void inicializar(){
+	private void login(){
+        try {
+			if (unUsuarioManager.login(jTextFieldUsername.getText(), jTextFieldPassword.getPassword())) {
+				this.setVisible(false); // oculto el login
+				usuario = unUsuarioManager.getUsuario(jTextFieldUsername.getText());
+				principalMenu = new MenuPrincipal(usuario);
+				principalMenu.setVisible( true ); // muestro el menu principal
+			} else {
+			    jLabelStatus.setText("Falló autenticación");
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog( this, e, "Error", JOptionPane.ERROR_MESSAGE );
+			e.printStackTrace();
+		}
+	}
+	
+	private void inicializar(){
+		unUsuarioManager = new UsuarioManager();
+		
 		fontJLabel = new Font("Tahoma", Font.PLAIN, 12);
 		
 		jLabelStatus = new JLabel(" ");
@@ -190,6 +201,19 @@ public class Login extends JDialog{
 		ImageIcon imageIconCancel = new ImageIcon(resourceLoader.load("/images/menu/close-icon.png"));		
 		jButtonCancel = new JButton( " Cancelar", imageIconCancel);
 		jButtonCancel.setPreferredSize( new Dimension( 100, 30 ) );
+	}
+	
+	private void aplicaSkin(){
+		try
+		{
+			JFrame.setDefaultLookAndFeelDecorated(true);
+			JDialog.setDefaultLookAndFeelDecorated(true);
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		}
+		catch (Exception e)
+		{
+		 	e.printStackTrace();
+		}
 	}
 }
 	

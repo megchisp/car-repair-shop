@@ -4,7 +4,7 @@ package presentacion;
 public class Runner {
 
 	public static void main(String[] args) {
-		MenuPrincipal principalMenu = new MenuPrincipal();
-		principalMenu.setVisible( true );
+		Login login = new Login();
+		login.setVisible(true);
 	}
 }
