@@ -24,6 +24,7 @@ import negocio.IReparacionManager;
 import negocio.IRepuestoManager;
 import negocio.IServicioManager;
 import negocio.ITipoDeServicioManager;
+import negocio.IUsuarioManager;
 import negocio.ManoDeObraManager;
 import negocio.MecanicoManager;
 import negocio.ProveedorManager;
@@ -31,6 +32,7 @@ import negocio.ReparacionManager;
 import negocio.RepuestoManager;
 import negocio.ServicioManager;
 import negocio.TipoDeServicioManager;
+import negocio.UsuarioManager;
 
 import persistencia.Automovil;
 import persistencia.Cliente;
@@ -41,6 +43,7 @@ import persistencia.Reparacion;
 import persistencia.Repuesto;
 import persistencia.Servicio;
 import persistencia.TipoDeServicio;
+import persistencia.Usuario;
 
 public class Exportar extends JFileChooser{
 	private static final long serialVersionUID = 1L;
@@ -54,6 +57,7 @@ public class Exportar extends JFileChooser{
 	IServicioManager servicioManager = null;
 	IManoDeObraManager manoDeObraManager = null;
 	IRepuestoManager repuestoManager = null;
+	IUsuarioManager usuarioManager = null;
 	
 	List<Cliente> listaClientes = null;
 	List<Automovil> listaAutomoviles = null;
@@ -64,6 +68,7 @@ public class Exportar extends JFileChooser{
 	List<Servicio> listaServicios = null;
 	List<ManoDeObra> listaManosDeObras = null;
 	List<Repuesto> listaRepuestos = null;
+	List<Usuario> listaUsuarios = null;
 	
 	JFileChooser fileChooser = null;
 	FileNameExtensionFilter filter = null;
@@ -84,6 +89,7 @@ public class Exportar extends JFileChooser{
 		servicioManager = new ServicioManager();
 		manoDeObraManager = new ManoDeObraManager();
 		repuestoManager = new RepuestoManager();
+		usuarioManager = new UsuarioManager();
 		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos SQL", "sql", "text");
 		fileChooser.setFileFilter(filter);
@@ -165,16 +171,22 @@ public class Exportar extends JFileChooser{
         listaServicios.clear();
         
         // imprime la sentencia para agregar las manos de obras
-			inicializarListaManosDeObras();
+		inicializarListaManosDeObras();
         printerWriter.println("\n-- TABLA MANO_DE_OBRA --");
         printerWriter.println(sentenciaManosDeObras());
         listaManosDeObras.clear();
          
-         // imprime la sentencia para agregar los repuestos
-			inicializarListaRepuestos();
-        printerWriter.println("\n-- TABLA REPUESTO --");
-        printerWriter.println(sentenciaRepuestos());
-        listaRepuestos.clear();
+        // imprime la sentencia para agregar los repuestos
+		inicializarListaRepuestos();
+		printerWriter.println("\n-- TABLA REPUESTO --");
+		printerWriter.println(sentenciaRepuestos());
+		listaRepuestos.clear();
+       
+		// imprime la sentencia para agregar los repuestos
+		inicializarListaUsuarios();
+		printerWriter.println("\n-- TABLA USUARIO --");
+		printerWriter.println(sentenciaUsuarios());
+		listaUsuarios.clear();
         
         // imprime las sentencias para setear los últimos números de secuencia
         printerWriter.println("\n-- SETEO DE NUMEROS DE SECUENCIA --");
@@ -185,6 +197,7 @@ public class Exportar extends JFileChooser{
         printerWriter.println(secuenciaServicios());
         printerWriter.println(secuenciaManosDeObras());
         printerWriter.println(secuenciaRepuestos());
+        printerWriter.println(secuenciaUsuarios());
                         
         printerWriter.close();
         super.approveSelection();
@@ -282,6 +295,16 @@ public class Exportar extends JFileChooser{
 
 		try {
 			listaRepuestos = repuestoManager.listaRepuestos(); // obtengo todos los repuestos de la BD
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	void inicializarListaUsuarios() throws Exception{
+		// este metodo inicializa la lista de usuarios
+
+		try {
+			listaUsuarios = usuarioManager.listaUsuarios(); // obtengo todos los usuarios de la BD
 		} catch (Exception e) {
 			throw e;
 		}
@@ -468,6 +491,26 @@ public class Exportar extends JFileChooser{
 		return stringBuilder.toString();
 	}
 	
+	String sentenciaUsuarios(){
+		// este método arma la sentencia que agrega todos los usuarios de la BD
+		
+		Usuario usuario;
+		Iterator<Usuario> iterator = listaUsuarios.iterator();
+		StringBuilder stringBuilder = new StringBuilder();
+		if(!listaUsuarios.isEmpty())
+			stringBuilder.append("INSERT INTO USUARIO (id_usuario, username, password, privilegio, last_login VALUES\n");
+		
+		while (iterator.hasNext()){
+			usuario = iterator.next();
+			stringBuilder.append("('" + usuario.getId_usuario() + "', '" + usuario.getUsername() + "', " + (usuario.getPassword() + ", '" + usuario.getPrivilegio() + "', '" + usuario.getLastLogin() + "')"));
+		
+			if(iterator.hasNext())
+				stringBuilder.append(",\n");
+		}
+		stringBuilder.append(";");
+		return stringBuilder.toString();
+	}
+	
 	String secuenciaClientes() throws Exception{
 		// este método recupera los últimos números de secuencia de la tabla cliente
 		// y devuelve la sentencia correspondiente
@@ -537,6 +580,15 @@ public class Exportar extends JFileChooser{
 		int last_value;
 		last_value = repuestoManager.lastValue() + 1;
 		String sentencia = "ALTER SEQUENCE repuesto_id_repuesto_seq RESTART WITH " + last_value +";";
+		return sentencia;
+	}
+	
+	String secuenciaUsuarios() throws Exception{
+		// este método recupera los últimos números de secuencia de la tabla usuario
+		// y devuelve la sentencia correspondiente
+		int last_value;
+		last_value = usuarioManager.lastValue() + 1;
+		String sentencia = "ALTER SEQUENCE usuario_id_usuario_seq RESTART WITH " + last_value +";";
 		return sentencia;
 	}
 }
