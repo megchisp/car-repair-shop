@@ -90,6 +90,15 @@ CREATE SEQUENCE mano_de_obra_id_mano_de_obra_seq
 ALTER TABLE mano_de_obra_id_mano_de_obra_seq
   OWNER TO postgres;
 
+-- Secuencia usuario
+CREATE SEQUENCE usuario_id_usuario_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 2
+  CACHE 1;
+ALTER TABLE usuario_id_usuario_seq
+  OWNER TO postgres;
 
 ---------------------------- CREACION DE TABLAS ----------------------------------
 
@@ -256,6 +265,17 @@ CREATE TABLE modelo_automoviles
       ON UPDATE RESTRICT ON DELETE CASCADE
 );
 
+-- Tabla usuario 
+CREATE TABLE usuario
+(
+  id_usuario int NOT NULL,
+  username text,
+  password text,
+  privilegio int,
+  last_login date,
+  PRIMARY KEY (id_usuario)
+);
+
 ---------------------------- ASIGNACION DE PROPIETARIO A TABLAS ----------------------------------
 
 ALTER TABLE cliente
@@ -284,5 +304,12 @@ ALTER TABLE servicio
 
 ALTER TABLE mano_de_obra
   OWNER TO postgres;
+  
+ALTER TABLE usuario
+  OWNER TO postgres;
 
+---------------------------- AGREGO USUARIO POR DEFECTO ----------------------------------
+
+INSERT INTO USUARIO (id_usuario, username, password, privilegio, last_login) VALUES
+('1', 'admin', 'c3f8dd55ed53236dce1f9154c36a6b3cd613cfa', '1', '1900-01-01');
  

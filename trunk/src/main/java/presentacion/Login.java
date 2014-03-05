@@ -15,6 +15,7 @@ import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -22,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -40,7 +40,7 @@ public class Login extends JDialog{
 	private JLabel jLabelUsername = null;
     private JLabel jLabelPassword = null;
 
-    private JTextField jTextFieldUsername = null;
+    private JComboBox<String> jComboBoxUsername = null;
     private JPasswordField jTextFieldPassword = null;
 
     private JButton jButtonOk = null;
@@ -88,7 +88,7 @@ public class Login extends JDialog{
 	    p3.add(jLabelPassword);
 	
 	    JPanel p4 = new JPanel(new GridLayout(2, 1,10,10));
-	    p4.add(jTextFieldUsername);
+	    p4.add(jComboBoxUsername);
 	    p4.add(jTextFieldPassword);
 	
 	    JPanel p1 = new JPanel();
@@ -103,7 +103,7 @@ public class Login extends JDialog{
 	    JPanel p5 = new JPanel(new BorderLayout());
 	    p5.add(p2, BorderLayout.CENTER);
 	    p5.add(jLabelStatus, BorderLayout.NORTH);
-	
+	    
 	    setLayout(new BorderLayout());
 	    add(p1, BorderLayout.CENTER);
 	    add(p5, BorderLayout.SOUTH);
@@ -156,9 +156,9 @@ public class Login extends JDialog{
 	
 	private void login(){
         try {
-			if (unUsuarioManager.login(jTextFieldUsername.getText(), jTextFieldPassword.getPassword())) {
+			if (unUsuarioManager.login(jComboBoxUsername.getSelectedItem().toString(), jTextFieldPassword.getPassword())) {
 				this.setVisible(false); // oculto el login
-				usuario = unUsuarioManager.getUsuario(jTextFieldUsername.getText());
+				usuario = unUsuarioManager.getUsuario(jComboBoxUsername.getSelectedItem().toString());
 				principalMenu = new MenuPrincipal(usuario);
 				principalMenu.setVisible( true ); // muestro el menu principal
 			} else {
@@ -183,14 +183,23 @@ public class Login extends JDialog{
 		jLabelUsername = new JLabel("Usuario:  ");
 		jLabelPassword = new JLabel("Contraseña:  ");
 		
-		jTextFieldUsername = new JTextField();
-		jTextFieldUsername.setPreferredSize( new Dimension( 150, 25 ) );
+		jComboBoxUsername = new JComboBox<String>();
+		jComboBoxUsername.addItem("Administrador");
+		jComboBoxUsername.setPreferredSize( new Dimension( 150, 25 ) );
 		jTextFieldPassword = new JPasswordField();
+		jTextFieldPassword.setFocusable(true);
+		
+		// hace que el cursor se posicione en el jTextFieldPassword al iniciar la ventana
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				jTextFieldPassword.requestFocusInWindow();
+			}
+		});
 		
 		// seteo fuentes
 		jLabelUsername.setFont(fontJLabel);
 		jLabelPassword.setFont(fontJLabel);
-		jTextFieldUsername.setFont(new Font("Dialog", Font.BOLD, 11));
+		jComboBoxUsername.setFont(new Font("Dialog", Font.BOLD, 11));
 		
 		// creo el botón aceptar con un ícono
 		ImageIcon imageIconOk = new ImageIcon(resourceLoader.load("/images/menu/ok-icon.png"));

@@ -92,8 +92,7 @@ public class MenuPrincipal extends JFrame {
 	private void inicializar() {
 		menuPrincipal = this;
 		
-		statusBar = new StatusBar();
-		statusBar.setStatus("Usuario: " + usuario.getUsername());
+		statusBar = new StatusBar(usuario);
 		inicializarIconos();
 		inicializarStatusBar();
 		
