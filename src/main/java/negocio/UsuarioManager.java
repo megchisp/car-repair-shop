@@ -20,6 +20,12 @@ public class UsuarioManager implements IUsuarioManager {
 			estadoFinal = usuarioDao.modificarPassword(usuario, hashPassword(oldPassword), hashPassword(newPassword));
 		return estadoFinal;
 	}
+	
+	public int modificar(Usuario usuario) throws Exception{
+		if(true)
+			estadoFinal = usuarioDao.modificar(usuario);
+		return estadoFinal;
+	}
 
 	public boolean login(String username, char[] password) throws Exception {
 		return usuarioDao.login(username, hashPassword(password));

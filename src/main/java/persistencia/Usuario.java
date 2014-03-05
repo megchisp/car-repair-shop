@@ -56,18 +56,10 @@ public class Usuario {
 		this.privilegio = privilegio;
 	}
 
-
-	/**
-	 * @return the lastLogin
-	 */
 	public Calendar getLastLogin() {
 		return lastLogin;
 	}
 
-
-	/**
-	 * @param lastLogin the lastLogin to set
-	 */
 	public void setLastLogin(Calendar lastLogin) {
 		this.lastLogin = lastLogin;
 	}

@@ -37,6 +37,23 @@ public class UsuarioDao implements IUsuarioDao {
 		}
 	}
 
+	public int modificar(Usuario usuario) throws Exception {
+		String queryModificar = "UPDATE Usuario SET last_login = '" + new java.sql.Date(usuario.getLastLogin().getTimeInMillis()) + "' WHERE id_usuario = '" + usuario.getId_usuario() + "';";
+		try{
+			if(!existeUsuario(usuario)) // se verifica que el usuario que se quiere modificar exista en la BD
+				return 2;
+	
+			conn.open(); // abre la conexion
+			conn.execute(queryModificar);
+			conn.close(); // cierra la conexión
+			
+			return 1; // éxito
+			
+		}catch (Exception e){
+			throw e;
+		}
+	}
+	
 	public boolean login(String username, String password) throws Exception {
 		// este método retorna true si el login es exitoso, false caso contrario
 		String query = "SELECT CASE WHEN EXISTS (SELECT * FROM USUARIO WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "') THEN true ELSE false END";
@@ -156,4 +173,5 @@ public class UsuarioDao implements IUsuarioDao {
 			}
 		return last_value;
 	}
+
 }

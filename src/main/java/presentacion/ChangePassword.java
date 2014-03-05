@@ -88,6 +88,7 @@ public class ChangePassword extends JDialog {
 		
 		jPanelChangePassword.add(jPanelDatosPrimarios);
 		jPanelChangePassword.add(jPanelBotones);
+		
 
 		this.getContentPane().add( jPanelChangePassword, BorderLayout.NORTH );
 		
@@ -123,13 +124,6 @@ public class ChangePassword extends JDialog {
 	private void inicializarVariables() {
 		inicializarDatosPrimarios();
 		
-		// hace que el cursor se posicione en el jPasswordFieldOldPassword al iniciar la ventana
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				jPasswordFieldOldPassword.requestFocusInWindow();
-			}
-		});
-		
 		// creo el botón aceptar con un ícono
 		ImageIcon imageIconOk = new ImageIcon(resourceLoader.load("/images/menu/ok-icon.png"));
 		jButtonAceptar = new JButton( " Aceptar",  imageIconOk);
@@ -158,6 +152,15 @@ public class ChangePassword extends JDialog {
 		jPasswordFieldOldPassword.setPreferredSize( new Dimension( 150, 25 ) );
 		jPasswordFieldNewPassword.setPreferredSize( new Dimension( 150, 25 ) );
 		jPasswordFieldNewPasswordAgain.setPreferredSize( new Dimension( 150, 25 ) );
+		
+		jPasswordFieldNewPasswordAgain.addKeyListener(new java.awt.event.KeyAdapter() {  
+	    	// habilita a realizar la búsqueda presionando el boton Enter
+			public void keyPressed(java.awt.event.KeyEvent e) {
+            	 int key = e.getKeyCode();
+                 if (key == java.awt.event.KeyEvent.VK_ENTER)
+                	 aceptarChangePassword();
+	        }
+	    });
 		
 		jPanelDatosPrimarios = new JPanel();
 		jPanelDatosPrimarios.setLayout( new GridBagLayout() );

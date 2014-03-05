@@ -502,7 +502,7 @@ public class Exportar extends JFileChooser{
 		
 		while (iterator.hasNext()){
 			usuario = iterator.next();
-			stringBuilder.append("('" + usuario.getId_usuario() + "', '" + usuario.getUsername() + "', " + (usuario.getPassword() + ", '" + usuario.getPrivilegio() + "', '" + usuario.getLastLogin() + "')"));
+			stringBuilder.append("('" + usuario.getId_usuario() + "', '" + usuario.getUsername() + "', " + (usuario.getPassword() + ", '" + usuario.getPrivilegio() + "', '" + new java.sql.Date(	usuario.getLastLogin().getTimeInMillis()) + "')"));
 		
 			if(iterator.hasNext())
 				stringBuilder.append(",\n");
