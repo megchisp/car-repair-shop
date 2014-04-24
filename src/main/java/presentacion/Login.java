@@ -3,8 +3,8 @@ package presentacion;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -82,18 +82,11 @@ public class Login extends JDialog{
 		
 		aplicaSkin();
 		inicializar();
-		
-	    JPanel p3 = new JPanel(new GridLayout(2, 1,10,10));
-	    p3.add(jLabelUsername);
-	    p3.add(jLabelPassword);
-	
-	    JPanel p4 = new JPanel(new GridLayout(2, 1,10,10));
-	    p4.add(jComboBoxUsername);
-	    p4.add(jTextFieldPassword);
 	
 	    JPanel p1 = new JPanel();
-	    p1.add(p3);
-	    p1.add(p4);
+	    p1.setLayout( new FlowLayout(1, 0, 15));
+	    p1.add(jLabelPassword);
+	    p1.add(jTextFieldPassword);
 	
 	    JPanel p2 = new JPanel();
 	    p2.setPreferredSize(new Dimension(250,50));
@@ -109,7 +102,7 @@ public class Login extends JDialog{
 	    add(p5, BorderLayout.SOUTH);
 	    pack();
 	    setLocationRelativeTo(null);
-	    setSize( new Dimension( 280, 175 ) );
+	    setSize( new Dimension( 280, 150 ) );
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    setTitle( "Login" );
 	    
@@ -156,9 +149,10 @@ public class Login extends JDialog{
 	
 	private void login(){
         try {
-			if (unUsuarioManager.login(jComboBoxUsername.getSelectedItem().toString(), jTextFieldPassword.getPassword())) {
-				this.setVisible(false); // oculto el login
-				usuario = unUsuarioManager.getUsuario(jComboBoxUsername.getSelectedItem().toString());
+			if (unUsuarioManager.login("admin", jTextFieldPassword.getPassword())) {
+
+        	this.setVisible(false); // oculto el login
+				usuario = unUsuarioManager.getUsuario("admin");
 				principalMenu = new MenuPrincipal(usuario);
 				principalMenu.setVisible( true ); // muestro el menu principal
 			} else {
@@ -187,6 +181,7 @@ public class Login extends JDialog{
 		jComboBoxUsername.addItem("Administrador");
 		jComboBoxUsername.setPreferredSize( new Dimension( 150, 25 ) );
 		jTextFieldPassword = new JPasswordField();
+		jTextFieldPassword.setPreferredSize( new Dimension( 150, 25 ) );
 		jTextFieldPassword.setFocusable(true);
 		
 		// hace que el cursor se posicione en el jTextFieldPassword al iniciar la ventana

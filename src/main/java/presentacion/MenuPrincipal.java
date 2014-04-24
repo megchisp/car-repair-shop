@@ -325,11 +325,11 @@ public class MenuPrincipal extends JFrame {
 			jMenuHerramientas = new JMenu();
 			jMenuHerramientas.setText( "Herramientas" );
 			jMenuHerramientas.setMnemonic(KeyEvent.VK_H);
-			jMenuHerramientas.add(jMenuItemTransferirAutomovil).addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-
-				}
-			});
+//			jMenuHerramientas.add(jMenuItemTransferirAutomovil).addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//
+//				}
+//			});
 			jMenuHerramientas.add(jMenuItemChangePassword).addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new ChangePassword(menuPrincipal, "Cambiar contraseña", "Cambio de contraseña", usuario);

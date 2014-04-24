@@ -30,7 +30,7 @@ class StatusBar extends JPanel
 		statusLabel.setFont(new Font("Dialog", Font.BOLD, 11));
 		statusLabel.setBorder(BorderFactory.createLoweredBevelBorder()); 
 		statusLabel.setForeground(Color.black);
-		statusLabel.setText(" Usuario: " + usuario.getUsername());
+		statusLabel.setText(" Version 1.0.0 ");
 		add(BorderLayout.CENTER, statusLabel); 
 		JLabel dummyLabel = new JLabel(" Último acceso: " + formatDate() + " ");
 		dummyLabel.setFont(new Font("Dialog", Font.BOLD, 11));
