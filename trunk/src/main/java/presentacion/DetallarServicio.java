@@ -384,7 +384,7 @@ public class DetallarServicio extends JDialog {
 		JTableHeader jTableHeader = jTableManosDeObra.getTableHeader();
 		jTableHeader.setBackground(new Color(236,243,255));
 		scrollManosDeObra = new JScrollPane(jTableManosDeObra);
-		jTableManosDeObra.setPreferredScrollableViewportSize(new Dimension(570,95));
+		jTableManosDeObra.setPreferredScrollableViewportSize(new Dimension(560,85));
 		scrollManosDeObra.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		// configuro el doble click sobre la fila
@@ -432,7 +432,7 @@ public class DetallarServicio extends JDialog {
 		JTableHeader jTableHeader2 = jTableRepuestos.getTableHeader();
 		jTableHeader2.setBackground(new Color(236,243,255));
 		scrollRepuestos = new JScrollPane(jTableRepuestos);
-		jTableRepuestos.setPreferredScrollableViewportSize(new Dimension(570,95));
+		jTableRepuestos.setPreferredScrollableViewportSize(new Dimension(560,85));
 		scrollRepuestos.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		// configuro el doble click sobre la fila
@@ -779,10 +779,11 @@ public class DetallarServicio extends JDialog {
 		return importe;
 	}
 
-	/* funcion que toma los importes de cada repuesto en forma de string, los 
-	 * convierte a double para sumarlos y los vuelve a convertir a string para mostrar el importe
-	 * de la reparación */
 	double calcula_importe_Repuestos(){
+		/* funcion que toma los importes de cada repuesto en forma de string, los 
+		 * convierte a double para sumarlos y los vuelve a convertir a string para mostrar el importe
+		 * de la reparación */
+		
 		double importe = 0;
 		NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
 		Number number = null;

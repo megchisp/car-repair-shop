@@ -82,8 +82,8 @@ public class UsuarioDao implements IUsuarioDao {
 		try{
 			conn.open(); // abre la conexion
 			resultado = conn.query(query);
-			resultado.next();
-			usuario = new Usuario(resultado.getInt("id_usuario"), resultado.getString("username"), resultado.getString("password"), resultado.getInt("privilegio") ,resultado.getDate("last_login"));
+			if(resultado.next()) // nunca tendria que dar false
+				usuario = new Usuario(resultado.getInt("id_usuario"), resultado.getString("username"), resultado.getString("password"), resultado.getInt("privilegio") ,resultado.getDate("last_login"));
 			conn.close(); // cierra la conexión
 			} 
 			catch(Exception e) 

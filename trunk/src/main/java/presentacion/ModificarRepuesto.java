@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -191,7 +192,7 @@ public class ModificarRepuesto extends JDialog {
 
 	OperationDelegate modificarAgregarRepuesto = new OperationDelegate() {
 		public void invoke() {
-			modificarAgregarRepuesto();
+			modificarRepuesto();
 		}
 	};
 
@@ -289,9 +290,9 @@ public class ModificarRepuesto extends JDialog {
 	}
 	
     private void setUpFormats() {
-        amountDisplayFormat = NumberFormat.getCurrencyInstance();
+        amountDisplayFormat = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
 //        amountDisplayFormat.setMinimumFractionDigits(2);
-        amountEditFormat = NumberFormat.getNumberInstance();
+        amountEditFormat = NumberFormat.getNumberInstance(new Locale("es", "AR"));
     }
     
     private boolean characterVaryingExceeded(){
@@ -318,12 +319,12 @@ public class ModificarRepuesto extends JDialog {
 	
 	}
     
-    private void modificarAgregarRepuesto() {
+    private void modificarRepuesto() {
 		
     	int option = 0;
 		if( validarDatos() && characterVaryingExceeded() ) {
 			double precio_unitario = 0;
-			NumberFormat formatter = NumberFormat.getCurrencyInstance();
+			NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
 			Number number = null;
 			try{
 				number = formatter.parse(jTextFieldPrecioUnitario.getText().trim());
@@ -387,8 +388,9 @@ public class ModificarRepuesto extends JDialog {
 
 		detallarServicio.dtmRepuestos.setValueAt(repuesto.getNombre(), filaSeleccionada, 1);
 		detallarServicio.dtmRepuestos.setValueAt(jComboBoxProveedor.getSelectedIndex() == 0 ? "< sin especificar >" : (listaProveedores.get(jComboBoxProveedor.getSelectedIndex() - 1).getNombre() ), filaSeleccionada, 2);
-		detallarServicio.dtmRepuestos.setValueAt((repuesto.getObservaciones().isEmpty() ? "" : "\u2713"),filaSeleccionada ,5);
 		detallarServicio.dtmRepuestos.setValueAt(amountDisplayFormat.format(repuesto.getPrecioUnitario()), filaSeleccionada, 3);
+		detallarServicio.dtmRepuestos.setValueAt(Integer.toString(repuesto.getCantidad()), filaSeleccionada, 4);
+		detallarServicio.dtmRepuestos.setValueAt((repuesto.getObservaciones().isEmpty() ? "" : "\u2713"),filaSeleccionada ,5);
 		detallarServicio.dtmRepuestos.setValueAt(amountDisplayFormat.format(repuesto.getPrecioUnitario() * repuesto.getCantidad()), filaSeleccionada, 6);
 	
 	}

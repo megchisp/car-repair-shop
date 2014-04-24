@@ -16,6 +16,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -311,9 +312,9 @@ public class AgregarRepuesto extends JDialog {
 	//Create and set up number formats. These objects also
 	//parse numbers input by user.
 	private void setUpFormats() {
-		amountDisplayFormat = NumberFormat.getCurrencyInstance();
+		amountDisplayFormat = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
 		//     amountDisplayFormat.setMinimumFractionDigits(2);
-		amountEditFormat = NumberFormat.getNumberInstance();
+		amountEditFormat = NumberFormat.getNumberInstance(new Locale("es", "AR"));
 	}
  
 	private boolean characterVaryingExceeded(){

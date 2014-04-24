@@ -425,7 +425,7 @@ public class DetallarReparacion extends JDialog {
 		JTableHeader jTableHeaderHeader = jTableServiciosReparacion.getTableHeader();
 		jTableHeaderHeader.setBackground(new Color(236,243,255));
 		jScrollPaneServiciosReparacion = new JScrollPane(jTableServiciosReparacion);
-		jTableServiciosReparacion.setPreferredScrollableViewportSize(new Dimension(380,100));
+		jTableServiciosReparacion.setPreferredScrollableViewportSize(new Dimension(380,95));
 		jScrollPaneServiciosReparacion.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		jTableServiciosReparacion.addMouseListener(new MouseAdapter() {

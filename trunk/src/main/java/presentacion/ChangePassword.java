@@ -153,6 +153,13 @@ public class ChangePassword extends JDialog {
 		jPasswordFieldNewPassword.setPreferredSize( new Dimension( 150, 25 ) );
 		jPasswordFieldNewPasswordAgain.setPreferredSize( new Dimension( 150, 25 ) );
 		
+		// hace que el cursor se posicione en el jPasswordFieldOldPassword al iniciar la ventana
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				jPasswordFieldOldPassword.requestFocusInWindow();
+			}
+		});
+		
 		jPasswordFieldNewPasswordAgain.addKeyListener(new java.awt.event.KeyAdapter() {  
 	    	// habilita a realizar la búsqueda presionando el boton Enter
 			public void keyPressed(java.awt.event.KeyEvent e) {

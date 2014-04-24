@@ -190,7 +190,7 @@ public class ModificarManoDeObra extends JDialog {
 
 	OperationDelegate modificarAgregarManoDeObra = new OperationDelegate() {
 		public void invoke() {
-			modificarAgregarManoDeObra();
+			modificarManoDeObra();
 		}
 	};
 
@@ -298,7 +298,7 @@ public class ModificarManoDeObra extends JDialog {
         amountEditFormat = NumberFormat.getNumberInstance(new Locale("es", "AR"));
     }
 	
-	private void modificarAgregarManoDeObra() {
+	private void modificarManoDeObra() {
 		int option = 0;
 		if( validarDatos() && characterVaryingExceeded() ) {
 			

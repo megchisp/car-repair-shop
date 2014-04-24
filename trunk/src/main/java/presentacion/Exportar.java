@@ -498,11 +498,11 @@ public class Exportar extends JFileChooser{
 		Iterator<Usuario> iterator = listaUsuarios.iterator();
 		StringBuilder stringBuilder = new StringBuilder();
 		if(!listaUsuarios.isEmpty())
-			stringBuilder.append("INSERT INTO USUARIO (id_usuario, username, password, privilegio, last_login VALUES\n");
+			stringBuilder.append("INSERT INTO USUARIO (id_usuario, username, password, privilegio, last_login) VALUES\n");
 		
 		while (iterator.hasNext()){
 			usuario = iterator.next();
-			stringBuilder.append("('" + usuario.getId_usuario() + "', '" + usuario.getUsername() + "', " + (usuario.getPassword() + ", '" + usuario.getPrivilegio() + "', '" + new java.sql.Date(	usuario.getLastLogin().getTimeInMillis()) + "')"));
+			stringBuilder.append("('" + usuario.getId_usuario() + "', '" + usuario.getUsername() + "', '" + (usuario.getPassword() + "', '" + usuario.getPrivilegio() + "', '" + new java.sql.Date(	usuario.getLastLogin().getTimeInMillis()) + "')"));
 		
 			if(iterator.hasNext())
 				stringBuilder.append(",\n");
