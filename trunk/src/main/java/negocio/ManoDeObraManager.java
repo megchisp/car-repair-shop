@@ -23,10 +23,10 @@ public class ManoDeObraManager implements IManoDeObraManager {
 	}
 
 	private boolean validarDatos(ManoDeObra manoDeObra) {
-		if( manoDeObra.getPrecio() <= 0 ){
-			estadoFinal = 2;
-			return false;
-		}
+//		if( manoDeObra.getPrecio() <= 0 ){
+//			estadoFinal = 2;
+//			return false;
+//		}
 		return true;
 	}
 

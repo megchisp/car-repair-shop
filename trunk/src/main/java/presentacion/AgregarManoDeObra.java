@@ -46,7 +46,6 @@ import negocio.MecanicoManager;
 import persistencia.ManoDeObra;
 import persistencia.Mecanico;
 import persistencia.Servicio;
-import presentacion.JTextFieldOfLetters;
 import presentacion.jTextAreaKeyListener;
 
 public class AgregarManoDeObra extends JDialog {
@@ -60,7 +59,7 @@ public class AgregarManoDeObra extends JDialog {
 	JLabel jLabelObservaciones = null;
 	JLabel jLabelMecanico = null;
 
-	JTextFieldOfLetters jTextFieldNombre = null;
+	JTextFieldUpperCased jTextFieldNombre = null;
 	JFormattedTextField jTextFieldPrecio = null;
 	JComboBox<String> jComboBoxMecanico = null;
 	
@@ -209,7 +208,7 @@ public class AgregarManoDeObra extends JDialog {
 		
 		jLabelNombre = new JLabel( "Nombre: " );
 		jLabelNombre.setPreferredSize( new Dimension( 57, 25 ) );
-		jTextFieldNombre = new JTextFieldOfLetters();
+		jTextFieldNombre = new JTextFieldUpperCased();
 		jTextFieldNombre.setText( " < Cambio de aceite >" );
 		jTextFieldNombre.setForeground( Color.GRAY );
 		jTextFieldNombre.setPreferredSize( new Dimension( 170, 25 ) ); // 204, 25
@@ -345,7 +344,7 @@ public class AgregarManoDeObra extends JDialog {
 					this.dispose();
 					
 					break;
-				case 2:
+				case 2: // este caso se elimino en capa negocio
 					JOptionPane.showMessageDialog( this, "El precio debe ser mayor a cero", "Campo mal ingresado", JOptionPane.ERROR_MESSAGE );
 					jTextFieldPrecio.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 					jTextFieldPrecio.addFocusListener( new JTextFieldFocusListener( jTextFieldPrecio ) );
@@ -367,7 +366,7 @@ public class AgregarManoDeObra extends JDialog {
 	private boolean characterVaryingExceeded(){
 		int cont = 0;
 
-		if(jTextFieldNombre.getText().trim().length() > 25){
+		if(jTextFieldNombre.getText().trim().length() > 50){
 			jTextFieldNombre.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 			jTextFieldNombre.addFocusListener( new JTextFieldFocusListener( jTextFieldNombre ) );
 			cont++;

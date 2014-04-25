@@ -208,7 +208,7 @@ public class ModificarRepuesto extends JDialog {
 		
 		jLabelNombre = new JLabel( "Nombre: " );
 		jLabelNombre.setPreferredSize( new Dimension( 53, 25 ) );
-		jTextFieldNombre = new JTextFieldOfLetters();
+		jTextFieldNombre = new JTextFieldUpperCased();
 		jTextFieldNombre.setText( repuesto.getNombre() );
 		jTextFieldNombre.setPreferredSize( new Dimension( 327, 25 ) );
 		
@@ -298,7 +298,7 @@ public class ModificarRepuesto extends JDialog {
     private boolean characterVaryingExceeded(){
 		int cont = 0;
 
-		if(jTextFieldNombre.getText().trim().length() > 25){
+		if(jTextFieldNombre.getText().trim().length() > 50){
 			jTextFieldNombre.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 			jTextFieldNombre.addFocusListener( new JTextFieldFocusListener( jTextFieldNombre ) );
 			cont++;
@@ -365,7 +365,7 @@ public class ModificarRepuesto extends JDialog {
 				this.dispose();
 
 				break;
-			case 2:
+			case 2: // este caso se elimino en capa negocio
 				JOptionPane.showMessageDialog( this, "El precio debe ser mayor a cero", "Campo mal ingresado", JOptionPane.ERROR_MESSAGE );
 				jTextFieldPrecioUnitario.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 				jTextFieldPrecioUnitario.addFocusListener( new JTextFieldFocusListener( jTextFieldPrecioUnitario ) );
