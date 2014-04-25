@@ -59,7 +59,7 @@ public class AgregarRepuesto extends JDialog {
 	JLabel jLabelObservaciones = null;
 	JLabel jLabelProveedor = null;
 	
-	JTextFieldOfLetters jTextFieldNombre = null;
+	JTextFieldUpperCased jTextFieldNombre = null;
 	JFormattedTextField jTextFieldPrecioUnitario = null;
 	JTextFieldOfNumbers jTextFieldCantidad = null;
 	JComboBox<String> jComboBoxProveedor = null;
@@ -208,7 +208,7 @@ public class AgregarRepuesto extends JDialog {
 		
 		jLabelNombre = new JLabel( "Nombre: " );
 		jLabelNombre.setPreferredSize( new Dimension( 53, 25 ) );
-		jTextFieldNombre = new JTextFieldOfLetters();
+		jTextFieldNombre = new JTextFieldUpperCased();
 		jTextFieldNombre.setPreferredSize( new Dimension( 327, 25 ) );
 		jTextFieldNombre.setText( " < Óptica izquierda delantera >" );
 		jTextFieldNombre.setForeground( Color.GRAY );
@@ -320,7 +320,7 @@ public class AgregarRepuesto extends JDialog {
 	private boolean characterVaryingExceeded(){
 		int cont = 0;
 
-		if(jTextFieldNombre.getText().trim().length() > 25){
+		if(jTextFieldNombre.getText().trim().length() > 50){
 			jTextFieldNombre.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 			jTextFieldNombre.addFocusListener( new JTextFieldFocusListener( jTextFieldNombre ) );
 			cont++;
