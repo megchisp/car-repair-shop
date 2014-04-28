@@ -11,12 +11,9 @@ public class Repuesto {
 	
 	private double precioUnitario;
 	
-	private int cantidad;
+	private double cantidad;
 	
 	private String observaciones;
-	
-
-
 	
 	
 	public Repuesto() {
@@ -24,7 +21,7 @@ public class Repuesto {
 	}
 
 	public Repuesto(int id_repuesto, int id_proveedor, int id_servicio,
-			String nombre, double precioUnitario, int cantidad, String observaciones) {
+			String nombre, double precioUnitario, double cantidad, String observaciones) {
 		
 		super();
 		this.id_repuesto = id_repuesto;
@@ -84,11 +81,11 @@ public class Repuesto {
 		this.observaciones = observaciones;
 	}
 
-	public int getCantidad() {
+	public double getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(int cantidad) {
+	public void setCantidad(double cantidad) {
 		this.cantidad = cantidad;
 	}
 
