@@ -97,7 +97,7 @@ public class Exportar extends JFileChooser{
 		int userSelection = fileChooser.showSaveDialog(this);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			try {
-				final WaitDialog waitDialog = new WaitDialog("Exportando la base de datos...");
+				final WaitDialog waitDialog = new WaitDialog("Exportando base de datos...");
     			SwingWorker<?,?> worker = new SwingWorker<Void,Void>(){
     				protected Void doInBackground() throws Exception{
     					escribirEnArchivo();
@@ -194,6 +194,7 @@ public class Exportar extends JFileChooser{
         printerWriter.println(secuenciaAutomoviles());
         printerWriter.println(secuenciaReparaciones());
         printerWriter.println(secuenciaTiposDeServicios());
+        printerWriter.println(secuenciaProveedores());
         printerWriter.println(secuenciaServicios());
         printerWriter.println(secuenciaManosDeObras());
         printerWriter.println(secuenciaRepuestos());

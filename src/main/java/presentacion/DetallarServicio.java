@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Iterator;
@@ -733,6 +734,7 @@ public class DetallarServicio extends JDialog {
 	private void completar_tabla_repuesto(Iterator<Repuesto> iteratorRepuesto){
 		Repuesto repuesto;
 		NumberFormat formatterRepuesto = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
+		NumberFormat formatterDecimal = DecimalFormat.getInstance(new Locale("es", "AR"));
 		IProveedorManager proveedorManager = new ProveedorManager();
 		
 		while (iteratorRepuesto.hasNext()){
@@ -740,7 +742,7 @@ public class DetallarServicio extends JDialog {
 			String id_repuesto = Integer.toString(repuesto.getId_repuesto());
 			String nombre = repuesto.getNombre();
 			String precio_unitario = formatterRepuesto.format(repuesto.getPrecioUnitario());
-			String cantidad = Integer.toString(repuesto.getCantidad());
+			String cantidad = formatterDecimal.format(repuesto.getCantidad());
 			String precio_total = formatterRepuesto.format(repuesto.getPrecioUnitario() * repuesto.getCantidad());
 			String conObservaciones = repuesto.getObservaciones().isEmpty() ? "" : "\u2713";
 			String proveedor;

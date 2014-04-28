@@ -79,7 +79,7 @@ public class RepuestoDao  implements IRepuestoDao{
 			resultado = conn.query(query);
 
 			while(resultado.next()){
-				repuestos = new Repuesto(resultado.getInt("id_repuesto"), resultado.getInt("id_proveedor"), resultado.getInt("id_servicio"), resultado.getString("nombre"), resultado.getDouble("precio_unitario"), resultado.getInt("cantidad"), resultado.getString("observaciones"));
+				repuestos = new Repuesto(resultado.getInt("id_repuesto"), resultado.getInt("id_proveedor"), resultado.getInt("id_servicio"), resultado.getString("nombre"), resultado.getDouble("precio_unitario"), resultado.getDouble("cantidad"), resultado.getString("observaciones"));
 				listaRepuestos.add(repuestos);
 			}
 			conn.close(); // cierra la conexión
@@ -104,7 +104,7 @@ public class RepuestoDao  implements IRepuestoDao{
 			resultado = conn.query(query);
 
 			while(resultado.next()){
-				repuesto = new Repuesto(resultado.getInt("id_repuesto"), resultado.getInt("id_proveedor"), resultado.getInt("id_servicio"),resultado.getString("nombre"), resultado.getDouble("precio_unitario"), resultado.getInt("cantidad"), resultado.getString("observaciones"));
+				repuesto = new Repuesto(resultado.getInt("id_repuesto"), resultado.getInt("id_proveedor"), resultado.getInt("id_servicio"),resultado.getString("nombre"), resultado.getDouble("precio_unitario"), resultado.getDouble("cantidad"), resultado.getString("observaciones"));
 				listaRepuestos.add(repuesto);
 			}
 			conn.close(); // cierra la conexión

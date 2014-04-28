@@ -12,6 +12,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class ModificarRepuesto extends JDialog {
 	
 	JTextFieldUpperCased jTextFieldNombre = null;
 	JFormattedTextField jTextFieldPrecioUnitario = null;
-	JTextFieldOfNumbers jTextFieldCantidad = null;
+	JFormattedTextField jTextFieldCantidad = null;
 	JComboBox<String> jComboBoxProveedor = null;
 	
 	JTextArea jTextAreaObservaciones = null;
@@ -82,6 +83,7 @@ public class ModificarRepuesto extends JDialog {
     //Formats to format and parse numbers
     private NumberFormat amountDisplayFormat = null;
     private NumberFormat amountEditFormat = null;
+    private NumberFormat formatterDecimal = DecimalFormat.getInstance(new Locale("es", "AR"));
 	
 	ResourceLoader resourceLoader = new ResourceLoader();
 
@@ -248,8 +250,33 @@ public class ModificarRepuesto extends JDialog {
 		
 		jLabelCantidad = new JLabel( "Cantidad: " );
 		jLabelCantidad.setPreferredSize( dimensionLabel );
-		jTextFieldCantidad = new JTextFieldOfNumbers();
-		jTextFieldCantidad.setText( Integer.toString(repuesto.getCantidad()) );
+		
+		jTextFieldCantidad = new JFormattedTextField((DecimalFormat) DecimalFormat.getInstance(new Locale("es", "AR")));
+		jTextFieldCantidad.setPreferredSize( new Dimension( 65, 25 ) );
+		jTextFieldCantidad.setFont(new Font("Dialog", Font.BOLD, 11));
+		jTextFieldCantidad.addKeyListener(new java.awt.event.KeyAdapter() {  
+            // selecciona el boton aceptar cuando se presiona Enter en el jTextFieldCantidad, para que parsee de double a string
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == java.awt.event.KeyEvent.VK_ENTER) {
+            		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            			public void run() {
+            				jButtonAceptar.requestFocusInWindow();
+            			}
+            		});
+                }
+                // cambia el punto (del teclado numerico) por la coma
+                if (key == 110) {
+            		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            			public void run() {
+            				jTextFieldCantidad.setText((jTextFieldCantidad.getText()).substring(0, jTextFieldCantidad.getText().length()-1) + ",");
+            			}
+            		});
+                }
+            }
+        }); 
+		
+		jTextFieldCantidad.setText( formatterDecimal.format(repuesto.getCantidad()) );
 		jTextFieldCantidad.setPreferredSize( new Dimension( 27, 25 ) );
 		
 		jLabelObservaciones = new JLabel( "Observaciones: " );
@@ -310,6 +337,12 @@ public class ModificarRepuesto extends JDialog {
 			cont++;
 		}
 		
+		if (jTextFieldCantidad.getText().trim().length() > 3) {
+			jTextFieldCantidad.setBorder(BorderFactory.createLineBorder(Color.RED));
+			jTextFieldCantidad.addFocusListener(new JTextFieldFocusListener(jTextFieldCantidad));
+			cont++;
+		}
+		
 		if( cont > 0 )
 		{
 			JOptionPane.showMessageDialog( this, "Uno o más campos se encuentran excediendo el tamaño máximo permitido", "Campo excedido", JOptionPane.ERROR_MESSAGE );
@@ -324,10 +357,12 @@ public class ModificarRepuesto extends JDialog {
     	int option = 0;
 		if( validarDatos() && characterVaryingExceeded() ) {
 			double precio_unitario = 0;
+			double cantidad = 0;
 			NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
 			Number number = null;
 			try{
 				number = formatter.parse(jTextFieldPrecioUnitario.getText().trim());
+				cantidad = formatterDecimal.parse(jTextFieldCantidad.getText().trim()).doubleValue();
 			}
 			catch (ParseException e)  
 			{  
@@ -338,7 +373,7 @@ public class ModificarRepuesto extends JDialog {
 			// almacena el precio total del repuesto/s una vez presionado el boton Aceptar
 			repuesto.setNombre( jTextFieldNombre.getText().trim() );
 			repuesto.setPrecioUnitario( precio_unitario );
-			repuesto.setCantidad(Integer.parseInt(jTextFieldCantidad.getText().trim()));
+			repuesto.setCantidad(cantidad);
 			repuesto.setObservaciones(jTextAreaObservaciones.getText());
 			
 			if(jComboBoxProveedor.getSelectedIndex() == 0)
@@ -384,12 +419,14 @@ public class ModificarRepuesto extends JDialog {
 	}
     
     private void actualizarDetallarServicio(){
+		NumberFormat formatterDecimal = DecimalFormat.getInstance(new Locale("es", "AR"));
+
 		int filaSeleccionada = detallarServicio.jTableRepuestos.getSelectedRow();
 
 		detallarServicio.dtmRepuestos.setValueAt(repuesto.getNombre(), filaSeleccionada, 1);
 		detallarServicio.dtmRepuestos.setValueAt(jComboBoxProveedor.getSelectedIndex() == 0 ? "< sin especificar >" : (listaProveedores.get(jComboBoxProveedor.getSelectedIndex() - 1).getNombre() ), filaSeleccionada, 2);
 		detallarServicio.dtmRepuestos.setValueAt(amountDisplayFormat.format(repuesto.getPrecioUnitario()), filaSeleccionada, 3);
-		detallarServicio.dtmRepuestos.setValueAt(Integer.toString(repuesto.getCantidad()), filaSeleccionada, 4);
+		detallarServicio.dtmRepuestos.setValueAt(formatterDecimal.format(repuesto.getCantidad()), filaSeleccionada, 4);
 		detallarServicio.dtmRepuestos.setValueAt((repuesto.getObservaciones().isEmpty() ? "" : "\u2713"),filaSeleccionada ,5);
 		detallarServicio.dtmRepuestos.setValueAt(amountDisplayFormat.format(repuesto.getPrecioUnitario() * repuesto.getCantidad()), filaSeleccionada, 6);
 	
@@ -422,6 +459,7 @@ public class ModificarRepuesto extends JDialog {
 		
 		jTextFields.add( jTextFieldNombre );
 		jTextFields.add( jTextFieldPrecioUnitario );
+		jTextFields.add( jTextFieldCantidad );
 		
 		for( JTextField jTextField : jTextFields )
 			cont += isEmpty( jTextField );
