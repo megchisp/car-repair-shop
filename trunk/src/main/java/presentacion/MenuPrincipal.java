@@ -246,7 +246,7 @@ public class MenuPrincipal extends JFrame {
 		jToolbar.addSeparator();
 		jToolbar.add(jButtonExit);
 		jToolbar.setAlignmentX(0);
-		
+
 		// action listeners
 		jButtonMostrarCumpleanios.addActionListener(new ActionListener() {
 			
