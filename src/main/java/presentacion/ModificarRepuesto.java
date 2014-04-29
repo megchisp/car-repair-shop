@@ -252,7 +252,6 @@ public class ModificarRepuesto extends JDialog {
 		jLabelCantidad.setPreferredSize( dimensionLabel );
 		
 		jTextFieldCantidad = new JFormattedTextField((DecimalFormat) DecimalFormat.getInstance(new Locale("es", "AR")));
-		jTextFieldCantidad.setPreferredSize( new Dimension( 65, 25 ) );
 		jTextFieldCantidad.setFont(new Font("Dialog", Font.BOLD, 11));
 		jTextFieldCantidad.addKeyListener(new java.awt.event.KeyAdapter() {  
             // selecciona el boton aceptar cuando se presiona Enter en el jTextFieldCantidad, para que parsee de double a string
@@ -275,9 +274,9 @@ public class ModificarRepuesto extends JDialog {
                 }
             }
         }); 
-		
+
 		jTextFieldCantidad.setText( formatterDecimal.format(repuesto.getCantidad()) );
-		jTextFieldCantidad.setPreferredSize( new Dimension( 27, 25 ) );
+		jTextFieldCantidad.setPreferredSize( new Dimension( 35, 25 ) );
 		
 		jLabelObservaciones = new JLabel( "Observaciones: " );
 		jLabelObservaciones.setPreferredSize( new Dimension( 380, 25) );
@@ -337,7 +336,7 @@ public class ModificarRepuesto extends JDialog {
 			cont++;
 		}
 		
-		if (jTextFieldCantidad.getText().trim().length() > 3) {
+		if (jTextFieldCantidad.getText().trim().length() > 4) {
 			jTextFieldCantidad.setBorder(BorderFactory.createLineBorder(Color.RED));
 			jTextFieldCantidad.addFocusListener(new JTextFieldFocusListener(jTextFieldCantidad));
 			cont++;

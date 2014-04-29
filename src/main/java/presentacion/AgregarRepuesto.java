@@ -273,7 +273,6 @@ public class AgregarRepuesto extends JDialog {
 
 		jTextFieldCantidad = new JFormattedTextField(
 				(DecimalFormat) formatterDecimal);
-		jTextFieldCantidad.setPreferredSize(new Dimension(65, 25));
 		jTextFieldCantidad.setFont(new Font("Dialog", Font.BOLD, 11));
 		jTextFieldCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
 			// selecciona el boton aceptar cuando se presiona Enter en el
@@ -300,7 +299,7 @@ public class AgregarRepuesto extends JDialog {
 				}
 			}
 		});
-		jTextFieldCantidad.setPreferredSize(new Dimension(27, 25));
+		jTextFieldCantidad.setPreferredSize(new Dimension(35, 25));
 		jTextFieldCantidad.setText("1");
 
 		jLabelObservaciones = new JLabel("Observaciones: ");
@@ -379,7 +378,7 @@ public class AgregarRepuesto extends JDialog {
 			cont++;
 		}
 		
-		if (jTextFieldCantidad.getText().trim().length() > 3) {
+		if (jTextFieldCantidad.getText().trim().length() > 4) {
 			jTextFieldCantidad.setBorder(BorderFactory.createLineBorder(Color.RED));
 			jTextFieldCantidad.addFocusListener(new JTextFieldFocusListener(jTextFieldCantidad));
 			cont++;
