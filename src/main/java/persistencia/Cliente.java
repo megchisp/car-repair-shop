@@ -8,6 +8,7 @@ public class Cliente {
 	private int id_cliente;
 	private String cuit;
 	private Calendar fechaDeNacimiento;
+	private boolean booleanHabilitaFechaDeNacimiento;
 	private boolean fallecido;
 	private String nombre;
 	private String apellido;
@@ -42,6 +43,15 @@ public class Cliente {
 
 	public void setNombre( String nombre ) {
 		this.nombre = nombre;
+	}
+
+	public boolean isBooleanHabilitaFechaDeNacimiento() {
+		return booleanHabilitaFechaDeNacimiento;
+	}
+
+	public void setBooleanHabilitaFechaDeNacimiento(
+			boolean booleanHabilitaFechaDeNacimiento) {
+		this.booleanHabilitaFechaDeNacimiento = booleanHabilitaFechaDeNacimiento;
 	}
 
 	public boolean isFallecido() {
@@ -112,7 +122,7 @@ public class Cliente {
 		super();
 	}
 	
-	public Cliente(int id_cliente, String cuit, Date date, boolean fallecido, String nombre, String apellido, String telefono, String celular, String domicilio, String localidad, String codigoPostal, String email, String observaciones ) {
+	public Cliente(int id_cliente, String cuit, Date date, boolean booleanHabilitaFechaDeNacimiento , boolean fallecido, String nombre, String apellido, String telefono, String celular, String domicilio, String localidad, String codigoPostal, String email, String observaciones ) {
 		super();
 
 		Calendar myCal = new GregorianCalendar();
@@ -121,6 +131,7 @@ public class Cliente {
 		this.id_cliente = id_cliente;
 		this.cuit = cuit;
 		this.fechaDeNacimiento = myCal;
+		this.booleanHabilitaFechaDeNacimiento = booleanHabilitaFechaDeNacimiento;
 		this.fallecido = fallecido;
 		this.nombre = nombre;
 		this.apellido = apellido;

@@ -43,9 +43,9 @@ public class ModificarProveedor extends JDialog {
 	JLabel jLabelTelefono = null;
 	JLabel jLabelTelefonoAlternativo = null;
 	
-	JTextField jTextFieldNombre = null;
-	JTextField jTextFieldTelefono = null;
-	JTextField jTextFieldTelefonoAlternativo = null;
+	JTextFieldUpperCased jTextFieldNombre = null;
+	JTextFieldUpperCased jTextFieldTelefono = null;
+	JTextFieldUpperCased jTextFieldTelefonoAlternativo = null;
 		
 	JButton jButtonAceptar = null;
 	JButton jButtonCancelar = null;
@@ -175,14 +175,14 @@ public class ModificarProveedor extends JDialog {
 						
 		jLabelNombre = new JLabel( "Nombre: " );
 		jLabelNombre.setPreferredSize( dimensionLabel );
-		jTextFieldNombre = new JTextFieldOfLetters();
+		jTextFieldNombre = new JTextFieldUpperCased();
 		//int filaSeleccionada = buscarProveedor.jTableBuscarProveedor.getSelectedRow();
 		jTextFieldNombre.setText(proveedor.getNombre());
 		jTextFieldNombre.setPreferredSize( new Dimension( 360, 25 ) );
 		
 		jLabelTelefono = new JLabel( "Teléfono: " );
 		jLabelTelefono.setPreferredSize( dimensionLabel );
-		jTextFieldTelefono = new JTextFieldOfNumbers();
+		jTextFieldTelefono = new JTextFieldPhoneNumber();
 		jTextFieldTelefono.setText(proveedor.getTelefono());
 		jTextFieldTelefono.setPreferredSize( new Dimension( 110, 25 ) );
 		

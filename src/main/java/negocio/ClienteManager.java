@@ -47,8 +47,12 @@ public class ClienteManager implements IClienteManager {
 		return estadoFinal;
 	}
 	
-	public List<Cliente> listaClientes() throws Exception {
-		return clienteDao.listaClientes();
+	public List<Cliente> listaClientesPorNombre() throws Exception {
+		return clienteDao.listaClientesPorNombre();
+	}
+	
+	public List<Cliente> listaClientesPorID() throws Exception {
+		return clienteDao.listaClientesPorID();
 	}
 	
 	public List<Cliente> listaClientesNoFallecidos() throws Exception {

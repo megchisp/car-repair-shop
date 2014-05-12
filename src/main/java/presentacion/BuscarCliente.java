@@ -617,7 +617,7 @@ public class BuscarCliente extends JDialog{
 		IClienteManager clienteManager = new ClienteManager();
 
 		try {
-			listaClientes = clienteManager.listaClientes(); // obtengo todos los clientes de la BD
+			listaClientes = clienteManager.listaClientesPorNombre(); // obtengo todos los clientes de la BD
 			completar_tabla(listaClientes.iterator()); // completa la tabla con la lista de clientes
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog( this, e, "Error", JOptionPane.ERROR_MESSAGE );

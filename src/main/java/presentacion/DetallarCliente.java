@@ -400,7 +400,7 @@ public class DetallarCliente extends JDialog {
 		jLabelNombreApellido.setFont(new Font("Dialog", Font.BOLD, 20));
 		
 		completarJLabel(jLabelCUIT, "CUIT/CUIL", stringCuitCliente);
-		completarJLabel(jLabelFechaNacimiento, "Nacimiento", stringNacimientoCliente);
+		completarJLabel(jLabelFechaNacimiento, "Nacimiento", cliente.isBooleanHabilitaFechaDeNacimiento() ? stringNacimientoCliente : "");
 		completarJLabel(jLabelTelefono, "Teléfono", stringTelefonoCliente);
 		completarJLabel(jLabelCelular, "Celular", stringCelularCliente);
 		completarJLabel(jLabelDomicilio, "Domicilio", stringDomicilioCliente);

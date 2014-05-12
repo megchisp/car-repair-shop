@@ -215,7 +215,7 @@ public class Exportar extends JFileChooser{
 		// este metodo inicializa la lista de clientes
 
 		try {
-			listaClientes = clienteManager.listaClientes(); // obtengo todos los clientes de la BD
+			listaClientes = clienteManager.listaClientesPorID(); // obtengo todos los clientes de la BD
 		} catch (Exception e) {
 			throw e;
 		}
@@ -318,11 +318,11 @@ public class Exportar extends JFileChooser{
 		Iterator<Cliente> iterator = listaClientes.iterator();
 		StringBuilder stringBuilder = new StringBuilder();
 		if(!listaClientes.isEmpty())
-			stringBuilder.append("INSERT INTO cliente (id_cliente,cuit,fecha_nacimiento, fallecido, nombre,apellido,telefono,celular,domicilio,localidad,codigo_postal,mail,observaciones) VALUES\n");
+			stringBuilder.append("INSERT INTO cliente (id_cliente,cuit,fecha_nacimiento, fecha_nacimiento_habilitada, fallecido, nombre,apellido,telefono,celular,domicilio,localidad,codigo_postal,mail,observaciones) VALUES\n");
 		
 		while (iterator.hasNext()){
 			cliente = iterator.next();
-			stringBuilder.append("('" + cliente.getId_cliente() + "', '" + cliente.getCUIT() + "', '" + new java.sql.Date(	cliente.getFechaDeNacimiento().getTimeInMillis()) + "', '" + cliente.isFallecido() + "', '" + cliente.getNombre().trim().replace("'", "''") + "', '" + cliente.getApellido().trim().replace("'", "''") + "', '" + cliente.getTelefono().trim() + "', '" + cliente.getCelular() + "', '" + cliente.getDomicilio().replace("'", "''") + "', '" + cliente.getLocalidad().replace("'", "''") + "', '" + cliente.getCodigoPostal().replace("'", "''") + "', '" + cliente.getEmail().trim() + "', '" + cliente.getObservaciones().replace("'", "''") + "')");
+			stringBuilder.append("('" + cliente.getId_cliente() + "', '" + cliente.getCUIT() + "', '" + new java.sql.Date(	cliente.getFechaDeNacimiento().getTimeInMillis()) + "', '"+ cliente.isBooleanHabilitaFechaDeNacimiento() + "', '" + cliente.isFallecido() + "', '" + cliente.getNombre().trim().replace("'", "''") + "', '" + cliente.getApellido().trim().replace("'", "''") + "', '" + cliente.getTelefono().trim() + "', '" + cliente.getCelular() + "', '" + cliente.getDomicilio().replace("'", "''") + "', '" + cliente.getLocalidad().replace("'", "''") + "', '" + cliente.getCodigoPostal().replace("'", "''") + "', '" + cliente.getEmail().trim() + "', '" + cliente.getObservaciones().replace("'", "''") + "')");
 			if(iterator.hasNext())
 				stringBuilder.append(",\n");
 		}
