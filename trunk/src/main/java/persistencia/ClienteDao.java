@@ -22,7 +22,7 @@ public class ClienteDao implements IClienteDao {
 	public int agregar(Cliente cliente) throws Exception {
 		try{
 			if (esValidoParaAgregar(cliente)){ 
-				String query = "INSERT INTO cliente (id_cliente, cuit,fecha_nacimiento,fallecido,nombre,apellido,telefono,celular,domicilio,localidad,codigo_postal,mail,observaciones) VALUES ('"+ cliente.getId_cliente() + "','"+ cliente.getCUIT() + "','" + new java.sql.Date(cliente.getFechaDeNacimiento().getTimeInMillis()) + "','" + cliente.isFallecido()  +"','" + cliente.getNombre().replace("'", "''") + "','" + cliente.getApellido().replace("'", "''") + "','" + cliente.getTelefono() + "','" + cliente.getCelular() + "','" + cliente.getDomicilio().replace("'", "''") + "','" + cliente.getLocalidad().replace("'", "''") + "','" + cliente.getCodigoPostal().replace("'", "''") + "','" + cliente.getEmail() + "','" + cliente.getObservaciones().replace("'", "''") + "');";
+				String query = "INSERT INTO cliente (id_cliente, cuit,fecha_nacimiento,fecha_nacimiento_habilitada,fallecido,nombre,apellido,telefono,celular,domicilio,localidad,codigo_postal,mail,observaciones) VALUES ('"+ cliente.getId_cliente() + "','"+ cliente.getCUIT() + "','" + new java.sql.Date(cliente.getFechaDeNacimiento().getTimeInMillis()) + "','" + cliente.isBooleanHabilitaFechaDeNacimiento() +"','" + cliente.isFallecido()  +"','" + cliente.getNombre().replace("'", "''") + "','" + cliente.getApellido().replace("'", "''") + "','" + cliente.getTelefono() + "','" + cliente.getCelular() + "','" + cliente.getDomicilio().replace("'", "''") + "','" + cliente.getLocalidad().replace("'", "''") + "','" + cliente.getCodigoPostal().replace("'", "''") + "','" + cliente.getEmail() + "','" + cliente.getObservaciones().replace("'", "''") + "');";
 				
 					conn.open(); // abre la conexion
 					conn.execute(query);
@@ -39,7 +39,7 @@ public class ClienteDao implements IClienteDao {
 	}
 
 	public int modificar(Cliente clienteModificado) throws Exception {
-		String queryModificar = "UPDATE Cliente SET cuit = '" + clienteModificado.getCUIT() + "', fecha_nacimiento = '" + new java.sql.Date(clienteModificado.getFechaDeNacimiento().getTimeInMillis()) + "', fallecido = '" + clienteModificado.isFallecido() +  "', nombre = '" + clienteModificado.getNombre().replace("'", "''") + "', apellido = '" + clienteModificado.getApellido().replace("'", "''") + "', telefono = '" + clienteModificado.getTelefono() + "', celular = '" + clienteModificado.getCelular() + "', domicilio = '" + clienteModificado.getDomicilio().replace("'", "''") + "', localidad = '" + clienteModificado.getLocalidad().replace("'", "''") + "', codigo_postal = '" + clienteModificado.getCodigoPostal().replace("'", "''") + "', mail = '" + clienteModificado.getEmail() + "', observaciones = '" + clienteModificado.getObservaciones().replace("'", "''") + "' WHERE id_cliente = '" + clienteModificado.getId_cliente() + "';";
+		String queryModificar = "UPDATE Cliente SET cuit = '" + clienteModificado.getCUIT() + "', fecha_nacimiento = '" + new java.sql.Date(clienteModificado.getFechaDeNacimiento().getTimeInMillis()) + "', fecha_nacimiento_habilitada = '" + clienteModificado.isBooleanHabilitaFechaDeNacimiento() + "', fallecido = '" + clienteModificado.isFallecido() +  "', nombre = '" + clienteModificado.getNombre().replace("'", "''") + "', apellido = '" + clienteModificado.getApellido().replace("'", "''") + "', telefono = '" + clienteModificado.getTelefono() + "', celular = '" + clienteModificado.getCelular() + "', domicilio = '" + clienteModificado.getDomicilio().replace("'", "''") + "', localidad = '" + clienteModificado.getLocalidad().replace("'", "''") + "', codigo_postal = '" + clienteModificado.getCodigoPostal().replace("'", "''") + "', mail = '" + clienteModificado.getEmail() + "', observaciones = '" + clienteModificado.getObservaciones().replace("'", "''") + "' WHERE id_cliente = '" + clienteModificado.getId_cliente() + "';";
 		try{
 			if(!existeCliente(clienteModificado)) // se verifica que el cliente que se quiere modificar exista en la BD
 				return 7;
@@ -75,7 +75,7 @@ public class ClienteDao implements IClienteDao {
 		}
 	}
 	
-	public List<Cliente> listaClientes() throws Exception{
+	public List<Cliente> listaClientesPorNombre() throws Exception{
 		// este método retorna una lista con todos los clientes de la BD
 		String query = "SELECT * FROM cliente ORDER BY apellido, nombre ASC";
 		List<Cliente> listaClientes = new ArrayList<Cliente>();
@@ -87,7 +87,32 @@ public class ClienteDao implements IClienteDao {
 			resultado = conn.query(query);
 			
 			while(resultado.next()){
-				cliente = new Cliente(resultado.getInt("id_cliente"), resultado.getString("cuit"), (resultado.getDate ("fecha_nacimiento")), resultado.getBoolean("fallecido"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("telefono"), resultado.getString("celular"), resultado.getString("domicilio"), resultado.getString("localidad"), resultado.getString("codigo_postal"), resultado.getString("mail"), resultado.getString("observaciones"));
+				cliente = new Cliente(resultado.getInt("id_cliente"), resultado.getString("cuit"), (resultado.getDate ("fecha_nacimiento")), resultado.getBoolean("fecha_nacimiento_habilitada"), resultado.getBoolean("fallecido"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("telefono"), resultado.getString("celular"), resultado.getString("domicilio"), resultado.getString("localidad"), resultado.getString("codigo_postal"), resultado.getString("mail"), resultado.getString("observaciones"));
+				listaClientes.add(cliente);
+			}
+			conn.close(); // cierra la conexión
+			} 
+			catch(Exception e) 
+			{
+				throw e;
+			}
+		return listaClientes;
+	}
+	
+	public List<Cliente> listaClientesPorID() throws Exception{
+		// este método retorna una lista con todos los clientes de la BD ordenados por ID
+		// se utiliza para exportar los clientes de la BD
+		String query = "SELECT * FROM cliente ORDER BY id_cliente ASC";
+		List<Cliente> listaClientes = new ArrayList<Cliente>();
+		ResultSet resultado = null;
+		Cliente cliente = null;
+
+		try{
+			conn.open(); // abre la conexion
+			resultado = conn.query(query);
+			
+			while(resultado.next()){
+				cliente = new Cliente(resultado.getInt("id_cliente"), resultado.getString("cuit"), (resultado.getDate ("fecha_nacimiento")), resultado.getBoolean("fecha_nacimiento_habilitada"), resultado.getBoolean("fallecido"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("telefono"), resultado.getString("celular"), resultado.getString("domicilio"), resultado.getString("localidad"), resultado.getString("codigo_postal"), resultado.getString("mail"), resultado.getString("observaciones"));
 				listaClientes.add(cliente);
 			}
 			conn.close(); // cierra la conexión
@@ -102,7 +127,7 @@ public class ClienteDao implements IClienteDao {
 	public List<Cliente> listaClientesNoFallecidos() throws Exception{
 		// este método retorna una lista con todos los clientes no fallecidos de la BD
 		// se utiliza para mostrar los cumpleaños
-		String query = "SELECT * FROM cliente WHERE fallecido = false ORDER BY apellido, nombre ASC";
+		String query = "SELECT * FROM cliente WHERE fallecido = false AND fecha_nacimiento_habilitada = true ORDER BY apellido, nombre ASC";
 		List<Cliente> listaClientes = new ArrayList<Cliente>();
 		ResultSet resultado = null;
 		Cliente cliente = null;
@@ -112,7 +137,7 @@ public class ClienteDao implements IClienteDao {
 			resultado = conn.query(query);
 			
 			while(resultado.next()){
-				cliente = new Cliente(resultado.getInt("id_cliente"), resultado.getString("cuit"), (resultado.getDate ("fecha_nacimiento")), resultado.getBoolean("fallecido"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("telefono"), resultado.getString("celular"), resultado.getString("domicilio"), resultado.getString("localidad"), resultado.getString("codigo_postal"), resultado.getString("mail"), resultado.getString("observaciones"));
+				cliente = new Cliente(resultado.getInt("id_cliente"), resultado.getString("cuit"), (resultado.getDate ("fecha_nacimiento")), resultado.getBoolean("fecha_nacimiento_habilitada"), resultado.getBoolean("fallecido"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("telefono"), resultado.getString("celular"), resultado.getString("domicilio"), resultado.getString("localidad"), resultado.getString("codigo_postal"), resultado.getString("mail"), resultado.getString("observaciones"));
 				listaClientes.add(cliente);
 			}
 			conn.close(); // cierra la conexión
@@ -268,6 +293,7 @@ public class ClienteDao implements IClienteDao {
 			}
 		return fecha;
 	}
+
 }
 
 

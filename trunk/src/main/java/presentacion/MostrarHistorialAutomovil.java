@@ -12,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -62,6 +64,8 @@ public class MostrarHistorialAutomovil extends JDialog {
 	private DefaultTreeModel defaultTreeModelModelo = null;
 	DefaultMutableTreeNode defaultMutableTreeNodeRaiz = null;
 	private JTree jTreeTree = null;
+	private NumberFormat formatter = null; // define la moneda local
+	private NumberFormat formatterDecimal = null; // define el decimal local
 	
 	private JPanel jPanelHistorialAutomovil = null;
 	private JPanel jPanelArbol = null;
@@ -189,6 +193,9 @@ public class MostrarHistorialAutomovil extends JDialog {
 		defaultMutableTreeNodeRaiz = new DefaultMutableTreeNode("Reparaciones");
 		defaultTreeModelModelo = new DefaultTreeModel(defaultMutableTreeNodeRaiz);
 		
+		formatter = NumberFormat.getCurrencyInstance(new Locale("es", "AR"));
+		formatterDecimal = DecimalFormat.getInstance(new Locale("es", "AR"));
+		
 		// customizo el arbol
 		Icon closedIcon = new ImageIcon(resourceLoader.load("/images/FolderClosed.png"));
 		Icon OpenIcon = new ImageIcon(resourceLoader.load("/images/FolderOpened.png"));
@@ -299,7 +306,7 @@ public class MostrarHistorialAutomovil extends JDialog {
 			
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			JOptionPane.showMessageDialog( this, "Error al recuperar información de la base de datos", "Error", JOptionPane.ERROR_MESSAGE );
+			JOptionPane.showMessageDialog( this, "Ups! algo salió mal", "Error", JOptionPane.ERROR_MESSAGE );
 		}
 	}
 	
@@ -337,7 +344,7 @@ public class MostrarHistorialAutomovil extends JDialog {
 		while(iteratorManoDeObra.hasNext()){
 			int manoDeObraIndex = 0;
 			manoDeObra = iteratorManoDeObra.next();
-			String nombreManoDeObra = manoDeObra.getNombre();
+			String nombreManoDeObra = String.format("%-55s%-14s%n",manoDeObra.getNombre(), formatter.format(manoDeObra.getPrecio()));
 			DefaultMutableTreeNode manoDeObraNode = new DefaultMutableTreeNode(nombreManoDeObra);
 			defaultTreeModelModelo.insertNodeInto(manoDeObraNode, manosDeObraRaiz, manoDeObraIndex++);
 		}
@@ -355,7 +362,7 @@ public class MostrarHistorialAutomovil extends JDialog {
 		while(iteratorRepuesto.hasNext()){
 			int repuestoIndex = 0;
 			repuesto = iteratorRepuesto.next();
-			String nombreRepuesto= repuesto.getNombre();
+			String nombreRepuesto= String.format("%-55s%-14s%n", formatterDecimal.format(repuesto.getCantidad()) + " " + repuesto.getNombre(),formatter.format(repuesto.getPrecioUnitario() * repuesto.getCantidad()));
 			DefaultMutableTreeNode repuestoNode = new DefaultMutableTreeNode(nombreRepuesto);
 			defaultTreeModelModelo.insertNodeInto(repuestoNode, respuestosRaiz, repuestoIndex++);
 		}

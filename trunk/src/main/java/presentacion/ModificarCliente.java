@@ -90,6 +90,7 @@ public class ModificarCliente extends JDialog {
 	JComboBox<String> jComboBoxFechaDeNacimientoDia = null;
 	JComboBox<String> jComboBoxFechaDeNacimientoMes = null;
 	JComboBox<String> jComboBoxFechaDeNacimientoAnio = null;
+	boolean booleanHabilitaFechaDeNacimiento; // indica si la fecha de nacimiento se define en la base de datos
 
 	JButton jButtonAceptar = null;
 	JButton jButtonCancelar = null;
@@ -473,7 +474,7 @@ public class ModificarCliente extends JDialog {
 		jTextAreaObservaciones.setText( cliente.getObservaciones() );
 		
 	}
-	
+		
 	private void inicializarBotones(){
 		jPanelBotones = new JPanel();
 		jPanelBotones.setPreferredSize( new Dimension( 465, 40 ) );
@@ -515,9 +516,12 @@ public class ModificarCliente extends JDialog {
 		Calendar cal1 = Calendar.getInstance();
 		int anioActual = cal1.get(Calendar.YEAR);
 		
+		jComboBoxFechaDeNacimientoDia.addItem( "Día" );
+		
 		for( int i=1; i<=31; i++ )
 			jComboBoxFechaDeNacimientoDia.addItem( String.valueOf( i ) );
 		
+		jComboBoxFechaDeNacimientoMes.addItem( "Mes" );
 		jComboBoxFechaDeNacimientoMes.addItem( "Enero" );
 		jComboBoxFechaDeNacimientoMes.addItem( "Febrero" );
 		jComboBoxFechaDeNacimientoMes.addItem( "Marzo" );
@@ -535,18 +539,19 @@ public class ModificarCliente extends JDialog {
 		for(int i=(anioActual-17); i>=(anioActual-90); i-- ) // el cliente tiene entre 17 y 90 años de edad
 			jComboBoxFechaDeNacimientoAnio.addItem( String.valueOf( i ) );
 		
-
-		Date date = new java.sql.Date(	cliente.getFechaDeNacimiento().getTimeInMillis());		
-		jComboBoxFechaDeNacimientoDia.setSelectedIndex(date.getDate() - 1);
-		jComboBoxFechaDeNacimientoMes.setSelectedIndex(date.getMonth() );
-		
-		if(date.getYear() != 0)
-			try{
-			jComboBoxFechaDeNacimientoAnio.setSelectedIndex(anioActual - date.getYear() - 1916);
+		if(cliente.isBooleanHabilitaFechaDeNacimiento()){ // unicamente se ejecuta si tiene una fecha asignada
+			Date date = new java.sql.Date(	cliente.getFechaDeNacimiento().getTimeInMillis());		
+			jComboBoxFechaDeNacimientoDia.setSelectedIndex(date.getDate());
+			jComboBoxFechaDeNacimientoMes.setSelectedIndex(date.getMonth() + 1);
+			
+			if(date.getYear() != 0)
+				try{
+				jComboBoxFechaDeNacimientoAnio.setSelectedIndex(anioActual - date.getYear() - 1916);
+				}
+			catch (Exception e) {
+				System.out.println("excepcion de año! " + date.getYear());
+				jComboBoxFechaDeNacimientoAnio.setSelectedIndex(0);
 			}
-		catch (Exception e) {
-			System.out.println("excepcion de año! " + date.getYear());
-			jComboBoxFechaDeNacimientoAnio.setSelectedIndex(0);
 		}
 	}
 	private void aceptarModificarCliente() {
@@ -557,16 +562,23 @@ public class ModificarCliente extends JDialog {
 
 			Calendar fechaDeNacimientoCalendar = GregorianCalendar.getInstance();
 			fechaDeNacimientoCalendar.setLenient( false );
-			if(jComboBoxFechaDeNacimientoAnio.getSelectedIndex() == 0)
-				fechaDeNacimientoCalendar.set( 1900 , jComboBoxFechaDeNacimientoMes.getSelectedIndex() , Integer.parseInt( jComboBoxFechaDeNacimientoDia.getSelectedItem().toString() ) );
+			
+			if(booleanHabilitaFechaDeNacimiento){ // si la fecha de nacimiento está habilitada
+				if(jComboBoxFechaDeNacimientoAnio.getSelectedIndex() == 0)
+					fechaDeNacimientoCalendar.set( 1900 , jComboBoxFechaDeNacimientoMes.getSelectedIndex() -1, Integer.parseInt( jComboBoxFechaDeNacimientoDia.getSelectedItem().toString() ) );
+				else
+					fechaDeNacimientoCalendar.set( Integer.parseInt( jComboBoxFechaDeNacimientoAnio.getSelectedItem().toString() ) , jComboBoxFechaDeNacimientoMes.getSelectedIndex() -1, Integer.parseInt( jComboBoxFechaDeNacimientoDia.getSelectedItem().toString() ) );
+			}
 			else
-				fechaDeNacimientoCalendar.set( Integer.parseInt( jComboBoxFechaDeNacimientoAnio.getSelectedItem().toString() ) , jComboBoxFechaDeNacimientoMes.getSelectedIndex() , Integer.parseInt( jComboBoxFechaDeNacimientoDia.getSelectedItem().toString() ) );
+				fechaDeNacimientoCalendar.set( 1900 , 0, 1); // esta fecha no tiene validez...
+			
 			fechaDeNacimientoCalendar.set( Calendar.MINUTE, 0 );
 			fechaDeNacimientoCalendar.set( Calendar.SECOND, 0 );
 			fechaDeNacimientoCalendar.set( Calendar.MILLISECOND, 0 );
 
 			cliente.setFechaDeNacimiento( fechaDeNacimientoCalendar );
 			cliente.setCUIT( jTextFieldCUIT.getText().trim()  );
+			cliente.setBooleanHabilitaFechaDeNacimiento(booleanHabilitaFechaDeNacimiento);
 			cliente.setFallecido(jCheckBoxFallecido.isSelected());
 			cliente.setNombre( jTextFieldNombre.getText().trim() );
 			cliente.setApellido( jTextFieldApellido.getText().trim() );
@@ -657,12 +669,14 @@ public class ModificarCliente extends JDialog {
 		detallarCliente.jLabelNombreApellido.setText(jTextFieldApellido.getText() + ", " + jTextFieldNombre.getText() + stringFallecido);
 		Date date = new java.sql.Date(	cliente.getFechaDeNacimiento().getTimeInMillis());
 		java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("dd 'de' MMMMMMMMMM 'de' yyyy", new Locale("es", "ARG"));
+		
 		String stringNacimientoCliente = sdf.format(date);
 		if(date.getYear() == 0) // ojo con esta linea
 			stringNacimientoCliente = stringNacimientoCliente.substring(0, stringNacimientoCliente.length()-8);
 		detallarCliente.jLabelFechaNacimiento.setText("Nacimiento: " + stringNacimientoCliente);
 		
 		// actualizando los campos NO obligatorios
+		completarJLabel(detallarCliente.jLabelFechaNacimiento, "Nacimiento", cliente.isBooleanHabilitaFechaDeNacimiento() ? stringNacimientoCliente : "");
 		completarJLabel(detallarCliente.jLabelCelular, "Celular", jTextFieldCelular.getText());
 		completarJLabel(detallarCliente.jLabelCUIT, "CUIT/CUIL", jTextFieldCUIT.getText());
 		completarJLabel(detallarCliente.jLabelEmail, "Email", jTextFieldEmail.getText());
@@ -710,7 +724,8 @@ public class ModificarCliente extends JDialog {
 	
 	private boolean validarDatos() {
 		int cont = 0;
-		
+		booleanHabilitaFechaDeNacimiento = false;
+
 		List<JTextField> jTextFields = new ArrayList<JTextField>();
 		
 		jTextFields.add( jTextFieldNombre );
@@ -720,10 +735,13 @@ public class ModificarCliente extends JDialog {
 		for( JTextField jTextField : jTextFields )
 			cont += isEmpty( jTextField );
 		
-		cont += isEmpty( jComboBoxFechaDeNacimientoDia, jComboBoxFechaDeNacimientoMes, jComboBoxFechaDeNacimientoAnio );
-		cont += isEmpty( jComboBoxFechaDeNacimientoMes, jComboBoxFechaDeNacimientoDia, jComboBoxFechaDeNacimientoAnio );
-//		cont += isEmpty( jComboBoxFechaDeNacimientoAnio, jComboBoxFechaDeNacimientoMes, jComboBoxFechaDeNacimientoDia );
-		
+		// si los 3 combobox están posicionados en 0 significa que el usuario no define fecha de nacimiento/cumpleaños por lo tanto no se valida
+		if(!(jComboBoxFechaDeNacimientoDia.getSelectedIndex() == 0 && jComboBoxFechaDeNacimientoMes.getSelectedIndex() == 0 && jComboBoxFechaDeNacimientoAnio.getSelectedIndex() == 0)){			
+			cont += isEmpty( jComboBoxFechaDeNacimientoDia, jComboBoxFechaDeNacimientoMes, jComboBoxFechaDeNacimientoAnio );
+			cont += isEmpty( jComboBoxFechaDeNacimientoMes, jComboBoxFechaDeNacimientoDia, jComboBoxFechaDeNacimientoAnio );
+	//		cont += isEmpty( jComboBoxFechaDeNacimientoAnio, jComboBoxFechaDeNacimientoMes, jComboBoxFechaDeNacimientoDia );
+			booleanHabilitaFechaDeNacimiento = true;
+		}
 		
 		if( jTextFieldCUIT.getText().contains( "<" ))
 			jTextFieldCUIT.setText( "" );
