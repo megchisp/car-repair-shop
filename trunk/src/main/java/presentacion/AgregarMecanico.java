@@ -221,6 +221,7 @@ public class AgregarMecanico extends JDialog {
 		jPanelAgregarMecanico.add( new JLabel(" "), a );
 			
 		this.getContentPane().add( jPanelAgregarMecanico, BorderLayout.NORTH );
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.pack();
 		this.setResizable( false );
 		this.setLocationRelativeTo( null );

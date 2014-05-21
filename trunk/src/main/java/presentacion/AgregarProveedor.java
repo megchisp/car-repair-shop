@@ -147,6 +147,7 @@ public class AgregarProveedor extends JDialog {
 		jPanelAgregarProveedor.add( new JLabel(" "), a );
 			
 		this.getContentPane().add( jPanelAgregarProveedor, BorderLayout.NORTH );
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.pack();
 		this.setResizable( false );
 		this.setLocationRelativeTo( null );

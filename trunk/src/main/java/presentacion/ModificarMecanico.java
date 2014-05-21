@@ -231,7 +231,7 @@ public class ModificarMecanico extends JDialog {
 		jPanelModificarMecanico.add( new JLabel(" "), a );
 			
 		this.getContentPane().add( jPanelModificarMecanico, BorderLayout.NORTH );
-		
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.pack();
 		this.setResizable( false );
 		this.setLocationRelativeTo( null );

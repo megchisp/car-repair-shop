@@ -183,6 +183,7 @@ public class AgregarRepuesto extends JDialog {
 		jPanelAgregarRepuesto.add(jPanelBotones);
 
 		this.getContentPane().add(jPanelAgregarRepuesto, BorderLayout.NORTH);
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.setResizable(false);
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -233,37 +234,16 @@ public class AgregarRepuesto extends JDialog {
 						amountEditFormat)));
 		jTextFieldPrecioUnitario.setPreferredSize(new Dimension(65, 25));
 		jTextFieldPrecioUnitario.setFont(new Font("Dialog", Font.BOLD, 11));
-		jTextFieldPrecioUnitario
-				.addKeyListener(new java.awt.event.KeyAdapter() {
-					// selecciona el boton aceptar cuando se presiona Enter en
-					// el jTextFieldPrecioUnitario, para que parsee de double a
-					// string
+		jTextFieldPrecioUnitario.addKeyListener(new java.awt.event.KeyAdapter() {
 					public void keyPressed(java.awt.event.KeyEvent e) {
 						int key = e.getKeyCode();
-						if (key == java.awt.event.KeyEvent.VK_ENTER) {
-							javax.swing.SwingUtilities
-									.invokeLater(new Runnable() {
-										public void run() {
-											jButtonAceptar
-													.requestFocusInWindow();
-										}
-									});
-						}
 						// cambia el punto (del teclado numerico) por la coma
 						if (key == 110) {
-							javax.swing.SwingUtilities
-									.invokeLater(new Runnable() {
+							javax.swing.SwingUtilities.invokeLater(new Runnable() {
 										public void run() {
-											jTextFieldPrecioUnitario.setText((jTextFieldPrecioUnitario
-													.getText())
-													.substring(
-															0,
-															jTextFieldPrecioUnitario
-																	.getText()
-																	.length() - 1)
-													+ ",");
+											jTextFieldPrecioUnitario.setText((jTextFieldPrecioUnitario.getText()).substring(0,jTextFieldPrecioUnitario.getText().length() - 1)+ ",");
 										}
-									});
+							});
 						}
 					}
 				});
@@ -275,17 +255,8 @@ public class AgregarRepuesto extends JDialog {
 				(DecimalFormat) formatterDecimal);
 		jTextFieldCantidad.setFont(new Font("Dialog", Font.BOLD, 11));
 		jTextFieldCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
-			// selecciona el boton aceptar cuando se presiona Enter en el
-			// jTextFieldCantidad, para que parsee de double a string
 			public void keyPressed(java.awt.event.KeyEvent e) {
 				int key = e.getKeyCode();
-				if (key == java.awt.event.KeyEvent.VK_ENTER) {
-					javax.swing.SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							jButtonAceptar.requestFocusInWindow();
-						}
-					});
-				}
 				// cambia el punto (del teclado numerico) por la coma
 				if (key == 110) {
 					javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -366,7 +337,7 @@ public class AgregarRepuesto extends JDialog {
 	private boolean characterVaryingExceeded() {
 		int cont = 0;
 
-		if (jTextFieldNombre.getText().trim().length() > 50) {
+		if (jTextFieldNombre.getText().trim().length() > 75) {
 			jTextFieldNombre.setBorder(BorderFactory.createLineBorder(Color.RED));
 			jTextFieldNombre.addFocusListener(new JTextFieldFocusListener(jTextFieldNombre));
 			cont++;

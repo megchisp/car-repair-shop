@@ -94,6 +94,7 @@ public class DetallarAutomovil extends JDialog {
 
 	JButton jButtonModificarAutomovil = null;
 	JButton jButtonEliminarAutomovil = null;
+	JButton jButtonTransferirAutomovil = null;
 	JButton jButtonAgregarReparacion = null;
 	JButton jButtonModificarReparacion = null;
 	JButton jButtonEliminarReparacion = null;
@@ -221,15 +222,14 @@ public class DetallarAutomovil extends JDialog {
 				z.gridy = 11;
 				z.gridx = 0;
 
-
 				jPanelDatosAutomovil.add(jPanelDatosAutomovil2);
-			
 					// se crea un panel que contiene los botones de Modificar Automovil y Eliminar Automovil
 					JPanel jPanelBotonesInterior = new JPanel(new FlowLayout(0, 20, 0));
 
 					jPanelBotonesInterior.setPreferredSize(new Dimension(550, 30));
 					jPanelBotonesInterior.add( jButtonModificarAutomovil );
 					jPanelBotonesInterior.add( jButtonEliminarAutomovil );
+					jPanelBotonesInterior.add( jButtonTransferirAutomovil );
 					jPanelBotonesInterior.add( new JLabel(" ") );
 				
 			z.gridy = 12;
@@ -305,7 +305,7 @@ public class DetallarAutomovil extends JDialog {
 		a.gridy = 6;
 		a.gridx = 0;
 		jPanelDetalleAutomovil.add( new JLabel(" "), a);
-					
+		
 		this.getContentPane().add( jPanelDetalleAutomovil, BorderLayout.NORTH );
 		this.pack();
 		this.setResizable( false );
@@ -424,7 +424,20 @@ public class DetallarAutomovil extends JDialog {
 		jTableReparaciones.getColumnModel().getColumn(3).setCellRenderer( rightRenderer );
 		jTableReparaciones.getColumnModel().getColumn(4).setCellRenderer( rightRenderer );
 		jTableReparaciones.getColumnModel().getColumn(5).setCellRenderer( rightRenderer );
-
+		
+		jTableReparaciones.addKeyListener(new java.awt.event.KeyAdapter() {  
+            // realiza el detalle de la reparación seleccionada presionando el boton Enter
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == java.awt.event.KeyEvent.VK_ENTER) {
+                	if(jTableReparaciones.getRowCount() > 0){
+	    				DetallarAutomovil.this.dispose();
+	    				new DetallarReparacion( detallarAutomovil, "Detallar reparación", " Detalle de la reparación ", listaReparaciones.get(Integer.parseInt(jTableReparaciones.getValueAt(jTableReparaciones.getSelectedRow(), 6).toString())));
+                	}
+                }
+            }
+        });     
+		
 		/*************************** FIN *************************************************/
 		
 		// creo el botón modificar con un ícono
@@ -442,6 +455,7 @@ public class DetallarAutomovil extends JDialog {
 		ImageIcon imageIconDeleteCar = new ImageIcon(resourceLoader.load("/images/menu/delete-icon.png"));
 		jButtonEliminarAutomovil = new JButton( " Eliminar", imageIconDeleteCar );
 		jButtonEliminarAutomovil.setPreferredSize( new Dimension( 100, 30 ) );
+		jButtonEliminarAutomovil.setToolTipText("Eliminar el automóvil actual");
 		jButtonEliminarAutomovil.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				int choice = JOptionPane.showConfirmDialog(null, "Si elimina este automóvil, se realizará una eliminación en cascada de sus reparaciones, \nservicios, repuestos y manos de obras asociadas al mismo.\n\n                   ¿Está seguro que desea eliminar este automóvil?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
@@ -449,6 +463,18 @@ public class DetallarAutomovil extends JDialog {
 					eliminarAutomovil();
 					DetallarAutomovil.this.dispose();
 				}
+			}   
+		});
+		
+		// creo el botón transferir con un ícono
+		ImageIcon imageIconTransferCar = new ImageIcon(resourceLoader.load("/images/menu/transfer-icon.png"));
+		jButtonTransferirAutomovil = new JButton( "", imageIconTransferCar );
+		jButtonTransferirAutomovil.setToolTipText("Transferir el automóvil actual");
+		jButtonTransferirAutomovil.setPreferredSize( new Dimension( 30, 30 ) );
+		jButtonTransferirAutomovil.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				DetallarAutomovil.this.dispose();
+				new TransferirAutomovil( detallarAutomovil, "Transferir Automóvil", " Transferencia de automóvil ", automovil);
 			}   
 		});
 		

@@ -39,9 +39,9 @@ public class AutomovilDao implements IAutomovilDao{
 	}
 
 	public int modificar(Automovil automovil) throws Exception {
-		String queryModificar = "UPDATE AUTOMOVIL SET dominio = '" + automovil.getDominio() + "', num_motor = '" + automovil.getNumeroMotor().replace("'", "''") + "', num_chasis = '" + automovil.getNumeroChasis().replace("'", "''") + "', marca = '" + automovil.getMarca().replace("'", "''") + "', modelo = '" + automovil.getModelo().replace("'", "''") + "', anio = '" + automovil.getAño() + "', color = '" + automovil.getColor() + "', aceite = '" + automovil.getTipoAceite().replace("'", "''") + "', tipo_combustible = '" + automovil.getTipoCombustible() + "', con_gnc = '" + automovil.isConGNC() + "', num_radio = '" + automovil.getNumeroRadio().replace("'", "''") + "', codigo_llave = '" + automovil.getCodigoLlave().replace("'", "''")  + "', uso = '" + automovil.getUso().replace("'", "''") +  "' WHERE id_automovil = '" + automovil.getId_automovil() + "';";
+		String queryModificar = "UPDATE AUTOMOVIL SET id_cliente = '" + automovil.getId_cliente() + "', dominio = '" + automovil.getDominio() + "', num_motor = '" + automovil.getNumeroMotor().replace("'", "''") + "', num_chasis = '" + automovil.getNumeroChasis().replace("'", "''") + "', marca = '" + automovil.getMarca().replace("'", "''") + "', modelo = '" + automovil.getModelo().replace("'", "''") + "', anio = '" + automovil.getAño() + "', color = '" + automovil.getColor() + "', aceite = '" + automovil.getTipoAceite().replace("'", "''") + "', tipo_combustible = '" + automovil.getTipoCombustible() + "', con_gnc = '" + automovil.isConGNC() + "', num_radio = '" + automovil.getNumeroRadio().replace("'", "''") + "', codigo_llave = '" + automovil.getCodigoLlave().replace("'", "''")  + "', uso = '" + automovil.getUso().replace("'", "''") +  "' WHERE id_automovil = '" + automovil.getId_automovil() + "';";
 		try{
-			if(!existeAutomovil(automovil)) // se verifica que el cliente que se quiere modificar exista en la BD
+			if(!existeAutomovil(automovil)) // se verifica que el automovil que se quiere modificar exista en la BD
 				return 6;
 			if(esValidoParaModificar(automovil)){
 				conn.open(); // abre la conexion

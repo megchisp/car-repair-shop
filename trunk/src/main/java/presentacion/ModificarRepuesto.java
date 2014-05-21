@@ -175,6 +175,7 @@ public class ModificarRepuesto extends JDialog {
 		jPanelModificarRepuesto.add( jPanelBotones);
 			
 		this.getContentPane().add( jPanelModificarRepuesto, BorderLayout.NORTH );
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.setResizable( false );
 		this.pack();
 		this.setLocationRelativeTo( null );
@@ -229,14 +230,6 @@ public class ModificarRepuesto extends JDialog {
 			// selecciona el boton aceptar cuando se presiona Enter en el jTextFieldPrecio, para que parsee de double a string
 			public void keyPressed(java.awt.event.KeyEvent e) {
 				int key = e.getKeyCode();
-				// System.out.println( "KeyCod: " + key);
-				if (key == java.awt.event.KeyEvent.VK_ENTER) {
-					javax.swing.SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							jButtonAceptar.requestFocusInWindow();
-						}
-					});
-				}
 				// cambia el punto (del teclado numerico) por la coma
 				if (key == 110) {
 					javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -254,16 +247,8 @@ public class ModificarRepuesto extends JDialog {
 		jTextFieldCantidad = new JFormattedTextField((DecimalFormat) DecimalFormat.getInstance(new Locale("es", "AR")));
 		jTextFieldCantidad.setFont(new Font("Dialog", Font.BOLD, 11));
 		jTextFieldCantidad.addKeyListener(new java.awt.event.KeyAdapter() {  
-            // selecciona el boton aceptar cuando se presiona Enter en el jTextFieldCantidad, para que parsee de double a string
             public void keyPressed(java.awt.event.KeyEvent e) {
                 int key = e.getKeyCode();
-                if (key == java.awt.event.KeyEvent.VK_ENTER) {
-            		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            			public void run() {
-            				jButtonAceptar.requestFocusInWindow();
-            			}
-            		});
-                }
                 // cambia el punto (del teclado numerico) por la coma
                 if (key == 110) {
             		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -324,7 +309,7 @@ public class ModificarRepuesto extends JDialog {
     private boolean characterVaryingExceeded(){
 		int cont = 0;
 
-		if(jTextFieldNombre.getText().trim().length() > 50){
+		if(jTextFieldNombre.getText().trim().length() > 75){
 			jTextFieldNombre.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 			jTextFieldNombre.addFocusListener( new JTextFieldFocusListener( jTextFieldNombre ) );
 			cont++;

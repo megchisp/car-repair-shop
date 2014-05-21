@@ -254,6 +254,19 @@ public class BuscarCliente extends JDialog{
 		jTableBuscarCliente.getColumnModel().getColumn(6).setPreferredWidth(0);
 		jTableBuscarCliente.getColumnModel().getColumn(6).setResizable(false);
 		
+		jTableBuscarCliente.addKeyListener(new java.awt.event.KeyAdapter() {  
+            // realiza el detalle del cliente seleccionado presionando el boton Enter
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == java.awt.event.KeyEvent.VK_ENTER) {
+                	if(jTableBuscarCliente.getRowCount() > 0){
+	    				BuscarCliente.this.dispose();
+	    				new DetallarCliente( buscarCliente, " Detallar cliente", " Detalle del cliente ", listaClientes.get(Integer.parseInt(jTableBuscarCliente.getValueAt(jTableBuscarCliente.getSelectedRow(), 6).toString())));
+                	}
+                }
+            }
+        });     
+		
 		f.gridy = 0;
 		f.gridx = 0;
 		jPanelResultadoDeBusqueda.add(jScrollPaneCliente, f);
@@ -377,11 +390,11 @@ public class BuscarCliente extends JDialog{
 		jTableBuscarCliente.addMouseListener(new MouseAdapter() {
 			   public void mouseClicked(MouseEvent e) {
 			      if (e.getClickCount() == 2) {
-			         JTable target = (JTable)e.getSource();
-			         int row = target.getSelectedRow();
-			         BuscarCliente.this.dispose();
-						new DetallarCliente( buscarCliente, " Detallar cliente", " Detalle del cliente ", listaClientes.get(Integer.parseInt(jTableBuscarCliente.getValueAt(row, 6).toString())));
-			         }
+			    	  JTable target = (JTable)e.getSource();
+			    	  int row = target.getSelectedRow();
+			    	  BuscarCliente.this.dispose();
+			    	  new DetallarCliente( buscarCliente, " Detallar cliente", " Detalle del cliente ", listaClientes.get(Integer.parseInt(jTableBuscarCliente.getValueAt(row, 6).toString())));
+			      }
 			   }
 			});
 		
@@ -398,9 +411,10 @@ public class BuscarCliente extends JDialog{
 	            public void keyPressed(java.awt.event.KeyEvent e) {
 	                int key = e.getKeyCode();
 	                if (key == java.awt.event.KeyEvent.VK_ENTER) {
-	                   buscarCliente();
-	                   }
+	                	buscarCliente();
+	                	jTableBuscarCliente.requestFocus();
 	                }
+	            }
 	        });     
 		
 		jLabelApellido = new JLabel("Apellido: ");
@@ -412,9 +426,10 @@ public class BuscarCliente extends JDialog{
             public void keyPressed(java.awt.event.KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == java.awt.event.KeyEvent.VK_ENTER) {
-                   buscarCliente();
-                   }
+                	buscarCliente();
+                	jTableBuscarCliente.requestFocus();
                 }
+            }
         });     
 		
 		jLabelCUIT = new JLabel("CUIT/CUIL: ");
@@ -426,9 +441,10 @@ public class BuscarCliente extends JDialog{
             public void keyPressed(java.awt.event.KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == java.awt.event.KeyEvent.VK_ENTER) {
-                   buscarCliente();
-                   }
+                	buscarCliente();
+                	jTableBuscarCliente.requestFocus();
                 }
+            }
             
         public void keyReleased(java.awt.event.KeyEvent evt) {  
         	//agrega los guiones al escribir el CUIT/CUIL
