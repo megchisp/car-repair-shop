@@ -198,6 +198,7 @@ public class ModificarReparacion extends JDialog{
 		jPanelModificarReparacion.add( new JLabel(" ") );
 			
 		this.getContentPane().add( jPanelModificarReparacion, BorderLayout.NORTH );
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.setResizable( false );
 		this.pack();
 		this.setLocationRelativeTo( null );
@@ -297,15 +298,6 @@ public class ModificarReparacion extends JDialog{
 		jTextFieldKilometraje = new JTextFieldOfNumbers();
 		jTextFieldKilometraje.setText(Integer.toString(reparacion.getKilometraje()));
 		jTextFieldKilometraje.setPreferredSize( new Dimension( 80, 25 ) );
-		jTextFieldKilometraje.addKeyListener(new java.awt.event.KeyAdapter() {  
-            // modifica la reparacion presionando el boton Enter
-            public void keyPressed(java.awt.event.KeyEvent e) {
-                int key = e.getKeyCode();
-                if (key == java.awt.event.KeyEvent.VK_ENTER)
-                	aceptarModificarReparacion();
-                }
-        }); 
-		
 	
 		jLabelObservaciones = new JLabel( "Observaciones: " );
 		jLabelObservaciones.setPreferredSize(new Dimension(309,25));

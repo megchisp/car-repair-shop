@@ -452,6 +452,20 @@ public class DetallarReparacion extends JDialog {
 		rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
 		jTableServiciosReparacion.getColumnModel().getColumn(2).setCellRenderer( rightRenderer );
 		jTableServiciosReparacion.getColumnModel().getColumn(2).setMaxWidth(70);
+		
+		jTableServiciosReparacion.addKeyListener(new java.awt.event.KeyAdapter() {  
+            // realiza el detalle del servicio seleccionado presionando el boton Enter
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == java.awt.event.KeyEvent.VK_ENTER) {
+                	if(jTableServiciosReparacion.getRowCount() > 0){
+	    				int index = Integer.parseInt(jTableServiciosReparacion.getValueAt(jTableServiciosReparacion.getSelectedRow(), 3).toString());
+	    				new DetallarServicio( detallarReparacion, "Detallar servicio", " Detalle del servicio ", agregarServicio, detallarReparacionItSelf, listaServicios.get(index) );
+	    			}
+                }
+            }
+        });     
+		
 		}
 	
 	private void cerrarEsc(){

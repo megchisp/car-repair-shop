@@ -462,7 +462,7 @@ public class ModificarCliente extends JDialog {
 		jButtonAceptar = new JButton( " Aceptar",  imageIconOk);
 		jButtonAceptar.setPreferredSize( new Dimension( 100, 30 ) );
 		jButtonAceptar.addActionListener( new JButtonActionListener( aceptarModificarCliente ) );
-		jButtonAceptar.addKeyListener( new JButtonKeyListener( aceptarModificarCliente ) );
+//		jButtonAceptar.addKeyListener( new JButtonKeyListener( aceptarModificarCliente ) );
 
 		// creo el botón cancelar con un ícono
 		ImageIcon imageIconCancel = new ImageIcon(resourceLoader.load("/images/menu/close-icon.png"));		

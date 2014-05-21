@@ -381,6 +381,19 @@ public class BuscarAutomovil extends JDialog {
 		jTableAutomovil.getColumnModel().getColumn(7).setPreferredWidth(0);
 		jTableAutomovil.getColumnModel().getColumn(7).setResizable(false);
 		
+		jTableAutomovil.addKeyListener(new java.awt.event.KeyAdapter() {  
+            // realiza el detalle del automovil seleccionado presionando el boton Enter
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == java.awt.event.KeyEvent.VK_ENTER) {
+                	if(jTableAutomovil.getRowCount() > 0){
+	    				BuscarAutomovil.this.dispose();
+	    				new DetallarAutomovil( buscarAutomovil, "Detallar automóvil", " Detalle del automóvil ", listaAutomoviles.get(Integer.parseInt(jTableAutomovil.getValueAt(jTableAutomovil.getSelectedRow(), 7).toString())));
+                	}
+                }
+            }
+        });     
+		
 		buttonGroupCriterio = new ButtonGroup();
 		buttonGroupCriterio.add(jRadioButtonPorCliente);
 		buttonGroupCriterio.add(jRadioButtonPorDominio);
@@ -394,9 +407,10 @@ public class BuscarAutomovil extends JDialog {
             public void keyPressed(java.awt.event.KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == java.awt.event.KeyEvent.VK_ENTER) {
-                   buscarAutomovil();
-                   }
+                	buscarAutomovil();
+               		jTableAutomovil.requestFocus();
                 }
+            }
         }); 
 		
 		jLabelApellido = new JLabel("Apellido: ");
@@ -408,9 +422,10 @@ public class BuscarAutomovil extends JDialog {
             public void keyPressed(java.awt.event.KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == java.awt.event.KeyEvent.VK_ENTER) {
-                   buscarAutomovil();
-                   }
+                	buscarAutomovil();
+              		jTableAutomovil.requestFocus();
                 }
+            }
         }); 
 		
 		jLabelDominio = new JLabel("Dominio: ");
@@ -422,9 +437,10 @@ public class BuscarAutomovil extends JDialog {
             public void keyPressed(java.awt.event.KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == java.awt.event.KeyEvent.VK_ENTER) {
-                   buscarAutomovil();
-                   }
+                	buscarAutomovil();
+              		jTableAutomovil.requestFocus();
                 }
+            }
         }); 
 		
 		// creo el botón buscar con un ícono

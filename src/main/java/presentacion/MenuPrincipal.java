@@ -73,7 +73,6 @@ public class MenuPrincipal extends JFrame {
 	ResourceLoader resourceLoader = new ResourceLoader();
 	
 	JToolBar jToolbar = new JToolBar();
-	Login login = null;
 	Usuario usuario = null;
 	StatusBar statusBar = null;
 	

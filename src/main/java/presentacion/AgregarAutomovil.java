@@ -127,6 +127,7 @@ public class AgregarAutomovil extends JDialog {
 		jPanelAgregarAutomovil.add(jTabbedPaneTab);
 		jPanelAgregarAutomovil.add( jPanelBotones );
 		this.getContentPane().add( jPanelAgregarAutomovil, BorderLayout.NORTH );
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.pack();
 		this.setResizable( false );
 		this.setLocationRelativeTo( null );

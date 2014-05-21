@@ -169,7 +169,7 @@ public class ModificarManoDeObra extends JDialog {
 		jPanelModificarManoDeObra.add( new JLabel(" "));
 			
 		this.getContentPane().add( jPanelModificarManoDeObra, BorderLayout.NORTH );
-		
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.setResizable( false );
 		this.pack();
 		this.setLocationRelativeTo( null );
@@ -240,16 +240,9 @@ public class ModificarManoDeObra extends JDialog {
 		jTextFieldPrecio.setFont(new Font("Dialog", Font.BOLD, 11));
 		jTextFieldPrecio.setPreferredSize( new Dimension( 65, 25 ) );
 		jTextFieldPrecio.addKeyListener(new java.awt.event.KeyAdapter() {  
-            // selecciona el boton aceptar cuando se presiona Enter en el jTextFieldPrecio, para que parsee de double a string
             public void keyPressed(java.awt.event.KeyEvent e) {
                 int key = e.getKeyCode();
-                if (key == java.awt.event.KeyEvent.VK_ENTER) {
-            		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            			public void run() {
-            				jButtonAceptar.requestFocusInWindow();
-            			}
-            		});
-                }
+
                 // cambia el punto (del teclado numerico) por la coma
                 if (key == 110) {
             		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -365,7 +358,7 @@ public class ModificarManoDeObra extends JDialog {
 	private boolean characterVaryingExceeded(){
 		int cont = 0;
 
-		if(jTextFieldNombre.getText().trim().length() > 50){
+		if(jTextFieldNombre.getText().trim().length() > 75){
 			jTextFieldNombre.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 			jTextFieldNombre.addFocusListener( new JTextFieldFocusListener( jTextFieldNombre ) );
 			cont++;

@@ -186,6 +186,7 @@ public class AgregarReparacion extends JDialog{
 		jPanelAgregarReparacion.add( new JLabel(" ") );
 			
 		this.getContentPane().add( jPanelAgregarReparacion, BorderLayout.NORTH );
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.setResizable( false );
 		this.pack();
 		this.setLocationRelativeTo( null );
@@ -270,14 +271,6 @@ public class AgregarReparacion extends JDialog{
 		jTextFieldKilometraje.setForeground( Color.GRAY );
 		jTextFieldKilometraje.setPreferredSize( new Dimension( 80, 25 ) );
 		jTextFieldKilometraje.addFocusListener( new JTextFieldFocusListener( jTextFieldKilometraje ) );
-		jTextFieldKilometraje.addKeyListener(new java.awt.event.KeyAdapter() {  
-            // agrega la reparacion presionando el boton Enter
-            public void keyPressed(java.awt.event.KeyEvent e) {
-                int key = e.getKeyCode();
-                if (key == java.awt.event.KeyEvent.VK_ENTER)
-                	aceptarAgregarReparacion();
-                }
-        }); 
 		
 		jLabelObservaciones = new JLabel( "Observaciones: " );
 		jLabelObservaciones.setPreferredSize(new Dimension(309,25));

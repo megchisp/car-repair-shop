@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -30,10 +31,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 
 import negocio.IServicioManager;
 import negocio.ITipoDeServicioManager;
@@ -56,17 +59,24 @@ public class AgregarServicio extends JDialog{
 	JButton jButtonAgregarServicio = null;
 	JTable jTableTipoServicio = null;
 	JScrollPane scrollServicios = null;
+	JTextFieldUpperCased jTextFieldUpperCasedBuscar = null;
 	
 	DetallarReparacion detallarReparacion = null;
 	Reparacion reparacion = null;
 	Vector<String> serviciosAgregadosCopia = null;
+	
+	DefaultTableModel dtmTipoServicio = inicializoTableModel();
 
+	// variables para realizar el filtrado
+	TableRowSorter<DefaultTableModel> tableRowSorter= new TableRowSorter<DefaultTableModel>(dtmTipoServicio);
+	ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
+	RowFilter<Object,Object> tableRowSorterNombre = null;
+	
 	ResourceLoader resourceLoader = new ResourceLoader();
-
 
 	public AgregarServicio( JFrame padre, String titulo, String titleBorder, DetallarReparacion detallarReparacionPadre,  Reparacion reparacion) {
 		super( padre, titulo, true );
-		this.setPreferredSize( new Dimension( 250, 300 ) ); // tamaño de la ventana
+		this.setPreferredSize( new Dimension( 250, 330 ) ); // tamaño de la ventana
 		this.getContentPane().setLayout( new BorderLayout() );
 		
 		// agrego icono a la ventana
@@ -85,19 +95,25 @@ public class AgregarServicio extends JDialog{
 		titledBorder.setBorder( BorderFactory.createLineBorder( new Color( 100, 150, 100 ) ) );
 		titledBorder.setTitleColor( new Color( 0, 0, 128 ) );
 		jPanelAgregarServicio.setBorder( titledBorder );
-		jPanelAgregarServicio.setPreferredSize(new Dimension(300, 270));
+		jPanelAgregarServicio.setPreferredSize(new Dimension(300, 300));
 		/* fin panel exterior */
 		
 		inicializarVariables();
 		extraerInfoBD();
 		cerrarEsc();
-		
-		
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.WEST;
 
 		c.gridy = 0;
+		c.gridx = 0;
+		jPanelAgregarServicio.add( jTextFieldUpperCasedBuscar, c );
+		
+		c.gridy = 1;
+		c.gridx = 0;
+		jPanelAgregarServicio.add( new JLabel(" "), c );
+		
+		c.gridy = 2;
 		c.gridx = 0;
 		jPanelAgregarServicio.add( scrollServicios, c );
 
@@ -113,10 +129,10 @@ public class AgregarServicio extends JDialog{
 			g.insets = new Insets( 0, 20, 0, 0 );
 			jPanelBotones.add( jButtonCancelarServicio, g );
 			
-		c.gridy = 1;
+		c.gridy = 3;
 		c.gridx = 0;
 		jPanelAgregarServicio.add( new JLabel(" "), c );
-		c.gridy = 2;
+		c.gridy = 4;
 		c.gridx = 0;
 		jPanelAgregarServicio.add( jPanelBotones, c );
 		
@@ -195,7 +211,7 @@ public class AgregarServicio extends JDialog{
 		jButtonAgregarServicio = new JButton( " Aceptar",  imageIconOk);
 		jButtonAgregarServicio.setPreferredSize( new Dimension( 100, 30 ) );
 		jButtonAgregarServicio.addActionListener( new JButtonActionListener( aceptarAgregarServicio ) );
-		jButtonAgregarServicio.addKeyListener( new JButtonKeyListener( cancelarAgregarServicio ) );
+		jButtonAgregarServicio.addKeyListener( new JButtonKeyListener( aceptarAgregarServicio ) );
 		
 		// creo el botón cancelar con un ícono
 		ImageIcon imageIconCancel = new ImageIcon(resourceLoader.load("/images/menu/close-icon.png"));		
@@ -226,6 +242,31 @@ public class AgregarServicio extends JDialog{
 		scrollServicios = new JScrollPane(jTableTipoServicio);
 		scrollServicios.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
+		jTableTipoServicio.addKeyListener(new java.awt.event.KeyAdapter() {  
+            // agrega el tipo de servicio seleccionado presionando el boton Enter
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == java.awt.event.KeyEvent.VK_ENTER) {
+                	if(jTableTipoServicio.getRowCount() > 0){
+	    				aceptarAgregarServicio();
+	    			}
+                }
+            }
+        });
+		
+		jTextFieldUpperCasedBuscar = new JTextFieldOfLetters();
+		jTextFieldUpperCasedBuscar.setToolTipText("Filtrar tipos de servicios");
+		jTextFieldUpperCasedBuscar.setPreferredSize( new Dimension( 220, 25 ) );
+		jTextFieldUpperCasedBuscar.addKeyListener(new java.awt.event.KeyAdapter() {              
+	         // habilita a realizar la búsqueda presionando el boton Enter
+	            public void keyPressed(java.awt.event.KeyEvent e) {
+	                int key = e.getKeyCode();
+	                if (key == java.awt.event.KeyEvent.VK_ENTER) {
+	                	buscarTipoServicio();
+	                	jTableTipoServicio.requestFocus();
+	                }
+	            }
+	        });  
 	}
 	
 	private void cerrarEsc(){
@@ -237,6 +278,22 @@ public class AgregarServicio extends JDialog{
 			}
 		};
 		jPanelAgregarServicio.registerKeyboardAction(actionListener, keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+	}
+	
+	private void buscarTipoServicio() {
+		// elimino cualquier filtro que pudiera tener la tabla
+		jTableTipoServicio.setRowSorter(null);
+		// creo el filtro segun jTextFieldNombre
+		tableRowSorterNombre = RowFilter.regexFilter("(?i)^" + jTextFieldUpperCasedBuscar.getText(), 2);
+		// agrego los filtros a la lista
+		andFilters.add(tableRowSorterNombre);
+		// combino los filtros en uno solo
+		tableRowSorter.setRowFilter(RowFilter.andFilter(andFilters));
+		// reseteo lista de filtros porque ya no se necesita
+		andFilters.clear();
+		// aplico el filtro
+		jTableTipoServicio.setRowSorter(tableRowSorter);
+		enableDisableButtons();
 	}
 	
 	private void extraerInfoBD(){
@@ -272,6 +329,20 @@ public class AgregarServicio extends JDialog{
 		}
 	}
 	
+	private void enableDisableButtons(){ // habilita o deshabilita los botones según hayan filas en la tabla
+		if(jTableTipoServicio.getRowCount() > 0){
+			jButtonAgregarServicio.setEnabled(true);
+			jTableTipoServicio.setRowSelectionInterval(0, 0); // selecciona la primera fila
+			jTableTipoServicio.getTableHeader().setBackground(new Color(236,243,255));
+			jTableTipoServicio.getTableHeader().setForeground(new Color(0,0,0));
+		}
+		else{
+			jButtonAgregarServicio.setEnabled(false);
+			jTableTipoServicio.getTableHeader().setBackground(new Color(238,238,238));
+			jTableTipoServicio.getTableHeader().setForeground(new Color(153,153,153));
+		}
+	}
+	
 	private boolean existeServicio(TipoDeServicio tipoDeServicio, Iterator<Servicio> iterator){
 		// Este método retorna true si el tipo de servicio ya se encuentra agregado.
 		// Se utiliza para decidir si la tabla lleva tilde o no.
@@ -284,9 +355,9 @@ public class AgregarServicio extends JDialog{
 		return false;
 	}
 
-
+	private DefaultTableModel inicializoTableModel(){
 	//para que la tabla no sea editable
-			DefaultTableModel dtmTipoServicio = new DefaultTableModel() {
+		return new DefaultTableModel() {			
 			private static final long serialVersionUID = 1L;
 			String nombresColumnas[] = {"ID","", "Tipo de servicio"};
 			
@@ -307,5 +378,5 @@ public class AgregarServicio extends JDialog{
 		    }
 		    
 		};
-
+	}
 }

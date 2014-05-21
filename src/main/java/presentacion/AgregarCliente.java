@@ -128,7 +128,7 @@ public class AgregarCliente extends JDialog {
 		jPanelAgregarCliente.add(jPanelBotones);
 
 		this.getContentPane().add( jPanelAgregarCliente, BorderLayout.NORTH );
-		
+		this.getRootPane().setDefaultButton(jButtonAceptar);
 		this.pack();
 		this.setResizable( false );
 		this.setLocationRelativeTo( null );
@@ -270,7 +270,7 @@ public class AgregarCliente extends JDialog {
 		jButtonAceptar = new JButton( " Aceptar",  imageIconOk);
 		jButtonAceptar.setPreferredSize( new Dimension( 100, 30 ) );
 		jButtonAceptar.addActionListener( new JButtonActionListener( aceptarAgregarCliente ) );
-		jButtonAceptar.addKeyListener( new JButtonKeyListener( aceptarAgregarCliente ) );
+//		jButtonAceptar.addKeyListener( new JButtonKeyListener( aceptarAgregarCliente ) );
 
 		// creo el botón cancelar con un ícono
 		ImageIcon imageIconCancel = new ImageIcon(resourceLoader.load("/images/menu/close-icon.png"));		
