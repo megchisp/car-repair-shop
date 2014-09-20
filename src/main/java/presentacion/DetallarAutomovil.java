@@ -43,8 +43,8 @@ import negocio.ClienteManager;
 import negocio.IClienteManager;
 import negocio.IReparacionManager;
 import negocio.ReparacionManager;
-
 import persistencia.Automovil;
+import persistencia.Cliente;
 import persistencia.Reparacion;
 
 public class DetallarAutomovil extends JDialog {
@@ -55,6 +55,7 @@ public class DetallarAutomovil extends JDialog {
 	DetallarAutomovil detallarAutomovilItSelf = this; // tuve que crear detallarAutomovilItSelf xq no me deja pasar this como parametro :/
 	
 	JPanel jPanelDetalleAutomovil = null;
+	JPanel jPanelBotonesAbajo = null;
 	
 	Automovil automovil = null;
 	List<Reparacion> listaReparaciones = null;
@@ -99,6 +100,7 @@ public class DetallarAutomovil extends JDialog {
 	JButton jButtonModificarReparacion = null;
 	JButton jButtonEliminarReparacion = null;
 	JButton jButtonDetallarReparacion = null;
+	JButton jButtonDetallarCliente = null;
 	JButton jButtonCerrar = null;
 
 	JTable jTableReparaciones = null;
@@ -141,6 +143,7 @@ public class DetallarAutomovil extends JDialog {
 		a.anchor = GridBagConstraints.EAST;
 		
 		inicializarVariables();
+		inicializarBotones();
 		extraerInfoBD();
 		enableDisableButtons();
 		cerrarEsc();
@@ -301,10 +304,7 @@ public class DetallarAutomovil extends JDialog {
 		a.gridy = 5;
 		a.gridx = 0;
 		a.insets = new Insets( 0, 0, 0, 0 );
-		jPanelDetalleAutomovil.add( jButtonCerrar, a);
-		a.gridy = 6;
-		a.gridx = 0;
-		jPanelDetalleAutomovil.add( new JLabel(" "), a);
+		jPanelDetalleAutomovil.add( jPanelBotonesAbajo, a );
 		
 		this.getContentPane().add( jPanelDetalleAutomovil, BorderLayout.NORTH );
 		this.pack();
@@ -516,7 +516,7 @@ public class DetallarAutomovil extends JDialog {
 			}
 		});
 		
-		// creo el botón detallar con un ícono
+		// creo el botón detallar reparación con un ícono
 		ImageIcon imageIconDetailsRepair = new ImageIcon(resourceLoader.load("/images/menu/detail-icon.png"));		
 		jButtonDetallarReparacion = new JButton( " Detallar", imageIconDetailsRepair );
 		jButtonDetallarReparacion.setToolTipText("Detallar la reparación seleccionada");
@@ -528,7 +528,17 @@ public class DetallarAutomovil extends JDialog {
 			}
 		});
 		
-
+		// creo el botón detallar cliente
+		ImageIcon imageIconGoBack = new ImageIcon(resourceLoader.load("/images/menu/go-back-icon.png"));		
+		jButtonDetallarCliente = new JButton( imageIconGoBack );
+		jButtonDetallarCliente.setToolTipText( "Ir al detalle del cliente" );
+		jButtonDetallarCliente.setPreferredSize( new Dimension( 30, 30 ));
+		jButtonDetallarCliente.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				detallarCliente();
+			}
+		});
+		
 		// creo el botón cerrar con un ícono
 		ImageIcon imageIconLogOut = new ImageIcon(resourceLoader.load("/images/menu/log-out-icon.png"));		
 		jButtonCerrar = new JButton( " Cerrar", imageIconLogOut );
@@ -538,6 +548,23 @@ public class DetallarAutomovil extends JDialog {
 				DetallarAutomovil.this.dispose();
 			}
 		});
+	}
+	
+	private void inicializarBotones(){
+		jPanelBotonesAbajo = new JPanel();
+		jPanelBotonesAbajo.setPreferredSize( new Dimension( 600, 35 ) );
+		jPanelBotonesAbajo.setLayout( new GridBagLayout() );
+		GridBagConstraints e = new GridBagConstraints();
+		e.anchor = GridBagConstraints.EAST;
+		
+		e.gridy = 0;
+		e.gridx = 0;
+		e.insets = new Insets( 0, 0, 0, 450 );
+		jPanelBotonesAbajo.add( jButtonDetallarCliente, e );
+		e.gridy = 0;
+		e.gridx = 1;
+		e.insets = new Insets( 0, 0, 0, 0 );
+		jPanelBotonesAbajo.add( jButtonCerrar, e );
 	}
 	
 	public void completarJLabel(JLabel jLabel, String nombre, String dato){
@@ -668,6 +695,18 @@ public class DetallarAutomovil extends JDialog {
 			JOptionPane.showMessageDialog( this, "Algo salió mal", "Ups!", JOptionPane.ERROR_MESSAGE );
 		}
 		
+	}
+	
+	public void detallarCliente(){		
+		IClienteManager clienteManager = new ClienteManager();
+		Cliente cliente;
+		try {
+			cliente = clienteManager.getCliente(automovil);
+			DetallarAutomovil.this.dispose();
+			new DetallarCliente( detallarAutomovil, " Detallar cliente", " Detalle del cliente ", cliente);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog( this, e, "Error", JOptionPane.ERROR_MESSAGE );
+		}
 	}
 	
 	private void cerrarEsc(){

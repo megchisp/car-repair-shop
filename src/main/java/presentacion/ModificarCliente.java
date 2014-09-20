@@ -143,7 +143,7 @@ public class ModificarCliente extends JDialog {
 		jPanelModificarCliente.add(jPanelBotones);
 
 		this.getContentPane().add( jPanelModificarCliente, BorderLayout.NORTH );
-		
+		this.getRootPane().setDefaultButton(jButtonAceptar); // cuando se presiona enter
 		this.pack();
 		this.setResizable( false );
 		this.setLocationRelativeTo( null );

@@ -19,7 +19,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -55,7 +54,6 @@ public class AgregarCliente extends JDialog {
 	JLabel jLabelFechaDeNacimiento = null;
 	JLabel jLabelDe1 = null;
 	JLabel jLabelDe2 = null;
-	JLabel jLabelFallecido = null;
 	JLabel jLabelNombre = null;
 	JLabel jLabelApellido = null;
 	JLabel jLabelTelefono = null;
@@ -89,8 +87,6 @@ public class AgregarCliente extends JDialog {
 	
 	ResourceLoader resourceLoader = new ResourceLoader();
 	
-	JCheckBox jCheckBoxFallecido = null;
-
 	public AgregarCliente( JFrame padre, String titulo, String titleBorder ) {
 		super( padre, titulo, true );
 
@@ -128,7 +124,7 @@ public class AgregarCliente extends JDialog {
 		jPanelAgregarCliente.add(jPanelBotones);
 
 		this.getContentPane().add( jPanelAgregarCliente, BorderLayout.NORTH );
-		this.getRootPane().setDefaultButton(jButtonAceptar);
+		this.getRootPane().setDefaultButton(jButtonAceptar); // cuando se presiona enter
 		this.pack();
 		this.setResizable( false );
 		this.setLocationRelativeTo( null );
@@ -136,7 +132,7 @@ public class AgregarCliente extends JDialog {
 	}
 
 	private void cerrarEsc(){
-		// esta funcion hace que la ventana BuscarAutomovil se cierre con la tecla ESC
+		// esta funcion hace que la ventana AgregarCliente se cierre con la tecla ESC
 		KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 		ActionListener actionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -190,10 +186,6 @@ public class AgregarCliente extends JDialog {
 		jLabelDe1 = new JLabel( " de " );
 		jLabelDe2 = new JLabel( " de " );
 
-		jLabelFallecido = new JLabel( "(\u271D)" );
-		jCheckBoxFallecido = new JCheckBox();
-		jCheckBoxFallecido.setToolTipText("Indicar cliente fallecido");
-		
 		jLabelNombre = new JLabel( "Nombre: " );
 		jLabelNombre.setPreferredSize( dimensionLabel );
 		jTextFieldNombre = new JTextFieldOfLetters();
@@ -297,14 +289,6 @@ public class AgregarCliente extends JDialog {
 		a.gridx = 1;
 		a.insets = new Insets( 0, -70, 0, 0 );
 		jPanelDatosPrimarios.add( jTextFieldCUIT, a );
-		a.gridy = 1;
-		a.gridx = 2;
-		a.insets = new Insets( 0, -40, 0, 0 );
-		jPanelDatosPrimarios.add( jLabelFallecido, a );
-		a.gridy = 1;
-		a.gridx = 3;
-		a.insets = new Insets( 0, -20, 0, 0 );
-		jPanelDatosPrimarios.add( jCheckBoxFallecido, a );
 		a.gridy = 2;
 		a.gridx = 0;
 		jPanelDatosPrimarios.add( new JLabel( " " ), a );
@@ -552,7 +536,7 @@ public class AgregarCliente extends JDialog {
 			Cliente cliente = new Cliente();
 			cliente.setCUIT( jTextFieldCUIT.getText().trim()  );
 			cliente.setBooleanHabilitaFechaDeNacimiento(booleanHabilitaFechaDeNacimiento);
-			cliente.setFallecido(jCheckBoxFallecido.isSelected());
+			cliente.setFallecido(false);
 			cliente.setNombre( jTextFieldNombre.getText().trim() );
 			cliente.setApellido( jTextFieldApellido.getText().trim() );
 			cliente.setFechaDeNacimiento( fechaDeNacimientoCalendar );

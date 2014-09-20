@@ -13,6 +13,7 @@ public interface IClienteManager {
 	public List<Cliente> listaClientesPorNombre() throws Exception;
 	public List<Cliente> listaClientesPorID() throws Exception;
 	public List<Cliente> listaClientesNoFallecidos() throws Exception;
+	public Cliente getCliente(Automovil automovil) throws Exception;
 	public Date ultimaVez (Cliente cliente) throws Exception;
 	public int nextID() throws Exception;
 	public int lastValue() throws Exception;

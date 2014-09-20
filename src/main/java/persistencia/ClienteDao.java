@@ -272,6 +272,25 @@ public class ClienteDao implements IClienteDao {
 			}
 		return apellidoNombre;
 	}
+	
+	public Cliente getCliente(Automovil automovil) throws Exception {
+		// este método retorna el cliente propietario del automovil pasado como parámetro
+		String query = "SELECT * FROM CLIENTE WHERE id_cliente = " + automovil.getId_cliente();
+		ResultSet resultado = null;
+		Cliente cliente = null;
+		try{
+			conn.open(); // abre la conexion
+			resultado = conn.query(query);
+			resultado.next();
+			cliente = new Cliente(resultado.getInt("id_cliente"), resultado.getString("cuit"), (resultado.getDate ("fecha_nacimiento")), resultado.getBoolean("fecha_nacimiento_habilitada"), resultado.getBoolean("fallecido"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("telefono"), resultado.getString("celular"), resultado.getString("domicilio"), resultado.getString("localidad"), resultado.getString("codigo_postal"), resultado.getString("mail"), resultado.getString("observaciones"));
+			conn.close(); // cierra la conexión
+			} 
+			catch(Exception e) 
+			{
+				throw e;
+			}
+		return cliente;
+	}
 
 	public Date ultimaVez(Cliente cliente) throws Exception {
 		// este método retorna cuándo fué la última vez que el cliente pasado como parámetro visitó el taller
