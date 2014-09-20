@@ -80,7 +80,7 @@ public class DetallarReparacion extends JDialog {
 	JButton jButtonEliminarServicio = null;
 	JButton jButtonDetallarServicio = null;
 	JButton jButtonCerrar = null;
-	JButton jButtonDetallarCliente = null;
+	JButton jButtonDetallarAutomovil = null;
 	
 	JTable jTableServiciosReparacion = null;
 	JScrollPane jScrollPaneServiciosReparacion = null;
@@ -254,7 +254,7 @@ public class DetallarReparacion extends JDialog {
 		e.gridy = 0;
 		e.gridx = 0;
 		e.insets = new Insets( 0, 0, 0, 290 );
-		jPanelBotonesAbajo.add( jButtonDetallarCliente, e );
+		jPanelBotonesAbajo.add( jButtonDetallarAutomovil, e );
 		e.gridy = 0;
 		e.gridx = 1;
 		e.insets = new Insets( 0, 0, 0, 0 );
@@ -396,14 +396,14 @@ public class DetallarReparacion extends JDialog {
 			}
 		});
 		
-		// creo el botón detallar cliente
+		// creo el botón detallar automóvil
 		ImageIcon imageIconGoBack = new ImageIcon(resourceLoader.load("/images/menu/go-back-icon.png"));		
-		jButtonDetallarCliente = new JButton( imageIconGoBack );
-		jButtonDetallarCliente.setToolTipText( "Ir al detalle del automovil" );
-		jButtonDetallarCliente.setPreferredSize( new Dimension( 30, 30 ));
-		jButtonDetallarCliente.addActionListener( new ActionListener() {
+		jButtonDetallarAutomovil = new JButton( imageIconGoBack );
+		jButtonDetallarAutomovil.setToolTipText( "Ir al detalle del automovil" );
+		jButtonDetallarAutomovil.setPreferredSize( new Dimension( 30, 30 ));
+		jButtonDetallarAutomovil.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				detallarCliente();
+				detallarAutomovil();
 			}
 		});
 		
@@ -503,7 +503,7 @@ public class DetallarReparacion extends JDialog {
 		
 	};
 	
-	public void detallarCliente(){		
+	public void detallarAutomovil(){		
 		IAutomovilManager automovilManager = new AutomovilManager();
 		Automovil automovil;
 		try {

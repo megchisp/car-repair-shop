@@ -224,4 +224,8 @@ public class ClienteManager implements IClienteManager {
 	public Date ultimaVez(Cliente cliente) throws Exception {
 		return clienteDao.ultimaVez(cliente);
 	}
+	
+	public Cliente getCliente(Automovil automovil) throws Exception {
+		return clienteDao.getCliente(automovil);
+	}
 }

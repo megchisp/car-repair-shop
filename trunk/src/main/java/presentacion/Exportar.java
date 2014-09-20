@@ -2,7 +2,9 @@ package presentacion;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +35,6 @@ import negocio.RepuestoManager;
 import negocio.ServicioManager;
 import negocio.TipoDeServicioManager;
 import negocio.UsuarioManager;
-
 import persistencia.Automovil;
 import persistencia.Cliente;
 import persistencia.ManoDeObra;
@@ -93,6 +94,7 @@ public class Exportar extends JFileChooser{
 		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos SQL", "sql", "text");
 		fileChooser.setFileFilter(filter);
+		fileChooser.setSelectedFile(new File(new SimpleDateFormat("yyyyMMdd").format(new Date()))); // setea nombre por defecto
 		fileChooser.setDialogTitle(" Exportar ");
 		int userSelection = fileChooser.showSaveDialog(this);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
@@ -207,7 +209,7 @@ public class Exportar extends JFileChooser{
 	String fechaActual(){
 		// este método devuelve la fecha actual en forma de string
 		Calendar cal1 = Calendar.getInstance();
-		java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("dd/MM/YYYY", new Locale("es", "AR"));
+		java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("dd-MM-YYYY", new Locale("es", "AR"));
 		return sdf.format(new java.sql.Date(cal1.getTimeInMillis()));
 	}
 	

@@ -15,5 +15,6 @@ public interface IClienteDao {
 	public int nextID() throws Exception;
 	public int lastValue() throws Exception;
 	public String[] getApellidoNombre ( Automovil automovil ) throws Exception;
+	public Cliente getCliente (Automovil automovil) throws Exception;
 }
 

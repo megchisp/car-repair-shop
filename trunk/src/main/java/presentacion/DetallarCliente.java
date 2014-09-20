@@ -43,7 +43,6 @@ import javax.swing.table.TableRowSorter;
 import negocio.AutomovilManager;
 import negocio.ClienteManager;
 import negocio.IAutomovilManager;
-
 import persistencia.Automovil;
 import persistencia.Cliente;
 
@@ -456,6 +455,20 @@ public class DetallarCliente extends JDialog {
 		// habilito a que el usuario ordene ascendente o descendentemente las columnas
 		 RowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(dtmAutomovilesClientes);
 		 tablaAutomovilesClientes.setRowSorter(sorter);
+		 
+		 tablaAutomovilesClientes.addKeyListener(new java.awt.event.KeyAdapter() {  
+	            // realiza el detalle de la reparación seleccionada presionando el boton Enter
+	            public void keyPressed(java.awt.event.KeyEvent e) {
+	                int key = e.getKeyCode();
+	                if (key == java.awt.event.KeyEvent.VK_ENTER) {
+	                	if(tablaAutomovilesClientes.getRowCount() > 0){
+		    				DetallarCliente.this.dispose();
+		    				new DetallarAutomovil( detallarCliente, "Detallar automóvil", "Detalle del automóvil", listaAutomoviles.get(Integer.parseInt(tablaAutomovilesClientes.getValueAt(tablaAutomovilesClientes.getSelectedRow(), 5).toString())));
+	                	}
+	                }
+	            }
+	        });   
+			
 		/*************************** FIN *************************************************/
 		
 		

@@ -66,14 +66,14 @@ public class MarqeuePanel extends JPanel implements Runnable{
     			"<font face=\"Courier New\">" +
 
 				"<u>Desarrollado por</u>:<br>"+
-    			"A.U.S. García Osorio<br><br>" +
+    			"A.U.S. Mauro García Osorio<br><br>" +
 				
 				"<u>Aprobado por</u>:<br>" +
 				"Ing. Claudio Bracalenti<br><br>" +
 				
 				"<center>Este sistema fué presentado como proyecto " +
 				"para la cátedra Habilitación Profesional " +
-				"de la carrera de Analista Universitario en Sistemas de la " +
+				"de la carrera de Analista Universitario de Sistemas de la " +
 				"Universidad Tecnológica Nacional.<br><br>" +
 				"<u>MIDI</u>: \"Smells like teen spirit - Nirvana\"<br><br>" +
 				"<br<br> www.garciaosorio.com<br><br>" +
