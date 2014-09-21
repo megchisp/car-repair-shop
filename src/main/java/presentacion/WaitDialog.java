@@ -24,11 +24,15 @@ public class WaitDialog extends JDialog{
     	
 		jPanelMensaje.add(jLabelMensaje);
 	    this.getContentPane().add(jPanelMensaje);  
-	    this.setSize(230,90);  
+	    this.setSize(250,90);  
 	    this.setLocationRelativeTo(null);  
 	    this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);  
 	    this.setModal(true);
 	    this.setUndecorated(true);
+    }
+    
+    void setStringMensaje(String stringMensaje){
+    	jLabelMensaje.setText(stringMensaje);
     }
 
 }
