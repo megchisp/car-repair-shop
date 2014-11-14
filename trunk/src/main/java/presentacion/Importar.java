@@ -40,9 +40,10 @@ public class Importar extends JFileChooser{
 							unImportarBD.eliminarBD();
 	    					waitDialog.setStringMensaje("Importando base de datos...");
 	    					unImportarBD.importarBD(new BufferedReader(new FileReader(fileChooser.getSelectedFile())));
-	    					
+	    					waitDialog.dispose(); 
 	    					JOptionPane.showMessageDialog( jFileChooserThis, "La base de datos se ha importado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE );
     					} catch (Exception e) {
+    						waitDialog.dispose(); 
     						JOptionPane.showMessageDialog( jFileChooserThis, "Compruebe que la sintaxis del backup sea el correcto.\n\nDetalles del error:\n" + e, "Error", JOptionPane.ERROR_MESSAGE );
     						return null;
 						} 
@@ -50,7 +51,7 @@ public class Importar extends JFileChooser{
     		          }  
     		  
     		          protected void done(){  
-    		        	  waitDialog.dispose();  
+//    		        	  waitDialog.dispose();  
     		          }  
     		        };  
     		        worker.execute();  
