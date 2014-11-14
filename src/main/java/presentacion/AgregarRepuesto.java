@@ -42,6 +42,8 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
+
 import negocio.IProveedorManager;
 import negocio.IRepuestoManager;
 import negocio.ProveedorManager;
@@ -426,6 +428,9 @@ public class AgregarRepuesto extends JDialog {
 						Integer.toString(detallarServicio.dtmRepuestos
 								.getRowCount()) };
 				detallarServicio.dtmRepuestos.addRow(fila1);
+				// scroll hasta el final de la tabla
+				detallarServicio.jTableRepuestos.scrollRectToVisible(detallarServicio.jTableRepuestos.getCellRect(detallarServicio.jTableRepuestos.getRowCount()-1, 0, true));
+				
 				cleanAllFields();
 				this.dispose();
 				break;

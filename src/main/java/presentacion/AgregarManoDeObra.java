@@ -330,6 +330,8 @@ public class AgregarManoDeObra extends JDialog {
 					detallarServicio.listaManosDeObras.add(manoDeObra);
 					Object fila1[] = {Integer.toString(manoDeObra.getId_mano_de_obra()), manoDeObra.getNombre(), jComboBoxMecanico.getSelectedIndex() == 0 ? "< sin especificar >" : (listaMecanicos.get(jComboBoxMecanico.getSelectedIndex() - 1).getNombre() + " " + listaMecanicos.get(jComboBoxMecanico.getSelectedIndex() - 1).getApellido()), (jTextAreaObservaciones.getText().trim().equals("") ? "" : "\u2713"), amountDisplayFormat.format(precio), Integer.toString(detallarServicio.dtmManosDeObra.getRowCount()) }; 
 					detallarServicio.dtmManosDeObra.addRow(fila1);
+					// scroll hasta el final de la tabla
+					detallarServicio.jTableManosDeObra.scrollRectToVisible(detallarServicio.jTableManosDeObra.getCellRect(detallarServicio.jTableManosDeObra.getRowCount()-1, 0, true));
 					cleanAllFields();
 				
 					this.dispose();
