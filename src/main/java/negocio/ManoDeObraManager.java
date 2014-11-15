@@ -46,6 +46,10 @@ public class ManoDeObraManager implements IManoDeObraManager {
 		return manoDeObraDao.listaManosDeObras(servicio);
 	}
 	
+	public List<String> listaNombreManosDeObras() throws Exception {
+		return manoDeObraDao.listaNombreManosDeObras();
+	}
+	
 	public List<ManoDeObra> listaManosDeObras() throws Exception {
 		return manoDeObraDao.listaManosDeObras();
 	}

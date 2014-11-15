@@ -89,6 +89,32 @@ public class ManoDeObraDao implements IManoDeObraDao {
 		return listaManosDeObras;
 	}
 	
+
+	public List<String> listaNombreManosDeObras() throws Exception {
+		// este método retorna una lista con todos los nombres de manos de obras
+		// se utiliza para autocompletar el jtextfield
+		String query = "SELECT DISTINCT nombre FROM mano_de_obra";
+		List<String> listaNombreManosDeObra = new ArrayList<String>();
+		ResultSet resultado = null;
+		String nombreManoDeObra = null;
+
+		try{
+			conn.open(); // abre la conexion
+			resultado = conn.query(query);
+
+			while(resultado.next()){
+				nombreManoDeObra = new String(resultado.getString("nombre"));
+				listaNombreManosDeObra.add(nombreManoDeObra);
+			}
+			conn.close(); // cierra la conexión
+		} 
+		catch(Exception e) 
+		{
+			throw e;
+		}
+		return listaNombreManosDeObra;
+	}
+	
 	public List<ManoDeObra> listaManosDeObras() throws Exception {
 		// este método retorna una lista con todas las manos de obras de la BD
 		// se lo utiliza unicamente para exportar la BD
