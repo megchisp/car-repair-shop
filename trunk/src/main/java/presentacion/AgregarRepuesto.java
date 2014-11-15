@@ -387,7 +387,7 @@ public class AgregarRepuesto extends JDialog {
 		IRepuestoManager repuestoManager = new RepuestoManager();
 		try {
 			listaNombreRepuestos = repuestoManager.listaNombreRepuestos(); // obtengo todos los repuestos
-			inicializar_jTextFieldNombre(listaNombreRepuestos.iterator()); // completa la tabla con la lista de repuestos
+			inicializar_jTextFieldNombre(listaNombreRepuestos.iterator()); // completo con la lista de repuestos
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog( this, e, "Error", JOptionPane.ERROR_MESSAGE );
 		}

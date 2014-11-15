@@ -40,9 +40,10 @@ import javax.swing.text.NumberFormatter;
 
 import negocio.IManoDeObraManager;
 import negocio.IMecanicoManager;
+import negocio.IRepuestoManager;
 import negocio.ManoDeObraManager;
 import negocio.MecanicoManager;
-
+import negocio.RepuestoManager;
 import persistencia.ManoDeObra;
 import persistencia.Mecanico;
 import persistencia.Servicio;
@@ -59,9 +60,10 @@ public class AgregarManoDeObra extends JDialog {
 	JLabel jLabelObservaciones = null;
 	JLabel jLabelMecanico = null;
 
-	JTextFieldUpperCased jTextFieldNombre = null;
+	GTextField jTextFieldNombre = null;
 	JFormattedTextField jTextFieldPrecio = null;
 	JComboBox<String> jComboBoxMecanico = null;
+	List<String> listaNombreManosDeObras = null;
 	
 	JTextArea jTextAreaObservaciones = null;
 	JScrollPane jScrollPaneObservaciones = null;
@@ -108,6 +110,7 @@ public class AgregarManoDeObra extends JDialog {
 	jPanelAgregarManoDeObra.setPreferredSize(new Dimension (380, 280));
 
 	inicializarVariables();
+	extraerInfoBD();
 	cerrarEsc();
 			
 		jPanelAgregarManoDeObra.add(jLabelMecanico);
@@ -208,7 +211,10 @@ public class AgregarManoDeObra extends JDialog {
 		
 		jLabelNombre = new JLabel( "Nombre: " );
 		jLabelNombre.setPreferredSize( new Dimension( 57, 25 ) );
-		jTextFieldNombre = new JTextFieldUpperCased();
+		jTextFieldNombre = new GTextField(0  , 0 , true ); // true para habilitar el autocompletado
+		
+		jTextFieldNombre.setWidthPopupPanel(164);
+		jTextFieldNombre.setHeightPopupPanel(100);
 		jTextFieldNombre.setText( " < Cambio de aceite >" );
 		jTextFieldNombre.setForeground( Color.GRAY );
 		jTextFieldNombre.setPreferredSize( new Dimension( 170, 25 ) ); // 204, 25
@@ -296,6 +302,28 @@ public class AgregarManoDeObra extends JDialog {
 //        amountDisplayFormat.setMinimumFractionDigits(2);
         amountEditFormat = NumberFormat.getNumberInstance(new Locale("es", "AR"));
     }
+    
+	private void inicializar_jTextFieldNombre(Iterator<String> iteratorRepuesto){
+		String nombreManoDeObra;
+
+		while (iteratorRepuesto.hasNext()){
+			nombreManoDeObra = iteratorRepuesto.next();
+			String nombre = nombreManoDeObra;
+			jTextFieldNombre.getDataList().add(nombre);
+		}
+		
+	}
+	
+	public void extraerInfoBD(){
+		// esta funcion inicializa la lista de nombres de las manos de obras para el autocompletado
+		IRepuestoManager repuestoManager = new RepuestoManager();
+		try {
+			listaNombreManosDeObras = repuestoManager.listaNombreRepuestos(); // obtengo todas las manos de obras
+			inicializar_jTextFieldNombre(listaNombreManosDeObras.iterator()); // completo con la lista de manos de obras
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog( this, e, "Error", JOptionPane.ERROR_MESSAGE );
+		}
+	}
 	
 	private void aceptarAgregarManoDeObra() {
 		int option = 0;
