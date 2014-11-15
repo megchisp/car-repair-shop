@@ -42,13 +42,10 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
-import com.mxrck.autocompleter.TextAutoCompleter;
-
 import negocio.IProveedorManager;
 import negocio.IRepuestoManager;
 import negocio.ProveedorManager;
 import negocio.RepuestoManager;
-
 import persistencia.Proveedor;
 import persistencia.Repuesto;
 import persistencia.Servicio;
@@ -63,12 +60,13 @@ public class AgregarRepuesto extends JDialog {
 	JLabel jLabelObservaciones = null;
 	JLabel jLabelProveedor = null;
 
-	JTextFieldUpperCased jTextFieldNombre = null;
+	GTextField jTextFieldNombre = null;
 	JFormattedTextField jTextFieldPrecioUnitario = null;
 	JFormattedTextField jTextFieldCantidad = null;
 	JComboBox<String> jComboBoxProveedor = null;
 	JTextArea jTextAreaObservaciones = null;
 	JScrollPane jScrollPaneObservaciones = null;
+	List<String> listaNombreRepuestos = null;
 
 	JPanel jPanelAgregarRepuesto = null;
 
@@ -123,6 +121,7 @@ public class AgregarRepuesto extends JDialog {
 		jPanelAgregarRepuesto.setPreferredSize(new Dimension(410, 319));
 
 		inicializarVariables();
+		extraerInfoBD();
 		cerrarEsc();
 
 		JPanel jPanelNombre = new JPanel();
@@ -217,7 +216,12 @@ public class AgregarRepuesto extends JDialog {
 
 		jLabelNombre = new JLabel("Nombre: ");
 		jLabelNombre.setPreferredSize(new Dimension(53, 25));
-		jTextFieldNombre = new JTextFieldUpperCased();
+		
+		jTextFieldNombre = new GTextField(0  , 0 , true ); // true para habilitar el autocompletado
+		
+		jTextFieldNombre.setWidthPopupPanel(321);
+		jTextFieldNombre.setHeightPopupPanel(100);
+		
 		jTextFieldNombre.setPreferredSize(new Dimension(327, 25));
 		jTextFieldNombre.setText(" < Óptica izquierda delantera >");
 		jTextFieldNombre.setForeground(Color.GRAY);
@@ -365,6 +369,28 @@ public class AgregarRepuesto extends JDialog {
 			return false;
 		}
 		return true;
+	}
+	
+	private void inicializar_jTextFieldNombre(Iterator<String> iteratorRepuesto){
+		String nombreRepuesto;
+
+		while (iteratorRepuesto.hasNext()){
+			nombreRepuesto = iteratorRepuesto.next();
+			String nombre = nombreRepuesto;
+			jTextFieldNombre.getDataList().add(nombre);
+		}
+		
+	}
+	
+	public void extraerInfoBD(){
+		// esta funcion inicializa la lista de nombres de los repuestos para el autocompletado
+		IRepuestoManager repuestoManager = new RepuestoManager();
+		try {
+			listaNombreRepuestos = repuestoManager.listaNombreRepuestos(); // obtengo todos los repuestos
+			inicializar_jTextFieldNombre(listaNombreRepuestos.iterator()); // completa la tabla con la lista de repuestos
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog( this, e, "Error", JOptionPane.ERROR_MESSAGE );
+		}
 	}
 
 	private void aceptarAgregarRepuesto() {

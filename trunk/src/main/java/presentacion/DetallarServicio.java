@@ -698,7 +698,7 @@ public class DetallarServicio extends JDialog {
 		
 		IRepuestoManager repuestoManager = new RepuestoManager();
 		try {
-			listaRepuestos = repuestoManager.listaRepuestos(servicio); // obtengo todas las manos de obras del servicio
+			listaRepuestos = repuestoManager.listaRepuestos(servicio); // obtengo todas los repuestos del servicio
 			completar_tabla_repuesto(listaRepuestos.iterator()); // completa la tabla con la lista de repuestos
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog( this, e, "Error", JOptionPane.ERROR_MESSAGE );

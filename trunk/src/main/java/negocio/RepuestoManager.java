@@ -45,6 +45,10 @@ public class RepuestoManager implements IRepuestoManager{
 	public List<Repuesto> listaRepuestos(Servicio servicio) throws Exception {
 		return repuestoDao.listaRepuestos(servicio);
 	}
+	
+	public List<String> listaNombreRepuestos() throws Exception {
+		return repuestoDao.listaNombreRepuestos();
+	}
 
 	public List<Repuesto> listaRepuestos() throws Exception {
 		return repuestoDao.listaRepuestos();

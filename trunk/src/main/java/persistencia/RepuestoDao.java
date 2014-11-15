@@ -68,7 +68,7 @@ public class RepuestoDao  implements IRepuestoDao{
 	}
 
 	public List<Repuesto> listaRepuestos(Servicio servicio) throws Exception {
-		// este método retorna una lista con todas los repuestos de un servicio dado
+		// este método retorna una lista con todos los repuestos de un servicio dado
 		String query = "SELECT * FROM repuesto WHERE id_servicio =  '" + servicio.getId_servicio() + "'";
 		List<Repuesto> listaRepuestos = new ArrayList<Repuesto>();
 		ResultSet resultado = null;
@@ -89,6 +89,31 @@ public class RepuestoDao  implements IRepuestoDao{
 			throw e;
 		}
 		return listaRepuestos;
+	}
+	
+	public List<String> listaNombreRepuestos() throws Exception {
+		// este método retorna una lista con todos los nombres de repuestos
+		// se utiliza para autocompletar el jtextfield
+		String query = "SELECT DISTINCT nombre FROM repuesto";
+		List<String> listaNombreRepuestos = new ArrayList<String>();
+		ResultSet resultado = null;
+		String nombreRepuesto = null;
+
+		try{
+			conn.open(); // abre la conexion
+			resultado = conn.query(query);
+
+			while(resultado.next()){
+				nombreRepuesto = new String(resultado.getString("nombre"));
+				listaNombreRepuestos.add(nombreRepuesto);
+			}
+			conn.close(); // cierra la conexión
+		} 
+		catch(Exception e) 
+		{
+			throw e;
+		}
+		return listaNombreRepuestos;
 	}
 
 	public List<Repuesto> listaRepuestos() throws Exception {
