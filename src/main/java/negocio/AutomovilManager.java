@@ -55,7 +55,7 @@ public class AutomovilManager implements IAutomovilManager {
 	private boolean esUnDominioValido(Automovil automovil){
 		Pattern pattern;
 		Matcher matcher;
-		String dominio_pattern ="^[a-zA-Z]{3}\\d{3}$";
+		String dominio_pattern = "^([a-zA-Z]{3}\\d{3})|([a-zA-Z]{2}\\d{3}[a-zA-Z]{2})$"; // patente tipo ABC123 o tipo AB123CD
 		pattern = Pattern.compile(dominio_pattern);
 		matcher = pattern.matcher(automovil.getDominio());
 		return matcher.matches();
