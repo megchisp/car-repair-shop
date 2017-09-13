@@ -218,7 +218,7 @@ CREATE TABLE repuesto
   id_servicio integer NOT NULL,
   nombre text,
   precio_unitario float,
-  cantidad integer,
+  cantidad float,
   observaciones text,
   PRIMARY KEY (id_repuesto),
   FOREIGN KEY (id_proveedor)

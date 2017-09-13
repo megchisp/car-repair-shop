@@ -21,7 +21,7 @@ public class ImportarBD{
 	        	query.append(line + "\n");
 	        	line = bufferedReader.readLine();
 	        }
-	        conn.execute(query.toString());
+        	conn.execute(query.toString());
 			conn.close(); // cierra la conexión
 			} 
 		catch(Exception e) 
