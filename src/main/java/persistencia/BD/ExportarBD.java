@@ -1,7 +1,6 @@
 package persistencia.BD;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -64,13 +63,13 @@ public class ExportarBD {
 	List<Repuesto> listaRepuestos = null;
 	List<Usuario> listaUsuarios = null;
 	
-	PrintWriter printerWriter = null;
-	
 	File fileDatabase = null;
 	
-	public File getDatabaseFile (String location, String filename) throws Exception {
+	StringBuffer stringBuilderSQLdatabase = null;
+	
+	public String obtenerStringSQLdatabase () throws Exception {
 		
-	fileDatabase = new File(location, filename);
+	stringBuilderSQLdatabase = new StringBuffer();
 	
 	clienteManager = new ClienteManager();
 	automovilManager = new AutomovilManager();
@@ -97,97 +96,123 @@ public class ExportarBD {
 	        };  
 	        worker.execute();  
 	        waitDialog.setVisible(true);
-	        return fileDatabase;
+	        return stringBuilderSQLdatabase.toString();
     }
     catch (Exception e) {
     	throw e;
     }
-	finally{
-		printerWriter.close();
-	}
 	
 }
 	
 
 void escribirEnArchivo() throws Exception{
-    printerWriter = new PrintWriter(fileDatabase);
 
     // Recupero el día, mes y año acual y lo imprimo
-    printerWriter.println("----------------------------------------| BACKUP DEL " + fechaActual()  + " |-----------------------------------------");
+    stringBuilderSQLdatabase.append("----------------------------------------| BACKUP DEL " + fechaActual()  + " |-----------------------------------------");
 	
     // imprime la sentencia para agregar los clientes
 	inicializarListaClientes();
-    printerWriter.println("\n-- TABLA CLIENTE --");
-    printerWriter.println(sentenciaClientes());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append("-- TABLA CLIENTE --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(sentenciaClientes());
     listaClientes.clear();
     
     // imprime la sentencia para agregar los automoviles
 	inicializarListaAutomoviles();
-    printerWriter.println("\n--  TABLA AUTOMOVIL --");
-    printerWriter.println(sentenciaAutomoviles());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append("--  TABLA AUTOMOVIL --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(sentenciaAutomoviles());
     listaAutomoviles.clear();
     
     // imprime la sentencia para agregar las reparaciones
 	inicializarListaReparaciones();
-    printerWriter.println("\n-- TABLA REPARACION --");
-    printerWriter.println(sentenciaReparaciones());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append("-- TABLA REPARACION --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(sentenciaReparaciones());
+    
     listaReparaciones.clear();
     
     // imprime la sentencia para agregar los tipos de servicios
 	inicializarListaTiposDeServicios();
-    printerWriter.println("\n-- TABLA TIPO_DE_SERVICIO --");
-    printerWriter.println(sentenciaTiposDeServicios());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append("-- TABLA TIPO_DE_SERVICIO --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(sentenciaTiposDeServicios());
     listaTiposDeServicios.clear();
     
     // imprime la sentencia para agregar los mecanicos
 	inicializarListaMecanicos();
-    printerWriter.println("\n-- TABLA MECANICO --");
-    printerWriter.println(sentenciaMecanicos());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append("-- TABLA MECANICO --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(sentenciaMecanicos());
     listaMecanicos.clear();
     
     // imprime la sentencia para agregar los proveedores
 	inicializarListaProveedores();
-    printerWriter.println("\n-- TABLA PROVEEDOR --");
-    printerWriter.println(sentenciaProveedores());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append("-- TABLA PROVEEDOR --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(sentenciaProveedores());
     listaProveedores.clear();
     
     // imprime la sentencia para agregar los servicios
 	inicializarListaServicios();
-    printerWriter.println("\n-- TABLA SERVICIO --");
-    printerWriter.println(sentenciaServicios());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append("-- TABLA SERVICIO --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(sentenciaServicios());
     listaServicios.clear();
     
     // imprime la sentencia para agregar las manos de obras
 	inicializarListaManosDeObras();
-    printerWriter.println("\n-- TABLA MANO_DE_OBRA --");
-    printerWriter.println(sentenciaManosDeObras());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append("-- TABLA MANO_DE_OBRA --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(sentenciaManosDeObras());
     listaManosDeObras.clear();
      
     // imprime la sentencia para agregar los repuestos
 	inicializarListaRepuestos();
-	printerWriter.println("\n-- TABLA REPUESTO --");
-	printerWriter.println(sentenciaRepuestos());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+	stringBuilderSQLdatabase.append("-- TABLA REPUESTO --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+	stringBuilderSQLdatabase.append(sentenciaRepuestos());
 	listaRepuestos.clear();
    
 	// imprime la sentencia para agregar los repuestos
 	inicializarListaUsuarios();
-	printerWriter.println("\n-- TABLA USUARIO --");
-	printerWriter.println(sentenciaUsuarios());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+	stringBuilderSQLdatabase.append("-- TABLA USUARIO --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+	stringBuilderSQLdatabase.append(sentenciaUsuarios());
 	listaUsuarios.clear();
     
     // imprime las sentencias para setear los últimos números de secuencia
-    printerWriter.println("\n-- SETEO DE NUMEROS DE SECUENCIA --");
-    printerWriter.println(secuenciaClientes());
-    printerWriter.println(secuenciaAutomoviles());
-    printerWriter.println(secuenciaReparaciones());
-    printerWriter.println(secuenciaTiposDeServicios());
-    printerWriter.println(secuenciaProveedores());
-    printerWriter.println(secuenciaServicios());
-    printerWriter.println(secuenciaManosDeObras());
-    printerWriter.println(secuenciaRepuestos());
-    printerWriter.println(secuenciaUsuarios());
-                    
-    printerWriter.close();
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append("-- SETEO DE NUMEROS DE SECUENCIA --");
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(secuenciaClientes());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(secuenciaAutomoviles());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(secuenciaReparaciones());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(secuenciaTiposDeServicios());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(secuenciaProveedores());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(secuenciaServicios());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(secuenciaManosDeObras());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(secuenciaRepuestos());
+	stringBuilderSQLdatabase.append(System.getProperty("line.separator"));
+    stringBuilderSQLdatabase.append(secuenciaUsuarios());
+
 }
 
 String fechaActual(){
@@ -470,6 +495,7 @@ String sentenciaRepuestos(){
 	while (iterator.hasNext()){
 		repuesto = iterator.next();
 		stringBuilder.append("('" + repuesto.getId_repuesto() + "', '" + repuesto.getId_servicio() + "', " + (repuesto.getId_proveedor() == 0 ? "null" : ("'" + repuesto.getId_proveedor() + "'")) + ", '" + repuesto.getNombre().replace("'", "''") + "', '" + repuesto.getPrecioUnitario() + "', '" + repuesto.getCantidad() + "', '" + repuesto.getObservaciones().replace("'", "''") + "')");
+	
 	
 		if(iterator.hasNext())
 			stringBuilder.append(",\n");
