@@ -93,8 +93,9 @@ public class Exportar extends JFileChooser{
 		usuarioManager = new UsuarioManager();
 		
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos SQL", "sql", "text");
+		String nombreArchivo = "backup_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		fileChooser.setFileFilter(filter);
-		fileChooser.setSelectedFile(new File(new SimpleDateFormat("yyyyMMdd").format(new Date()))); // setea nombre por defecto
+		fileChooser.setSelectedFile(new File(nombreArchivo)); // setea nombre por defecto
 		fileChooser.setDialogTitle(" Exportar ");
 		int userSelection = fileChooser.showSaveDialog(this);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {

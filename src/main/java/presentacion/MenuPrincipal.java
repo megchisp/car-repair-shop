@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -68,6 +69,7 @@ public class MenuPrincipal extends JFrame {
 	JButton jButtonBuscarMecanico = null;
 	JButton jButtonBuscarTipoDeServicio = null;
 	JButton jButtonMostrarCumpleanios = null;
+	JButton jButtonBackupRapido = null;
 	JButton jButtonExit = null;
 	
 	ResourceLoader resourceLoader = new ResourceLoader();
@@ -225,6 +227,8 @@ public class MenuPrincipal extends JFrame {
 		jButtonBuscarTipoDeServicio.setToolTipText("Buscar tipo de servicio");
 		jButtonMostrarCumpleanios = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/cake-icon-48x48.png" )));
 		jButtonMostrarCumpleanios.setToolTipText("Mostrar cumpleaños");
+		jButtonBackupRapido = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/quick-backup-icon-48x48.png" )));
+		jButtonBackupRapido.setToolTipText("Backup rápido");
 		jButtonExit = new JButton(new ImageIcon( resourceLoader.load("/images/toolbar/logout-icon-48x48.png" )));
 		jButtonExit.setToolTipText("Salir");
 		
@@ -243,6 +247,8 @@ public class MenuPrincipal extends JFrame {
 		jToolbar.addSeparator();
 		jToolbar.add(jButtonMostrarCumpleanios);
 		jToolbar.addSeparator();
+		jToolbar.add(jButtonBackupRapido);
+		jToolbar.addSeparator();
 		jToolbar.add(jButtonExit);
 		jToolbar.setAlignmentX(0);
 
@@ -253,6 +259,21 @@ public class MenuPrincipal extends JFrame {
 				new MostrarCumpleanios(menuPrincipal, "Mostrar cumpleaños", " Cumpleaños ");
 				
 			}
+		});
+		
+		jButtonBackupRapido.addActionListener(new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				try {
+					new BackupRapido();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+			  
 		});
 		
 		jButtonAgregarCliente.addActionListener( new ActionListener() {
