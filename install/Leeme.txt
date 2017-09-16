@@ -5,6 +5,7 @@ Introducción:
 
 Código Fuente:
    El repositorio con el código fuente puede encontrarse en GitHub (https://github.com/megchisp/car-repair-shop).
+   Los installadores podrá ubicarlos en https://github.com/megchisp/car-repair-shop/tree/master/install.
    Se recomienda descargar el repositorio con TortoiseSVN (https://tortoisesvn.net/downloads.html) y editarlo con Spring Tool Suite (https://spring.io/tools)
 
 Instalación:
@@ -23,4 +24,13 @@ Instalación:
 
    El script tablas.sql basicamente inicializará la base de datos, creando sus tablas y usuario para su acceso.
 
-3. 
+3. Instale la última version de Java (https://java.com/en/download)
+
+4. Instale Java SE Development Kit 8 o superior (http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-windows-x64.exe)
+
+5. Ejecute techsoft.jar
+
+6. Importe su base de datos más reciente.
+
+
+Nota: Puede notar que el programa no mustra las ventanas adecuadamente si utiliza un DPI alto. En tal caso deberá reconfigurar Java.
