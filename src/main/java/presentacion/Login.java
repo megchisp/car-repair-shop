@@ -159,8 +159,9 @@ public class Login extends JDialog{
 			    jLabelStatus.setText("Falló autenticación");
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog( this, e, "Error", JOptionPane.ERROR_MESSAGE );
+			JOptionPane.showMessageDialog( this, e + ": " + e.getMessage(), "Error!!", JOptionPane.ERROR_MESSAGE );
 			e.printStackTrace();
+			System.exit( 0 );
 		}
 	}
 	

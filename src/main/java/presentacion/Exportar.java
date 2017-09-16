@@ -79,7 +79,6 @@ public class Exportar extends JFileChooser{
 		/*** Este constructor arma el archivo y lo almacena mediante un JFileChooser ***/
 		
 		fileChooser = new JFileChooser();
-//		fileChooser.showOpenDialog(padre); // setea icono al fileChooser
 		clienteManager = new ClienteManager();
 		automovilManager = new AutomovilManager();
 		reparacionManager = new ReparacionManager();
@@ -99,7 +98,8 @@ public class Exportar extends JFileChooser{
 		fileChooser.setSelectedFile(new File(nombreArchivo)); 
 		
 		fileChooser.setDialogTitle(" Exportar ");
-		int userSelection = fileChooser.showSaveDialog(this);
+		int userSelection = fileChooser.showSaveDialog(padre);
+		
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			File fileToSave = fileChooser.getSelectedFile();
 			// Obtengo la base de datos SQL completa en forma de String

@@ -1,6 +1,5 @@
 package presentacion;
 
-import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -17,18 +16,18 @@ public class Importar extends JFileChooser{
 	private static final long serialVersionUID = 1L;
 	JFileChooser fileChooser = null;
 	FileNameExtensionFilter filter = null;
-	Component parent = null;
+
 	JFileChooser jFileChooserThis = this;
 	
 	public Importar(JFrame padre){
 		/*** Este constructor selecciona el archivo .sql mediante un JFileChooser ***/
 		
 		fileChooser = new JFileChooser();
-//		fileChooser.showOpenDialog(padre); // setea icono al fileChooser
+
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos SQL", "sql", "text");
 		fileChooser.setFileFilter(filter);
 		fileChooser.setDialogTitle(" Importar ");
-		int userSelection = fileChooser.showOpenDialog(parent);
+		int userSelection = fileChooser.showOpenDialog(padre);
 		if(userSelection == JFileChooser.APPROVE_OPTION) {
         	final ImportarBD unImportarBD = new ImportarBD();
         	try {
