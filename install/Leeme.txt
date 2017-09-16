@@ -1,14 +1,26 @@
 -------------------------------- Techsoft 3.2 - Manual de instalación y desarrollo ---------------------------------
 
 Introducción:
-Techsoft 3.2 es un Sistema de Gestión Automotor basado en Java y PostgreeSQL.
+   Techsoft 3.2 es un Sistema de Gestión Automotor basado en Java y PostgreeSQL.
 
 Código Fuente:
-El repositorio con el código fuente puede encontrarse en GitHub (https://github.com).
-Se recomienda descargar el repositorio con TortoiseSVN (https://tortoisesvn.net/downloads.html) y editarlo con Spring Tool Suite (https://spring.io/tools)
+   El repositorio con el código fuente puede encontrarse en GitHub (https://github.com/megchisp/car-repair-shop).
+   Se recomienda descargar el repositorio con TortoiseSVN (https://tortoisesvn.net/downloads.html) y editarlo con Spring Tool Suite (https://spring.io/tools)
 
 Instalación:
-El sistema en sí no posee un instalador, por lo tanto debe ser instalado manualmente.
-Primero debe instalarse PostgreSQL 9.6 o superior (https://www.postgresql.org/download/).
-Instale la base de datos utilizando los siguientes datos:
+   El sistema en sí no posee un instalador, por lo tanto debe ser instalado manualmente.
 
+1. Primero debe instalarse PostgreSQL 9.6 o superior (https://www.postgresql.org/download/).
+
+   Instale la base de datos utilizando los siguientes datos:
+	Usuario: postgres
+	Contraseña: admin
+	Puerto: 5432
+   
+2. Abra pgAdmin y cree una base de datos llamada 'techsoft' (sin comillas). Verifique que el dueño sea 'postgres'.
+   Seleccione la base de datos recién creada y ejecute el archivo 'tablas.sql' (debe abrir el archivo SQL con el Bloc de notas, copiar su 
+   contenido y luego pegarlo en pgAdmin).
+
+   El script tablas.sql basicamente inicializará la base de datos, creando sus tablas y usuario para su acceso.
+
+3. 
