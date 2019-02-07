@@ -285,6 +285,10 @@ public class MostrarHistorialAutomovil extends JDialog {
 	void populateJTree(){
 		// para mostrar la fecha
 		java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("dd/MM/YYYY", new Locale("es", "AR"));
+		
+		// para mostrar separador de miles en el kilometraje
+		DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(new Locale("es", "AR"));
+		
 		int reparacionIndex = 0;
 		
 		try {
@@ -295,7 +299,8 @@ public class MostrarHistorialAutomovil extends JDialog {
 				// agrego reparaciones
 				reparacion = iteratorReparacion.next();
 				String fecha = sdf.format(new java.sql.Date(reparacion.getFechaReparacion().getTimeInMillis()));
-				DefaultMutableTreeNode reparacionNode = new DefaultMutableTreeNode(fecha);
+				String kilometraje = formatter.format(reparacion.getKilometraje());
+				DefaultMutableTreeNode reparacionNode = new DefaultMutableTreeNode(fecha + " (" + kilometraje + " km)");
 				defaultTreeModelModelo.insertNodeInto(reparacionNode, defaultMutableTreeNodeRaiz, reparacionIndex++);
 				
 				insertServicios(reparacionNode);

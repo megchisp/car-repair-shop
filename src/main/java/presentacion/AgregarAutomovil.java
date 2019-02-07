@@ -555,6 +555,7 @@ public class AgregarAutomovil extends JDialog {
 		jComboBoxMarca.addItem("SEAT");
 		jComboBoxMarca.addItem("VOLKSWAGEN");
 		jComboBoxMarca.addItem("VOLVO");
+		jComboBoxMarca.addItem("CHRYSLER");
 }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

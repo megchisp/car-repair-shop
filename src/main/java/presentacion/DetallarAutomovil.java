@@ -723,7 +723,7 @@ public class DetallarAutomovil extends JDialog {
 	//para que la tabla no sea editable
 		DefaultTableModel dtmReparacionesAutomovil = new DefaultTableModel() {
 			private static final long serialVersionUID = 1L;
-			String nombresColumnas[] = {"id_reparacion", "Fecha" ,"Kilometraje","Tiempo mín. reparación","Tiempo máx. reparación", "Importe", "Fila"};
+			String nombresColumnas[] = {"id_reparacion", "Fecha" ,"Kilometraje (km)","Tiempo mín. reparación","Tiempo máx. reparación", "Importe", "Fila"};
 			//final DefaultTableModel dtmAutosCliente = new DefaultTableModel(nombresColumnas, 0);
 
 			@Override 
