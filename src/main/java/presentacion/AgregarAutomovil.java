@@ -55,7 +55,7 @@ public class AgregarAutomovil extends JDialog {
 	JLabel jLabelNumChasis = null;
 	JLabel jLabelMarca = null;
 	JLabel jLabelModelo = null;
-	JLabel jLabelAño = null;
+	JLabel jLabelAÃ±o = null;
 	JLabel jLabelColor = null;
 	JLabel jLabelTipoAceite = null;
 	JLabel jLabelTipoCombustible = null;
@@ -72,14 +72,14 @@ public class AgregarAutomovil extends JDialog {
 	JTextFieldUpperCased jTextFieldCodigoLlave = null;
 	JTextFieldUpperCased jTextFieldUso = null;
 	
-	JTabbedPane jTabbedPaneTab = null; // pestaña
+	JTabbedPane jTabbedPaneTab = null; // pestaÃ±a
 	
 	ButtonGroup buttonGroupNaftaGasoil = null;
 	JRadioButton jRadioButtonNafta = null;
 	JRadioButton jRadioButtonGasoil = null;
 	JCheckBox jCheckBoxGNC = null;
 	
-	JComboBox<String> jComboBoxAño = null;
+	JComboBox<String> jComboBoxAÃ±o = null;
 	JComboBox<?> jComboBoxColor = null;
 	JComboBox<String> jComboBoxMarca = null;
 	ImageListModel ilm = null;
@@ -94,7 +94,7 @@ public class AgregarAutomovil extends JDialog {
 	public AgregarAutomovil( JFrame padre, String titulo, String titleBorder, Cliente cliente ) {
 		super( padre, titulo, true );
 		
-		this.setPreferredSize( new Dimension( 340, 435 ) ); // tamaño de la ventana
+		this.setPreferredSize( new Dimension( 340, 435 ) ); // tamaÃ±o de la ventana
 		this.getContentPane().setLayout( new BorderLayout() );
 		
 		// agrego icono a la ventana
@@ -204,32 +204,32 @@ public class AgregarAutomovil extends JDialog {
 		a.gridx = 0;
 		jPanelDatosPrimarios.add( new JLabel(" "), a );
 		
-			JPanel jPanelAñoColor = new JPanel();
-			jPanelAñoColor.setLayout( new GridBagLayout() );
+			JPanel jPanelAÃ±oColor = new JPanel();
+			jPanelAÃ±oColor.setLayout( new GridBagLayout() );
 			
 			GridBagConstraints b = new GridBagConstraints();
 			
 			b.gridy = 0;
 			b.gridx = 0;
 			b.insets = new Insets( 0, 0, 0, 0 );
-			jPanelAñoColor.add( jLabelAño, b );
+			jPanelAÃ±oColor.add( jLabelAÃ±o, b );
 			b.gridy = 0;
 			b.gridx = 1;
 			b.insets = new Insets( 0, -200, 0, 0 );
-			jPanelAñoColor.add( jComboBoxAño, b );
+			jPanelAÃ±oColor.add( jComboBoxAÃ±o, b );
 			b.gridy = 0;
 			b.gridx = 2;
 			b.insets = new Insets( 0, -40, 0, 0 );
-			jPanelAñoColor.add( jLabelColor, b );
+			jPanelAÃ±oColor.add( jLabelColor, b );
 			b.gridy = 0;
 			b.gridx = 3;
 			b.insets = new Insets( 0, -120, 0, 0 );
-			jPanelAñoColor.add( jComboBoxColor, b );
+			jPanelAÃ±oColor.add( jComboBoxColor, b );
 		
 		a.gridy = 7;
 		a.gridx = 0;
 		a.insets = new Insets( 0, -0, 0, 0 );
-		jPanelDatosPrimarios.add( jPanelAñoColor, a );
+		jPanelDatosPrimarios.add( jPanelAÃ±oColor, a );
 				
 		a.gridy = 8;
 		a.gridx = 0;
@@ -383,7 +383,7 @@ public class AgregarAutomovil extends JDialog {
 		jTextFieldDominio.addFocusListener( new JTextFieldFocusListener( jTextFieldDominio ) );
 		jTextFieldDominio.addKeyListener( new JTextFieldKeyListener( jTextFieldDominio ) );
 
-		jLabelNumMotor = new JLabel( "Número de motor: " );
+		jLabelNumMotor = new JLabel( "NÃºmero de motor: " );
 		jLabelNumMotor.setPreferredSize( new Dimension( 130, 25 ) );
 		jTextFieldNumMotor = new JTextFieldUpperCased();
 		jTextFieldNumMotor.setText( " < LEGBUV19642 >" );
@@ -393,7 +393,7 @@ public class AgregarAutomovil extends JDialog {
 		jTextFieldNumMotor.addKeyListener( new JTextFieldKeyListener( jTextFieldNumMotor ) );
 
 
-		jLabelNumChasis = new JLabel( "Número de chasis: " );
+		jLabelNumChasis = new JLabel( "NÃºmero de chasis: " );
 		jLabelNumChasis.setPreferredSize( new Dimension( 140, 25 ) );
 		jTextFieldNumChasis = new JTextFieldUpperCased();
 		jTextFieldNumChasis.setText( " < MD2HDS4ZXBVC00609 >" );
@@ -415,11 +415,11 @@ public class AgregarAutomovil extends JDialog {
 		jTextFieldModelo.addFocusListener( new JTextFieldFocusListener( jTextFieldModelo ) );
 		jTextFieldModelo.addKeyListener( new JTextFieldKeyListener( jTextFieldModelo ) );
 		
-		inicializarAño();
-		jLabelAño = new JLabel( "Año: " );
-		jLabelAño.setPreferredSize( dimensionLabel );
-//		jTextFieldAño = new JTextField();
-//		jTextFieldAño.setPreferredSize( new Dimension( 160, 25 ) );
+		inicializarAÃ±o();
+		jLabelAÃ±o = new JLabel( "AÃ±o: " );
+		jLabelAÃ±o.setPreferredSize( dimensionLabel );
+//		jTextFieldAÃ±o = new JTextField();
+//		jTextFieldAÃ±o.setPreferredSize( new Dimension( 160, 25 ) );
 		
 		inicializarColor();
 		jLabelColor = new JLabel( "Color: " );
@@ -440,7 +440,7 @@ public class AgregarAutomovil extends JDialog {
 		jCheckBoxGNC = new JCheckBox("con GNC");
 		//jTextFieldTipoCombustible.setPreferredSize( new Dimension( 114, 25 ) );
 		
-		jLabelNumRadio = new JLabel( "Número de radio: " );
+		jLabelNumRadio = new JLabel( "NÃºmero de radio: " );
 		jLabelNumRadio.setPreferredSize( dimensionLabel );
 		jTextFieldNumRadio = new JTextFieldUpperCased();
 		jTextFieldNumRadio.setText( " < 6584 >" );
@@ -450,7 +450,7 @@ public class AgregarAutomovil extends JDialog {
 		jTextFieldNumRadio.addKeyListener( new JTextFieldKeyListener( jTextFieldNumRadio ) );
 		
 		
-		jLabelCodigoLlave = new JLabel( "Código llave: " );
+		jLabelCodigoLlave = new JLabel( "CÃ³digo llave: " );
 		jLabelCodigoLlave.setPreferredSize( dimensionLabel );
 		jTextFieldCodigoLlave = new JTextFieldUpperCased();
 		jTextFieldCodigoLlave.setText( " < 325147884554 >" );
@@ -470,7 +470,7 @@ public class AgregarAutomovil extends JDialog {
 		jTextFieldUso.addKeyListener( new JTextFieldKeyListener( jTextFieldUso ) );
 		
 		
-		// creo el botón aceptar con un ícono
+		// creo el botÃ³n aceptar con un Ã­cono
 		ImageIcon imageIconOk = new ImageIcon(resourceLoader.load("/images/menu/ok-icon.png"));		
 		jButtonAceptar = new JButton( " Aceptar",  imageIconOk);
 		jButtonAceptar.setPreferredSize( new Dimension( 100, 30 ) );
@@ -480,7 +480,7 @@ public class AgregarAutomovil extends JDialog {
 			}
 		});
 		
-		// creo el botón cancelar con un ícono
+		// creo el botÃ³n cancelar con un Ã­cono
 		ImageIcon imageIconCancel = new ImageIcon(resourceLoader.load("/images/menu/close-icon.png"));		
 		jButtonCancelar = new JButton( " Cancelar", imageIconCancel);
 		jButtonCancelar.setPreferredSize( new Dimension( 100, 30 ) );
@@ -555,7 +555,9 @@ public class AgregarAutomovil extends JDialog {
 		jComboBoxMarca.addItem("SEAT");
 		jComboBoxMarca.addItem("VOLKSWAGEN");
 		jComboBoxMarca.addItem("VOLVO");
-		jComboBoxMarca.addItem("CHRYSLER");
+		jComboBoxMarca.addItem("DODGE");
+		jComboBoxMarca.addItem("CHERY");
+		jComboBoxMarca.addItem("OTRO");
 }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -570,22 +572,22 @@ public class AgregarAutomovil extends JDialog {
 		
 	}
 
-	private void inicializarAño() {
-		// Recupero el año acual
+	private void inicializarAÃ±o() {
+		// Recupero el aÃ±o acual
 		Calendar cal1 = Calendar.getInstance();
 		int anioActual = cal1.get(Calendar.YEAR);
-		jComboBoxAño = new JComboBox<String>();
-		jComboBoxAño.setFont(new Font("Dialog", Font.BOLD, 11));
+		jComboBoxAÃ±o = new JComboBox<String>();
+		jComboBoxAÃ±o.setFont(new Font("Dialog", Font.BOLD, 11));
 			
-		jComboBoxAño.addItem("----");
+		jComboBoxAÃ±o.addItem("----");
 		for(int i = anioActual; i >= 1930; i--)
-			jComboBoxAño.addItem(i + "");
+			jComboBoxAÃ±o.addItem(i + "");
 	}
 
 
 	private void aceptarAgregarAutomovil() {
 		
-		// verifico que los campos obligatorios no se encuentren vacíos y que ningun campo exceda los 25 caracteres
+		// verifico que los campos obligatorios no se encuentren vacÃ­os y que ningun campo exceda los 25 caracteres
 		if( validarDatos() && characterVaryingExceeded()) {
 
 			int option = 0;
@@ -610,8 +612,8 @@ public class AgregarAutomovil extends JDialog {
 			else
 				automovil.setMarca( "" );
 			
-			if( jComboBoxAño.getSelectedIndex() != 0 )
-				automovil.setAnio( Integer.parseInt(jComboBoxAño.getSelectedItem().toString()) );
+			if( jComboBoxAÃ±o.getSelectedIndex() != 0 )
+				automovil.setAnio( Integer.parseInt(jComboBoxAÃ±o.getSelectedItem().toString()) );
 			else
 				automovil.setAnio( 1900 );
 			automovil.setColor( jComboBoxColor.getSelectedIndex() );
@@ -634,39 +636,39 @@ public class AgregarAutomovil extends JDialog {
 
 					cleanAllFields();
 					this.dispose();
-					new DetallarAutomovil( null, "Detallar automóvil", " Detalle del automóvil ", automovil);
+					new DetallarAutomovil( null, "Detallar automÃ³vil", " Detalle del automÃ³vil ", automovil);
 					
 					break;
 				case 2:
-					JOptionPane.showMessageDialog( this, "El dominio ingresado pertenece a un automóvil existente", "Error", JOptionPane.ERROR_MESSAGE );
+					JOptionPane.showMessageDialog( this, "El dominio ingresado pertenece a un automÃ³vil existente", "Error", JOptionPane.ERROR_MESSAGE );
 					
 					jTextFieldDominio.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 					jTextFieldDominio.addFocusListener( new JTextFieldFocusListener( jTextFieldDominio ) );
 					
 					break;
 				case 3:
-					JOptionPane.showMessageDialog( null, "El número de motor pertenence a un automóvil existente", "Error", JOptionPane.ERROR_MESSAGE );
+					JOptionPane.showMessageDialog( null, "El nÃºmero de motor pertenence a un automÃ³vil existente", "Error", JOptionPane.ERROR_MESSAGE );
 				
 					jTextFieldNumMotor.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 					jTextFieldNumMotor.addFocusListener( new JTextFieldFocusListener( jTextFieldNumMotor ) );
 					
 					break;
 				case 4:
-					JOptionPane.showMessageDialog( null, "El número de chasis pertenence a un automóvil existente", "Error", JOptionPane.ERROR_MESSAGE );
+					JOptionPane.showMessageDialog( null, "El nÃºmero de chasis pertenence a un automÃ³vil existente", "Error", JOptionPane.ERROR_MESSAGE );
 				
 					jTextFieldNumMotor.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 					jTextFieldNumMotor.addFocusListener( new JTextFieldFocusListener( jTextFieldNumMotor ) );
 					
 					break;
 				case 5:
-					JOptionPane.showMessageDialog( this, "Ingrese un dominio válido", "Error", JOptionPane.ERROR_MESSAGE );
+					JOptionPane.showMessageDialog( this, "Ingrese un dominio vÃ¡lido", "Error", JOptionPane.ERROR_MESSAGE );
 					
 					jTextFieldDominio.setBorder( BorderFactory.createLineBorder( Color.RED ) );
 					jTextFieldDominio.addFocusListener( new JTextFieldFocusListener( jTextFieldDominio ) );
 					break;
 				default:
-					// este mensaje nunca debería aparecer
-					JOptionPane.showMessageDialog( this, "Algo salió mal", "Ups!", JOptionPane.ERROR_MESSAGE );
+					// este mensaje nunca deberÃ­a aparecer
+					JOptionPane.showMessageDialog( this, "Algo saliÃ³ mal", "Ups!", JOptionPane.ERROR_MESSAGE );
 			}
 		} 
 	}
@@ -679,7 +681,7 @@ public class AgregarAutomovil extends JDialog {
 	
 	private void cleanAllFields() {
 		jTextFieldDominio.setText( "" );
-		jComboBoxAño.setSelectedIndex( 0 );
+		jComboBoxAÃ±o.setSelectedIndex( 0 );
 		jComboBoxColor.setSelectedIndex( 0 );
 		jComboBoxMarca.setSelectedIndex( 0 );
 		jCheckBoxGNC.setSelected( false );
@@ -716,7 +718,7 @@ public class AgregarAutomovil extends JDialog {
 		
 		if( cont > 0 )
 		{
-			JOptionPane.showMessageDialog( this, "Uno o más campos se encuentran excediendo el tamaño máximo permitido", "Campo excedido", JOptionPane.ERROR_MESSAGE );
+			JOptionPane.showMessageDialog( this, "Uno o mÃ¡s campos se encuentran excediendo el tamaÃ±o mÃ¡ximo permitido", "Campo excedido", JOptionPane.ERROR_MESSAGE );
 			return false;
 		}
 		return true;
@@ -766,7 +768,7 @@ public class AgregarAutomovil extends JDialog {
 			jTextFieldUso.setText( "" );
 				
 		if( cont > 0 ){
-			JOptionPane.showMessageDialog( this, "Uno o más campos obligatorios se encuentran vacíos", "Campo vacío", JOptionPane.ERROR_MESSAGE );
+			JOptionPane.showMessageDialog( this, "Uno o mÃ¡s campos obligatorios se encuentran vacÃ­os", "Campo vacÃ­o", JOptionPane.ERROR_MESSAGE );
 			return false;
 		}
 		
